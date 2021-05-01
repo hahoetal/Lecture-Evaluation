@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
+from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
-from django.views.generic import FormView
+from django.views.generic import FormView, CreateView
 
 from .models import User
-from .forms import LoginForm
+from .forms import LoginForm, UserCreationForm
 
 # 임시 홈
 def home(request):
@@ -34,3 +36,17 @@ class LoginView(FormView):
 def userLogout(request):
     logout(request)
     return redirect('/')
+
+# 회원 가입
+class CreateUser(CreateView):
+    model = User
+    template_name = 'create_user.html'
+    form_class = UserCreationForm
+
+    def get_success_url(self):
+        messages.success(self.request, "회원가입이 완료되었습니다.")
+        return reverse('loginPage')
+    
+    def form_valid(self, form):
+        self.object = form.save()
+        return redirect(self.get_success_url())

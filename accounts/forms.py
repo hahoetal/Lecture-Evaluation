@@ -7,9 +7,9 @@ from .models import User
 
 # 유저 생성 폼
 class UserCreationForm(forms.ModelForm):
-    # 비밀번혼 입력
+    # 비밀번호 입력
     password1 = forms.CharField(
-        label= '',
+        label= ' ',
         widget= forms.PasswordInput(
             attrs={
                 'placeholder': '비밀번호',
@@ -17,7 +17,7 @@ class UserCreationForm(forms.ModelForm):
         ),
     )
     password2 = forms.CharField(
-        label= '',
+        label= ' ',
         widget= forms.PasswordInput(
             attrs={
                 'placeholder': '비밀번호 확인',
@@ -33,25 +33,25 @@ class UserCreationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(UserCreationForm, self).__init__(*args, **kwargs)
 
-        self.fields['userId'].label= '',
+        self.fields['userId'].label= ' '
         self.fields['userId'].widget.attrs.update({
             #'class': '',
             'placeholder': '아이디',
         })
 
-        self.fields['major'].label= '',
+        self.fields['major'].label= ' '
         self.fields['major'].widget.attrs.update({
             #'class': '',
             'placeholder': '전공',
         })
 
-        self.fields['studentId'].label= '',
+        self.fields['studentId'].label= ' '
         self.fields['studentId'].widget.attrs.update({
             #'class': '',
             'placeholder': '학번',
         })
 
-        self.fields['email'].label= ''
+        self.fields['email'].label= ' '
         self.fields['email'].widget.attrs.update({
             'class': '',
             'placeholder': 'EMAIL',
