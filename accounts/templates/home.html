@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>강의 평가</title>
+</head>
+<body>
+    <h1>임시 홈입니다.</h1>
+    
+    {% if user.is_authenticated %}
+        <p>안녕하세요! {{request.user.userId}}님</p>
+        <a href="{% url 'logout' %}" class="account_btn">로그아웃</a>
+    {% else %}
+        <a href="{% url 'login' %}">로그인</a>
+    {% endif %}
+
+    <br>
+    <h2>데이터베이스 팀플_ 강의평가 시스템 구축</h2>
+    <p>앞으로 만들어야하는 기능들</p>
+     <ol>
+        <li>사용자 관리</li>
+            <ul>
+                <li>회원가입</li>
+                <li>로그인 & 로그아웃</li>
+                <li>아이디 & 비밀번호 찾기</li>
+                <li>탈퇴</li>
+            </ul>
+        <li>강의 관리</li>
+            <ul>
+                <li>강의 검색</li>
+                <li>특정 조건을 기준으로 강의 정렬</li>
+                <li>강의 자세히 보기 페이지</li>
+                <li>강의 계획서 보기</li>
+            </ul>
+        <li>강의 평가 관리</li>
+            <ul>
+                <li>강의평 작성</li>
+                <li>본인 강의평만 모아 보기</li>
+                <li>본인 강의평 삭제하기</li>
+            </ul>
+    </ol>
+
+    <p>공부해야 할 것</p>
+    <ul>
+        <li>django와 MySQL 연결하는 방법</li>
+    </ul>
+</body>
+</html>

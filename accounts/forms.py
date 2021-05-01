@@ -2,6 +2,7 @@
 
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField, SetPasswordForm
+from django.contrib.auth.hashers import check_password
 from .models import User
 
 # 유저 생성 폼
@@ -116,10 +117,10 @@ class LoginForm(forms.Form):
 
     def clean(self):
         cleaned_data= super().clean()
-        teacherId= cleaned_data.get('userId')
+        userId= cleaned_data.get('userId')
         password= cleaned_data.get('password')
 
-        if teacherId and password:
+        if userId and password:
             try:
                 user= User.objects.get(userId=userId)
             except User.DoesNotExist:
