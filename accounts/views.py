@@ -1,11 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.views.generic import FormView, CreateView
+from django.http import HttpResponseNotFound #추가
 
 from .models import User
-from .forms import LoginForm, UserCreationForm
+from .forms import LoginForm, UserCreationForm, FindIdForm
 
 # 임시 홈
 def home(request):
@@ -50,3 +51,21 @@ class CreateUser(CreateView):
     def form_valid(self, form):
         self.object = form.save()
         return redirect(self.get_success_url())
+
+# 아이디 찾기
+def find_id(request):
+    if request.method == 'POST':
+        s_id = request.POST.get('studentId')
+        major = request.POST.get('major') # 학과 입력은 select box를 활용하는 방식으로 고치기
+        email = request.POST.get('email')
+        
+        try:
+            target = User.objects.get(studentId=s_id, major = major, email=email)
+        except:
+            response = HttpResponseNotFound()
+            response.write('<p>입력하신 정보와 일치하는 사용자가 없습니다.</p> <p><a href="/">home</a></p>')
+            return response
+    else:
+        form = FindIdForm()
+        return render(request, 'find_id.html', {'form':form})
+

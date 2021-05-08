@@ -1,15 +1,24 @@
 # django에서 제공하는 유저 모델 커스텀하기
 import os
 from django.conf import settings
+from django.core.validators import MinValueValidator, MaxValueValidator # 입력받는 값의 범위 제한..
 
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+
+# 학과
+# class Major(models.Model):
+#     code = models.CharField(max_length=2)
+#     name = models.CharField(max_length=15)
+
+#     def __str__(self):
+#         return self.name
 
 # 유저를 생성할 때 사용하는 Helper 클래스
 class UserManager(BaseUserManager):
     def create_user(self, userId, major, studentId, email, password=None):
         if not userId:
-            raise ValueError("회원 가입한 사람만 이용 가능한 서비스입니다.")
+            raise ValueError("아이디를 입력해주세요.")
         user = self.model(
             userId = userId,
             major = major,
@@ -41,8 +50,9 @@ class User(AbstractBaseUser):
         max_length=12,
         unique=True,
     )
+
     major = models.CharField(max_length=10) # 나중에 여러 보기 중 선택하는 것으로 바꾸기
-    studentId = models.CharField(max_length=8, unique=True)
+    studentId = models.CharField(unique=True, max_length=8)
     email = models.EmailField(max_length=255, unique=True)
 
     is_active= models.BooleanField(default= True) # django 유저 모델의 필수 필드_1
