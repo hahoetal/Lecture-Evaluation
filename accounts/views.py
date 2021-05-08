@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib import messages
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
 from django.views.generic import FormView, CreateView
-from django.http import HttpResponseNotFound #추가
+from django.http import HttpResponseNotFound
 
 from .models import User
-from .forms import LoginForm, UserCreationForm, FindIdForm
+from .forms import LoginForm, UserCreationForm, FindIdForm, PWChangeForm
 
 # 임시 홈
 def home(request):
@@ -69,3 +69,15 @@ def find_id(request):
         form = FindIdForm()
         return render(request, 'find_id.html', {'form':form})
 
+# 비밀번호 변경
+def change_pw(request):
+    if request.method == 'POST':
+        form = PWChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, "비밀번호를 성공적으로 변경하였습니다.")
+            return redirect('/')
+    else:
+            form = PWChangeForm(request.user)
+    return render(request, 'change_pw.html', {'form':form})

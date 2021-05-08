@@ -1,7 +1,7 @@
 # 커스텀한 유저 모델에 맞는 폼(form) 생성하기
 
 from django import forms
-from django.contrib.auth.forms import ReadOnlyPasswordHashField, SetPasswordForm
+from django.contrib.auth.forms import ReadOnlyPasswordHashField, SetPasswordForm, PasswordChangeForm
 from django.contrib.auth.hashers import check_password
 from .models import User
 
@@ -135,3 +135,20 @@ class FindIdForm(forms.ModelForm):
     class Meta:
         model = User
         fields= ('studentId','major','email',) # 학과는 입력하지 않고 선택할 수 있도록 만들기
+
+# 비밀번호 변경하기
+class PWChangeForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super(PWChangeForm, self).__init__(*args, **kwargs)
+        self.fields['old_password'].label = "기존 비밀번호"
+        self.fields['old_password'].widget.attrs.update({
+            'class': '',
+        })
+        self.fields['new_password1'].label = "새 비밀번호"
+        self.fields['new_password1'].widget.attrs.update({
+            'class':'',
+        })
+        self.fields['new_password2'].label = "새 비밀번호 확인"
+        self.fields['new_password2'].widget.attrs.update({
+            'class': '',
+        })
