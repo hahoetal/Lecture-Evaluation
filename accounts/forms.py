@@ -124,7 +124,7 @@ class LoginForm(forms.Form):
             try:
                 user= User.objects.get(userId=userId)
             except User.DoesNotExist:
-                self.add_error('teacherId', '아이디가 존재하지 않습니다.')
+                self.add_error('userId', '아이디가 존재하지 않습니다.')
                 return
 
             if not check_password(password, user.password):
@@ -152,3 +152,14 @@ class PWChangeForm(PasswordChangeForm):
         self.fields['new_password2'].widget.attrs.update({
             'class': '',
         })
+
+# 탈퇴하기_탈퇴하려는 사용자 비밀번호 확인
+class checkPwForm(forms.Form):
+    password = forms.CharField(
+        label='비밀번호',
+        widget= forms.PasswordInput(
+            attrs={
+                'class': '',
+            }
+        )
+    )

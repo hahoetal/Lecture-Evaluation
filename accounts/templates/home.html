@@ -6,6 +6,7 @@
         <p>안녕하세요! {{request.user.userId}}님</p>
         <a href="{% url 'logout' %}" class="account_btn">로그아웃</a>
         <a href="{% url 'change_pw' %}">비밀번호 변경</a>
+        <a href="{% url 'delete_user'%}">탈퇴하기</a>
     {% else %}
         <a href="{% url 'login' %}">로그인</a>
         <a href="{% url 'signup' %}">회원가입</a>

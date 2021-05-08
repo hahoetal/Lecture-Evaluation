@@ -2,11 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
+from django.contrib.auth.hashers import check_password
 from django.views.generic import FormView, CreateView
 from django.http import HttpResponseNotFound
 
 from .models import User
-from .forms import LoginForm, UserCreationForm, FindIdForm, PWChangeForm
+from .forms import LoginForm, UserCreationForm, FindIdForm, PWChangeForm, checkPwForm
 
 # 임시 홈
 def home(request):
@@ -81,3 +82,15 @@ def change_pw(request):
     else:
             form = PWChangeForm(request.user)
     return render(request, 'change_pw.html', {'form':form})
+
+# 탈퇴
+def delete_user(request):
+    if request.method == 'POST':
+        pw = request.POST['password']
+        user = request.user
+        if check_password(pw, user.password):
+            user.delete()
+            return redirect('/')
+    else:
+        form = checkPwForm()
+        return render(request, 'delete_user.html', {'form':form})

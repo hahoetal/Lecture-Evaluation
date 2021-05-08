@@ -8,4 +8,5 @@ urlpatterns = [
     path('signup', views.CreateUser.as_view(), name="signup"), # 회원가입
     path('find_id', views.find_id, name="findId"), # 아이디 찾기
     path('change_pw', views.change_pw, name="change_pw"), # 비밀번호 변경
+    path('delete_user', views.delete_user, name="delete_user"), # 탈퇴하기
 ]
