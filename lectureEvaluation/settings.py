@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
-from . import my_settings # 중요한 정보 분리해서 보관
+from . import my_settings # 중요한 정보 분리해서 보관, 프로젝트에 꼭 필요한 내용이지만, github에 올리면 안 되는 정보가 담겨있음.
 #from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.

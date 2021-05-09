@@ -1,7 +1,6 @@
 # django에서 제공하는 유저 모델 커스텀하기
 import os
 from django.conf import settings
-from django.core.validators import MinValueValidator, MaxValueValidator # 입력받는 값의 범위 제한..
 
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
@@ -65,6 +64,7 @@ class User(AbstractBaseUser):
 
     def __str__(self):
         return str(self.userId)
+    # 이걸 적어주지 않으면, admin 사이트에서 사용자(객체) 목록이 object(1), object(2) 이런 식으로 떠서 뭐가 뭔지 알아보기 힘듦.
 
     # 아래 세 개는 커스텀한 유저 모델을 기본 유저 모델로 사용하기 위해 구현해야 하는 부분.
     

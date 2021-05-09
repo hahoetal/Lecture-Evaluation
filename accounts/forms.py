@@ -30,12 +30,14 @@ class UserCreationForm(forms.ModelForm):
         model = User
         fields= ('userId', 'major', 'studentId', 'email')
 
+    # 초기화.
+    # <form>을 이용해 form을 직접 만들지 않고, 미리 만들어진 form(djanog form)을 사용하기 때문에 css를 적용하려면 아래와 같이 작성하기 
     def __init__(self, *args, **kwargs):
         super(UserCreationForm, self).__init__(*args, **kwargs)
 
-        self.fields['userId'].label= ' '
-        self.fields['userId'].widget.attrs.update({
-            #'class': '',
+        self.fields['userId'].label= ' ' # <label>와 관련. 
+        self.fields['userId'].widget.attrs.update({ # css와 관련
+            #'class': '', # css 클래스
             'placeholder': '아이디',
         })
 
@@ -68,11 +70,11 @@ class UserCreationForm(forms.ModelForm):
 
     # password1과 password2가 일치하면 저장
     def save(self, commit=True):
-        user= super().save(commit=False)
-        user.set_password(self.cleaned_data["password1"])
+        user= super().save(commit=False) # 입력한 내용을 아직 DB에 저장하지 말고,
+        user.set_password(self.cleaned_data["password1"]) # 
 
         if commit:
-            user.save()
+            user.save() # 비밀번호를 제대로 입력한 경우만 DB에 저장
         return user
 
 # 유저 정보 수정 폼
@@ -166,6 +168,7 @@ class checkPwForm(forms.Form):
 
 # 비밀번호 찾기_ 비밀번호 변경을 위한 링크를 받을 이메일 입력.
 class PWResetForm(PasswordResetForm):
+    # 이미 만들어진 form에 css를 적용하려면, 초기화가 필요.
     def __init__(self, *args, **kwargs):
         super(PWResetForm, self).__init__(*args, **kwargs)
         self.fields['email'].label = "이메일"
