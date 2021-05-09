@@ -1,7 +1,7 @@
 # 커스텀한 유저 모델에 맞는 폼(form) 생성하기
 
 from django import forms
-from django.contrib.auth.forms import ReadOnlyPasswordHashField, SetPasswordForm, PasswordChangeForm
+from django.contrib.auth.forms import ReadOnlyPasswordHashField, SetPasswordForm, PasswordChangeForm, PasswordResetForm
 from django.contrib.auth.hashers import check_password
 from .models import User
 
@@ -163,3 +163,25 @@ class checkPwForm(forms.Form):
             }
         )
     )
+
+# 비밀번호 찾기_ 비밀번호 변경을 위한 링크를 받을 이메일 입력.
+class PWResetForm(PasswordResetForm):
+    def __init__(self, *args, **kwargs):
+        super(PWResetForm, self).__init__(*args, **kwargs)
+        self.fields['email'].label = "이메일"
+        self.fields['email'].widget.attrs.update({
+            'class': '',
+        })
+
+# 비밀번호 찾기_ 비밀번호 초기화
+class SetPWForm(SetPasswordForm):
+    def __init__(self, *args, **kwargs):
+        super(SetPWForm, self).__init__(*args, **kwargs)
+        self.fields['new_password1'].label = "새 비밀번호"
+        self.fields['new_password1'].widget.attrs.update({
+            'class':'',
+        })
+        self.fields['new_password2'].label = "새 비밀번호 확인"
+        self.fields['new_password2'].widget.attrs.update({
+            'class': '',
+        })

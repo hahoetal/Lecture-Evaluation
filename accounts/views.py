@@ -1,13 +1,14 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse
+from django.shortcuts import render, redirect
+from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
+from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView  # 장고에서 제공하는 비밀번호 찾기 기능
 from django.contrib.auth.hashers import check_password
 from django.views.generic import FormView, CreateView
 from django.http import HttpResponseNotFound
 
 from .models import User
-from .forms import LoginForm, UserCreationForm, FindIdForm, PWChangeForm, checkPwForm
+from .forms import LoginForm, UserCreationForm, FindIdForm, PWChangeForm, checkPwForm, PWResetForm, SetPWForm
 
 # 임시 홈
 def home(request):
@@ -47,7 +48,7 @@ class CreateUser(CreateView):
 
     def get_success_url(self):
         messages.success(self.request, "회원가입이 완료되었습니다.")
-        return reverse('loginPage')
+        return reverse('loginPage') # reverse()  urls.py에서 선언한 name에 따라 url을 받아와 쓸 수 있게 해줌.
     
     def form_valid(self, form):
         self.object = form.save()
@@ -94,3 +95,38 @@ def delete_user(request):
     else:
         form = checkPwForm()
         return render(request, 'delete_user.html', {'form':form})
+
+# 비밀번호 찾기
+# 비밀번호 변경을 위한 링크를 받을 이메일 입력
+class PWResetView(PasswordResetView):
+    template_name = 'pw_reset.html' # 장고가 제공하는 것 말고 다른 템플릿 사용하기
+    form_class = PWResetForm # html 상에 보여 줄 폼
+    success_url = reverse_lazy("password_reset_done") # 성공 시 이동할 url
+
+    def form_valid(self, form):
+        if User.objects.filter(email=self.request.POST["email"]).exists(): # 사용자 이메일 중, 입력한 이메일과 동일한 게 있는지 확인
+            return super().form_valid(form)
+        else:
+            return render(self.request, 'pw_reset_done_fail.html') # 없으면 이메일 전송에 실패했음을 알려주고, 회원가입 또는 다시 입력하도록 함.
+
+# 회원가입 시 입력한 이메일을 올바르게 입력하면, 이메일이 성공적으로 전송되었음을 알려 줌.
+class PWResetDoneView(PasswordResetDoneView):
+    template_name = 'pw_reset_done.html'
+
+# 이메일로 전송된 링크를 입력하면, 새 비밀번호를 입력할 수 있는 창이 나옴.
+class PWResetConfirmView(PasswordResetConfirmView):
+    template_name = 'pw_reset_confirm.html'
+    form_class = SetPWForm
+    success_url = reverse_lazy('password_reset_complete')
+
+    def form_valid(self, form):  # form에 입력한 내용이 유효한지 검사
+        return super().form_valid(form)
+
+# 새 비밀번호 입력이 성공적으로 이루어지면, 성공했다는 것을 알려주고, login 페이지로 이동.
+class PWResetCompleteView(PasswordResetCompleteView):
+    template_name = 'pw_reset_complete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['login_url'] = reverse('loginPage')
+        return context

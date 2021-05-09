@@ -1,0 +1,11 @@
+<!--비밀번호 찾기, 재설정을 위한 링크를 받기 위해 회원 가입시 입력한 이메일 입력하는 페이지-->
+
+{% extends 'base.html' %}
+{% block content %}
+    <form action="" method="POST">
+        <p>비밀번호를 잊어버리셨나요? 가입 시 입력한 이메일을 입력해주세요. 새로운 비밀번호를 재설정할 수 있는 이메일을 보내드리겠습니다.</p>
+        {% csrf_token %}
+        {{form}}
+        <input type="submit" value="보내기">
+    </form>
+{% endblock %}
