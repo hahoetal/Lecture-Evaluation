@@ -1,3 +1,6 @@
+{% comment %} base.html 파일 상에서 공통되는 부분을 적어줍니다. 예를들어 navbar, css 파일 연결 등등
+base.html을 사용하려면, html의 상단에 {% extends 'base.html' %}을 추가합니다. {% endcomment %}
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -7,6 +10,12 @@
     <title>강의 평가</title>
 </head>
 <body>
+    {% comment %}
+        html의 내용은 {% block content %}와 {% endblock %} 사이에 들어갑니다.
+        예를 들어 로그인 페이지를 만든다면, 상단에 {% extends 'base.html' %}을 추가하고,
+        {% block content %}와 {% endblock %}을 추가한 다음에 그 안에 <form>을 이용해 로그인 폼을 만들면 됩니다.
+    {% endcomment %}
+    
     {% block content %}
     {% endblock %}
 </body>

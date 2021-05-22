@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% if target %}
+        {{target.userId}}
+    {% else %}
+        <form action="{% url 'change_pw' %}" method="POST">
+            {% csrf_token %}
+            {{form}}
+            <input type="submit" value="비밀번호 바꾸기">
+        </form>
+    {% endif %}
+
+{% endblock %}

@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
+from . import my_settings # 중요한 정보 분리해서 보관, 프로젝트에 꼭 필요한 내용이지만, github에 올리면 안 되는 정보가 담겨있음.
 #from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -128,3 +129,13 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# 비밀번호 찾기_이메일 보내기
+EMAIL_BACKEND= my_settings.EMAIL['EMAIL_BACKEND']
+EMAIL_USE_TLS= my_settings.EMAIL['EMAIL_USE_TLS']
+EMAIL_PORT= my_settings.EMAIL['EMAIL_PORT']
+EMAIL_HOST= my_settings.EMAIL['EMAIL_HOST']
+EMAIL_HOST_USER= my_settings.EMAIL['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD= my_settings.EMAIL['EMAIL_HOST_PASSWORD']
+SERVER_EMAIL= my_settings.EMAIL['SERVER_EMAIL']
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER # 사이트와 관련한 자동응답을 받을 이메일 주소

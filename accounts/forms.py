@@ -1,7 +1,7 @@
 # 커스텀한 유저 모델에 맞는 폼(form) 생성하기
 
 from django import forms
-from django.contrib.auth.forms import ReadOnlyPasswordHashField, SetPasswordForm
+from django.contrib.auth.forms import ReadOnlyPasswordHashField, SetPasswordForm, PasswordChangeForm, PasswordResetForm
 from django.contrib.auth.hashers import check_password
 from .models import User
 
@@ -30,12 +30,14 @@ class UserCreationForm(forms.ModelForm):
         model = User
         fields= ('userId', 'major', 'studentId', 'email')
 
+    # 초기화.
+    # <form>을 이용해 form을 직접 만들지 않고, 미리 만들어진 form(djanog form)을 사용하기 때문에 css를 적용하려면 아래와 같이 작성하기 
     def __init__(self, *args, **kwargs):
         super(UserCreationForm, self).__init__(*args, **kwargs)
 
-        self.fields['userId'].label= ' '
-        self.fields['userId'].widget.attrs.update({
-            #'class': '',
+        self.fields['userId'].label= ' ' # <label>와 관련. 
+        self.fields['userId'].widget.attrs.update({ # css와 관련
+            #'class': '', # css 클래스
             'placeholder': '아이디',
         })
 
@@ -68,11 +70,11 @@ class UserCreationForm(forms.ModelForm):
 
     # password1과 password2가 일치하면 저장
     def save(self, commit=True):
-        user= super().save(commit=False)
-        user.set_password(self.cleaned_data["password1"])
+        user= super().save(commit=False) # 입력한 내용을 아직 DB에 저장하지 말고,
+        user.set_password(self.cleaned_data["password1"]) # 
 
         if commit:
-            user.save()
+            user.save() # 비밀번호를 제대로 입력한 경우만 DB에 저장
         return user
 
 # 유저 정보 수정 폼
@@ -124,8 +126,65 @@ class LoginForm(forms.Form):
             try:
                 user= User.objects.get(userId=userId)
             except User.DoesNotExist:
-                self.add_error('teacherId', '아이디가 존재하지 않습니다.')
+                self.add_error('userId', '아이디가 존재하지 않습니다.')
                 return
 
             if not check_password(password, user.password):
                 self.add_error('password', '비밀번호가 틀렸습니다.')
+
+# 아이디 찾기
+class FindIdForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields= ('studentId','major','email',) # 학과는 입력하지 않고 선택할 수 있도록 만들기
+
+# 비밀번호 변경하기
+class PWChangeForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super(PWChangeForm, self).__init__(*args, **kwargs)
+        self.fields['old_password'].label = "기존 비밀번호"
+        self.fields['old_password'].widget.attrs.update({
+            'class': '',
+        })
+        self.fields['new_password1'].label = "새 비밀번호"
+        self.fields['new_password1'].widget.attrs.update({
+            'class':'',
+        })
+        self.fields['new_password2'].label = "새 비밀번호 확인"
+        self.fields['new_password2'].widget.attrs.update({
+            'class': '',
+        })
+
+# 탈퇴하기_탈퇴하려는 사용자 비밀번호 확인
+class checkPwForm(forms.Form):
+    password = forms.CharField(
+        label='비밀번호',
+        widget= forms.PasswordInput(
+            attrs={
+                'class': '',
+            }
+        )
+    )
+
+# 비밀번호 찾기_ 비밀번호 변경을 위한 링크를 받을 이메일 입력.
+class PWResetForm(PasswordResetForm):
+    # 이미 만들어진 form에 css를 적용하려면, 초기화가 필요.
+    def __init__(self, *args, **kwargs):
+        super(PWResetForm, self).__init__(*args, **kwargs)
+        self.fields['email'].label = "이메일"
+        self.fields['email'].widget.attrs.update({
+            'class': '',
+        })
+
+# 비밀번호 찾기_ 비밀번호 초기화
+class SetPWForm(SetPasswordForm):
+    def __init__(self, *args, **kwargs):
+        super(SetPWForm, self).__init__(*args, **kwargs)
+        self.fields['new_password1'].label = "새 비밀번호"
+        self.fields['new_password1'].widget.attrs.update({
+            'class':'',
+        })
+        self.fields['new_password2'].label = "새 비밀번호 확인"
+        self.fields['new_password2'].widget.attrs.update({
+            'class': '',
+        })

@@ -2,10 +2,13 @@
 {% block content %}
     <h1>임시 홈입니다. account.template에 있습니다.</h1>
     
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated %} <!--DB에 사용자 정보가 존재하고, 그 사용자가 로그인한 상태인지-->
         <p>안녕하세요! {{request.user.userId}}님</p>
         <a href="{% url 'logout' %}" class="account_btn">로그아웃</a>
         <a href="{% url 'lectureList' %}">강의 목록</a>
+        <a href="{% url 'change_pw' %}">비밀번호 변경</a>
+        <a href="{% url 'delete_user'%}">탈퇴하기</a>
+
     {% else %}
         <a href="{% url 'login' %}">로그인</a>
         <a href="{% url 'signup' %}">회원가입</a>
@@ -13,14 +16,19 @@
 
     <br>
     <h2>데이터베이스 팀플_ 강의평가 시스템 구축</h2>
+    <p>template(html) 작성할 때..</p>
+    <ol>
+        <li>base.html 파일 상에서 공통되는 부분을 적어줍니다. 예를들어 navbar, css 파일 연결 등등</li>
+        <li>base.html은 lectureEvaluation(최상단 폴더, manage.py 폴더와 같은 위치)/templates 안에 있습니다.</li>
+    </ol>
     <p>앞으로 만들어야하는 기능들</p>
      <ol>
         <li>사용자 관리</li>
             <ul>
-                <li>회원가입</li>
-                <li>로그인 & 로그아웃</li>
-                <li>아이디 & 비밀번호 찾기</li>
-                <li>탈퇴</li>
+                <li><del>회원가입</del></li>
+                <li><del>로그인 & 로그아웃</del></li>
+                <li><del>아이디 & 비밀번호 찾기</del></li>
+                <li><del>탈퇴</del></li>
             </ul>
         <li>강의 관리</li>
             <ul>

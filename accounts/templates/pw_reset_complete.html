@@ -1,0 +1,7 @@
+<!--비밀번호 변경이 성공했을 때 뜨는 페이지-->
+
+{% extends 'base.html' %}
+{% block content %}
+    <h1>비밀번호 변경이 완료되었습니다.</h1>
+    <p>새로운 비밀번호로 <a href="{% url 'login' %}">로그인</a>하기</p>
+{% endblock %}

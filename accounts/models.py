@@ -5,11 +5,19 @@ from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
+# 학과
+# class Major(models.Model):
+#     code = models.CharField(max_length=2)
+#     name = models.CharField(max_length=15)
+
+#     def __str__(self):
+#         return self.name
+
 # 유저를 생성할 때 사용하는 Helper 클래스
 class UserManager(BaseUserManager):
     def create_user(self, userId, major, studentId, email, password=None):
         if not userId:
-            raise ValueError("회원 가입한 사람만 이용 가능한 서비스입니다.")
+            raise ValueError("아이디를 입력해주세요.")
         user = self.model(
             userId = userId,
             major = major,
@@ -41,8 +49,9 @@ class User(AbstractBaseUser):
         max_length=12,
         unique=True,
     )
+
     major = models.CharField(max_length=10) # 나중에 여러 보기 중 선택하는 것으로 바꾸기
-    studentId = models.CharField(max_length=8, unique=True)
+    studentId = models.CharField(unique=True, max_length=8)
     email = models.EmailField(max_length=255, unique=True)
 
     is_active= models.BooleanField(default= True) # django 유저 모델의 필수 필드_1
@@ -55,6 +64,7 @@ class User(AbstractBaseUser):
 
     def __str__(self):
         return str(self.userId)
+    # 이걸 적어주지 않으면, admin 사이트에서 사용자(객체) 목록이 object(1), object(2) 이런 식으로 떠서 뭐가 뭔지 알아보기 힘듦.
 
     # 아래 세 개는 커스텀한 유저 모델을 기본 유저 모델로 사용하기 위해 구현해야 하는 부분.
     
