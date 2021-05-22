@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>강의 목록</h1>
+    <hr>
+    <form action='{% url "searchLecture" %}' method="POST"> {% csrf_token %}
+        <fieldset>
+            <legend>강의 검색</legend>
+                <table>
+                    <tr>
+                        <th><label for="search_key">강의명</label></th>
+                        <td><input type="text" name="search_key"></td>
+                        <td><input type="submit" value="검색"></td>
+                    </tr>
+                </table>
+        </fieldset>
+    </form>
+    <br>
+    <table border="1">
+        <tr>
+            <th>학수번호</th>   <!-- lecture_id -->
+            <th>강의명</th>     <!-- lecture_name -->
+            <th>교수명</th>     <!-- professor -->
+            <th>과목구분</th>   <!-- lecture_type -->
+            <th>개설학과</th>   <!-- department -->
+        </tr>
+        <!-- view에서 넘어온 데이터 출력 -->
+        {% for lecture in lectures %}   
+        <tr>
+            <td>{{lecture.lecture_id}}</td>
+            <td>{{lecture.lecture_name}}</td>
+            <td>{{lecture.professor}}</td>
+            <td>{{lecture.lecture_type}}</td>
+            <td>{{lecture.department}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+
+{% endblock %}
