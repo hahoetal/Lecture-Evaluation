@@ -44,7 +44,6 @@ class UserCreationForm(forms.ModelForm):
         self.fields['major'].label= ' '
         self.fields['major'].widget.attrs.update({
             #'class': '',
-            'placeholder': '전공',
         })
 
         self.fields['studentId'].label= ' '
