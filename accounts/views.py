@@ -71,6 +71,7 @@ def find_id(request):
         
         try:
             target = User.objects.get(studentId=s_id, major = major, email=email)
+            return render(request, 'find_id.html',{'target': target})
         except:
             # 404 에러 예외 처리
             response = HttpResponseNotFound()
