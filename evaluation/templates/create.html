@@ -1,9 +1,89 @@
+<!--평가글 작성 폼-->
+
 {% extends 'base.html' %}
+
+{% block style %}
+    <style>
+        .star-rating{
+            display: flex;
+            flex-direction: row-reverse;
+            font-size: 25px;
+            justify-content: space-around;
+            padding: 5px;
+            text-align: center;
+            width: 5em;
+        }
+
+        /*radio 버튼 숨기기*/
+        .star-rating input{
+            display: none;
+        }
+
+        .star-rating label{
+            color: #ccc;
+            cursor: pointer;
+        }
+
+        .star-rating :checked ~ label{
+            color: #f90;
+        }
+
+        /*마우스를 올려두면 색이 변함*/
+        .star-rating label:hover,
+        .star-rating label:hover ~ label{
+            color: #fc0;
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
 
     <form action="" method="POST">
         {% csrf_token %}
-        {{form.as_p}}
+        {{form}}
+        
+        <p>과제난이도</p>
+        <span class="star-rating">
+            <input type="radio" id="hw5-stars" name="hw_level" value=5>
+            <label for="hw5-stars" class="star">&#9733;</label>
+            <input type="radio" id="hw4-stars" name="hw_level" value=4>
+            <label for="hw4-stars" class="star">&#9733;</label>
+            <input type="radio" id="hw3-stars" name="hw_level" value=3>
+            <label for="hw3-stars" class="star">&#9733;</label>
+            <input type="radio" id="hw2-stars" name="hw_level" value=2>
+            <label for="hw2-stars" class="star">&#9733;</label>
+            <input type="radio" id="hw1-stars" name="hw_level" value=1>
+            <label for="hw1-stars" class="star">&#9733;</label>
+        </span>
+
+        <p>시험 난이도</p>
+        <span class="star-rating">
+            <input type="radio" id="t5-stars" name="test_level" value=5>
+            <label for="t5-stars" class="star">&#9733;</label>
+            <input type="radio" id="t4-stars" name="test_level" value=4>
+            <label for="t4-stars" class="star">&#9733;</label>
+            <input type="radio" id="t3-stars" name="test_level" value=3>
+            <label for="t3-stars" class="star">&#9733;</label>
+            <input type="radio" id="t2-stars" name="test_level" value=2>
+            <label for="t2-stars" class="star">&#9733;</label>
+            <input type="radio" id="t1-stars" name="test_level" value=1>
+            <label for="t1-stars" class="star">&#9733;</label>
+        </span>
+
+        <p>강의력</p>
+        <span class="star-rating">
+            <input type="radio" id="h5-stars" name="lect_power" value=5>
+            <label for="h5-stars" class="star">&#9733;</label>
+            <input type="radio" id="h4-stars" name="lect_power" value=4>
+            <label for="h4-stars" class="star">&#9733;</label>
+            <input type="radio" id="h3-stars" name="lect_power" value=3>
+            <label for="h3-stars" class="star">&#9733;</label>
+            <input type="radio" id="h2-stars" name="lect_power" value=2>
+            <label for="h2-stars" class="star">&#9733;</label>
+            <input type="radio" id="h1-stars" name="lect_power" value=1>
+            <label for="h1-stars" class="star">&#9733;</label>
+        </span>
+        
         <input type="submit" value="저장">
     </form>
 {% endblock %}

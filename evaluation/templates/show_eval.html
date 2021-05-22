@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block style %}
+<style>
+    .stars{
+        font-size: 25px;
+        padding: 5px;
+        text-align: center;
+        width: 5em;
+        color: #f90;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    {% if evaluations %}
+        {% for eval in evaluations %}
+            <h3>{{eval.author}}___{{eval.date|date:'Y-m-d H:i'}}</h3>
+            <p>{{eval.content}}</p>
+            <p>과제 난이도:
+                {% if eval.hw_level == 1 %}
+                <span class="stars">&#9733;</span>
+                {% elif eval.hw_level == 2 %}
+                <span class="stars">&#9733; &#9733;</span>
+                {% elif eval.hw_level == 3 %}
+                <span class="stars">&#9733; &#9733; &#9733;</span>
+                {% elif eval.hw_level == 4 %}
+                <span class="stars">&#9733; &#9733; &#9733; &#9733;</span>
+                {% elif eval.hw_level == 5 %}
+                <span class="stars">&#9733; &#9733; &#9733; &#9733; &#9733;</span>
+                {% endif %}
+            </p>
+            <p>시험 난이도: 
+                {% if eval.test_level == 1 %}
+                <span class="stars">&#9733;</span>
+                {% elif eval.test_level == 2 %}
+                <span class="stars">&#9733; &#9733;</span>
+                {% elif eval.test_level == 3 %}
+                <span class="stars">&#9733; &#9733; &#9733;</span>
+                {% elif eval.test_level == 4 %}
+                <span class="stars">&#9733; &#9733; &#9733; &#9733;</span>
+                {% elif eval.test_level == 5 %}
+                <span class="stars">&#9733; &#9733; &#9733; &#9733; &#9733;</span>
+                {% endif %}
+            </p>
+            <p>강의력: 
+                {% if eval.lect_power == 1 %}
+                <span class="stars">&#9733;</span>
+                {% elif eval.lect_power == 2 %}
+                <span class="stars">&#9733; &#9733;</span>
+                {% elif eval.lect_power == 3 %}
+                <span class="stars">&#9733; &#9733; &#9733;</span>
+                {% elif eval.lect_power == 4 %}
+                <span class="stars">&#9733; &#9733; &#9733; &#9733;</span>
+                {% elif eval.lect_power == 5 %}
+                <span class="stars">&#9733; &#9733; &#9733; &#9733; &#9733;</span>
+                {% endif %}
+            </p>
+        {% endfor %}
+    {% else %}
+        <p>강의평이 없습니다.</p>
+    {% endif %}
+
+{% endblock %}
