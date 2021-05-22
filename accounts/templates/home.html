@@ -5,6 +5,7 @@
     {% if user.is_authenticated %}
         <p>안녕하세요! {{request.user.userId}}님</p>
         <a href="{% url 'logout' %}" class="account_btn">로그아웃</a>
+        <a href="{% url 'lectureList' %}">강의 목록</a>
     {% else %}
         <a href="{% url 'login' %}">로그인</a>
         <a href="{% url 'signup' %}">회원가입</a>
