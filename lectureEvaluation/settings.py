@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig', # accounts 앱 추가
     'lectures.apps.LecturesConfig', # lectures 앱 추가
+    'evaluation.apps.EvaluationConfig', # evaluation 앱 추가
 ]
 
 MIDDLEWARE = [
