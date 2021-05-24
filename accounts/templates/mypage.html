@@ -1,0 +1,28 @@
+<!--회원가입 정보와 작성한 글을 볼 수 있는 페이지-->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>마이페이지 입니다.</h1>
+
+<h3>나의 정보</h3>
+<p>{{myInfo.userId}}</p>
+<p>{{myInfo.studentId}}</p>
+<p>{{myInfo.major}}</p>
+<p>{{myInfo.email}}</p>
+
+<hr>
+<h3>내가 작성한 강의평</h3>
+
+{% if myEval %}
+    {% for eval in myEval %}
+        <a href="{% url 'show_eval' eval.lect_id.num %}"><p>{{eval.lect_id.lecture_name}}__{{eval.date|date:'Y-m-d'}}</p></a><br>
+        <p>{{eval.summary}}</p><br>
+        <a href="{% url 'delete_eval' eval.lect_id.num%}">삭제</a>
+    {% endfor %}
+{% else %}
+    <p>작성한 강의평이 없습니다.</p>
+{% endif %}
+
+
+{% endblock %}

@@ -41,6 +41,7 @@ class User(AbstractBaseUser):
         verbose_name= 'User ID',
         max_length=12,
         unique=True,
+        primary_key= True
     )
 
     major = models.CharField(max_length=15, choices=MAJOR_CHOICES, default="국어국문학과") # 개발자가 미리 만들어둔 보기 중에서 선택하도록!!

@@ -9,6 +9,7 @@ from django.views.generic import FormView, CreateView
 from django.http import HttpResponseNotFound
 
 from .models import User
+from evaluation.models import Evals
 from .forms import LoginForm, UserCreationForm, FindIdForm, PWChangeForm, checkPwForm, PWResetForm, SetPWForm
 
 # 임시 홈
@@ -143,6 +144,13 @@ class PWResetCompleteView(PasswordResetCompleteView):
         context['login_url'] = reverse('login')
         return context
 
+# 마이페이지
+@login_required(login_url= '/accounts/login')
+def mypage(request):
+    user = request.user.get_username() # 요청한 유저의 아이디 가져오기
+    myInfo = User.objects.get(userId=user) # 요청한 유저의 아이디와 일치하는 유저 객체 가져오기
+    myEval = Evals.objects.filter(author=user) # 요청한 유저가 작성한 평가글 정보 가져오기
+    return render(request, 'mypage.html', {'myInfo':myInfo, 'myEval':myEval})
 
 # 용어 정리
 # django는 request와 response 객체를 이용하여 서버와 클라이언트가 상태를 주고 받음.

@@ -17,3 +17,6 @@ class Evals(models.Model):
 
     def __str__(self):
         return self.content[:10]
+
+    def summary(self):
+        return self.content[:30]

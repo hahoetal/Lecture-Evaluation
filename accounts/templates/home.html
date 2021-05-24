@@ -4,7 +4,8 @@
     
     {% if user.is_authenticated %} <!--DB에 사용자 정보가 존재하고, 그 사용자가 로그인한 상태인지-->
         <p>안녕하세요! {{request.user.userId}}님</p>
-        <a href="{% url 'logout' %}" class="account_btn">로그아웃</a>
+        <a href="{% url 'logout' %}">로그아웃</a>
+        <a href="{% url 'mypage' %}">마이페이지</a>
         <a href="{% url 'lectureList' %}">강의 목록</a>
         <a href="{% url 'change_pw' %}">비밀번호 변경</a>
         <a href="{% url 'delete_user'%}">탈퇴하기</a>
