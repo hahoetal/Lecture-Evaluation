@@ -15,7 +15,8 @@
 {% block content %}
     {% if evaluations %}
         {% for eval in evaluations %}
-            <h3>{{eval.author}}___{{eval.date|date:'Y-m-d H:i'}}</h3>
+            <h3>{{eval.author}}___{{eval.date|date:'Y-m-d H:i'}}  <a href="{% url 'recommand'  eval.num eval.lect_id.num %}">&#128077;</a> {{eval.count}}</h3>
+            
             <p>{{eval.content}}</p>
             <p>과제 난이도:
                 {% if eval.hw_level == 1 %}
