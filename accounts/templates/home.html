@@ -15,6 +15,13 @@
         <a href="{% url 'signup' %}">회원가입</a>
     {% endif %}
 
+
+    {% if messages %}
+        {% for message in messages %}
+            <script>alert("{{ message }}")</script>
+        {% endfor %}
+    {% endif %}
+
     <br>
     <h2>데이터베이스 팀플_ 강의평가 시스템 구축</h2>
     <p>template(html) 작성할 때..</p>
