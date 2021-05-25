@@ -38,8 +38,13 @@ def create(request, num):
 @login_required(login_url= '/accounts/login')
 def delete(request, eval_id):
     eval = get_object_or_404(Evals, pk=eval_id) # 삭제하려는 글이 없으면 404 오류를 내고, 있으면 가져오기
-    eval.delete()
-    return redirect('/')
+
+    if eval.author == request.user: # 본인이 작성한 글만 삭제 가능
+        eval.delete()
+        return redirect('mypage')
+    else:
+        messages.warning(request, "본인이 작성한 글만 삭제할 수 있습니다.")
+        return redirect('/')
 
 # 강의평 보여주기
 @login_required(login_url= '/accounts/login')
