@@ -16,11 +16,31 @@
 
 {% if myEval %}
     {% for eval in myEval %}
-        <a href="{% url 'show_eval' eval.lect_id.num %}"><p>{{eval.lect_id.lecture_name}}__{{eval.date|date:'Y-m-d'}}</p></a><br>
-        <p>{{eval.summary}}</p><br>
+        <a href="{% url 'detail' eval.lect_id.num %}"><p>{{eval.lect_id.lecture_name}}__{{eval.date|date:'Y-m-d'}}</p></a>
+        <p>{{eval.summary}}</p>
         <!--삭제 버튼을 눌렀을 때 바로 삭제하지 않고 한 번 물어보기..-->
         <a href="{% url 'delete_eval' eval.num %}" onclick="return confirm('확인을 누르면 강의평이 삭제됩니다.');">삭제</a>
     {% endfor %}
+
+    <!--페이지 navi-->
+    <div>
+        <!--첫 페이지면 실행되지 않음-->
+        {% if myEval.has_previous %}
+            <a href="?page=1">First</a>
+            <a href="page={{myEval.previous_page_number}}">Previous</a>
+        {% endif %}
+
+        <span>{{myEval.number}}</span>
+        <span>of</span>
+        <span>{{myEval.paginator.num_pages}}</span>
+
+        <!--마지막 페이지면 실행되지 않음-->
+        {% if myEval.has_next %}
+            <a href="?page={{myEval.next_page_number}}">Next</a>
+            <a href="?page={{myEval.paginator.num_pages}}">Last</a>
+        {% endif %}
+    </div>
+
 {% else %}
     <p>작성한 강의평이 없습니다.</p>
     <p><a href="{% url 'lectureList' %}">강의평 작성하러 가기</a></p>

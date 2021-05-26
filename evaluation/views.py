@@ -46,12 +46,6 @@ def delete(request, eval_id):
         messages.warning(request, "본인이 작성한 글만 삭제할 수 있습니다.")
         return redirect('/')
 
-# 강의평 보여주기
-@login_required(login_url= '/accounts/login')
-def show_eval(request, lect_id):
-    evaluations = Evals.objects.filter(lect_id=lect_id) # 사용자가 요청한 강의와 강의 번호가 일치하는 강의평만 가져오기 
-    return render(request, 'show_eval.html', {'evaluations':evaluations})
-
 # 강의평 추천하기
 @login_required(login_url= '/accounts/login')
 def recommand(request, eval_num, lect_num):
@@ -61,5 +55,5 @@ def recommand(request, eval_num, lect_num):
         eval.count = eval.count + 1 # 해당 함수가 실행되면 count가 1 증가
         eval.save() # 저장을 해주어야만 DB에 반영!!
         
-    return redirect('show_eval', lect_num)
+    return redirect('detail', lect_num)
     # 사용자가 자가 쓴 글을 추천하려고 하는 경우, 경고창 띄우기. 또 추천은 한 번만 할 수 있게 코드 고민하기

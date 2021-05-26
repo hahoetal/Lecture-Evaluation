@@ -27,12 +27,10 @@
         {% for lecture in lectures %}   
         <tr>
             <td>{{lecture.lecture_id}}</td>
-            <td>{{lecture.lecture_name}}</td>
+            <td><a href="{% url 'detail' lecture.num %}">{{lecture.lecture_name}}</a></td>
             <td>{{lecture.professor}}</td>
             <td>{{lecture.lecture_type}}</td>
             <td>{{lecture.department}}</td>
-            <td><a href="{% url 'create_eval' lecture.num %}">강의평 작성하기</a></td> <!--강의 자세히 보기 페이지 안에 넣어주기-->
-            <td><a href="{% url 'show_eval' lecture.num %}">강의평 보기</a></td> <!--강의 자세히 보기 페이지 안에 넣어주기-->
         </tr>
         {% endfor %}
     </table>

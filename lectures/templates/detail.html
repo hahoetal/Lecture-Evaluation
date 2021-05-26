@@ -1,0 +1,99 @@
+<!--강의 자세히 보기-->
+{% extends 'base.html' %}
+
+{% block style %}
+<style>
+    .stars{
+        font-size: 20px;
+        padding: 5px;
+        text-align: center;
+        width: 5em;
+        color: #f90;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <a href="{% url 'lectureList' %}">강의 목록</a>
+    <h2>강의 정보</h2>
+    <hr>
+    <p>강의명: {{lect.lecture_name}}</p>
+    <p>교수: {{lect.professor}}</p>
+    <p>개설학과: {{lect.department}}</p>
+    <p>과목구분: {{lect.lecture_type}}</p>
+
+    <h2>강의평</h2>
+    <hr>
+    <a href="{% url 'create_eval' lect.num %}">강의평 작성하기</a>
+    {% if evaluations %}
+        {% for eval in evaluations %}
+            {% if eval.author != NULL %}
+                <h3>{{eval.author}}___{{eval.date|date:'Y-m-d H:i'}}  <a href="{% url 'recommand'  eval.num eval.lect_id.num %}">&#128077;</a> {{eval.count}}</h3>
+            {% else %}
+            <h3>알 수 없음___{{eval.date|date:'Y-m-d H:i'}}  <a href="{% url 'recommand'  eval.num eval.lect_id.num %}">&#128077;</a> {{eval.count}}</h3>
+            {% endif %}
+            <p>{{eval.content}}</p>
+            <p>과제 난이도:
+                {% if eval.hw_level == 1 %}
+                <span class="stars">&#9733; &#9734; &#9734; &#9734; &#9734;</span>
+                {% elif eval.hw_level == 2 %}
+                <span class="stars">&#9733; &#9733; &#9734; &#9734; &#9734;</span>
+                {% elif eval.hw_level == 3 %}
+                <span class="stars">&#9733; &#9733; &#9733; &#9734; &#9734;</span>
+                {% elif eval.hw_level == 4 %}
+                <span class="stars">&#9733; &#9733; &#9733; &#9733;	&#9734;</span>
+                {% elif eval.hw_level == 5 %}
+                <span class="stars">&#9733; &#9733; &#9733; &#9733; &#9733;</span>
+                {% endif %}
+
+                시험 난이도: 
+                {% if eval.test_level == 1 %}
+                <span class="stars">&#9733; &#9734; &#9734; &#9734; &#9734;</span>
+                {% elif eval.test_level == 2 %}
+                <span class="stars">&#9733; &#9733; &#9734; &#9734; &#9734;</span>
+                {% elif eval.test_level == 3 %}
+                <span class="stars">&#9733; &#9733; &#9733; &#9734; &#9734;</span>
+                {% elif eval.test_level == 4 %}
+                <span class="stars">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
+                {% elif eval.test_level == 5 %}
+                <span class="stars">&#9733; &#9733; &#9733; &#9733; &#9733;</span>
+                {% endif %}
+
+                강의력: 
+                {% if eval.lect_power == 1 %}
+                <span class="stars">&#9733; &#9734; &#9734; &#9734; &#9734;</span>
+                {% elif eval.lect_power == 2 %}
+                <span class="stars">&#9733; &#9733; &#9734; &#9734; &#9734;</span>
+                {% elif eval.lect_power == 3 %}
+                <span class="stars">&#9733; &#9733; &#9733; &#9734; &#9734;</span>
+                {% elif eval.lect_power == 4 %}
+                <span class="stars">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
+                {% elif eval.lect_power == 5 %}
+                <span class="stars">&#9733; &#9733; &#9733; &#9733; &#9733;</span>
+                {% endif %}
+            </p>
+        {% endfor %}
+        
+        <!--페이지 navi-->
+        <div>
+            <!--첫 페이지면 실행되지 않음-->
+            {% if evaluations.has_previous %}
+                <a href="?page=1">First</a>
+                <a href="page={{evaluations.previous_page_number}}">Previous</a>
+            {% endif %}
+
+            <span>{{evaluations.number}}</span>
+            <span>of</span>
+            <span>{{evaluations.paginator.num_pages}}</span>
+
+            <!--마지막 페이지면 실행되지 않음-->
+            {% if evaluations.has_next %}
+                <a href="?page={{evaluations.next_page_number}}">Next</a>
+                <a href="?page={{evaluations.paginator.num_pages}}">Last</a>
+            {% endif %}
+        </div>
+
+    {% else %}
+        <p>강의평이 없습니다.</p>
+    {% endif %}
+{% endblock %}

@@ -2,6 +2,8 @@
 
 {% extends 'base.html' %}
 {% block content %}
+<h2>비밀번호 찾기</h2>
+<hr>
     <form action="" method="POST">
         <p>비밀번호를 잊어버리셨나요? 가입 시 입력한 이메일을 입력해주세요. 새로운 비밀번호를 재설정할 수 있는 이메일을 보내드리겠습니다.</p>
         {% csrf_token %}
@@ -9,3 +11,6 @@
         <input type="submit" value="보내기">
     </form>
 {% endblock %}
+
+<!--이메일을 잘못 입력하면 pw_reset_done_fail.html로 이동!!-->
+<!--이메일을 제대로 입력하면 pw_reset_done.html로 이동!!-->

@@ -1,11 +1,20 @@
+<!--로그인 페이지-->
 {% extends 'base.html' %}
 {% block content %}
-    <form action='{% url "login" %}' method="POST">
-        {% csrf_token %}
-        {{form}}
-        <br>
-        <input type="submit" value="로그인">
-        <a href="{% url 'findId' %}">아이디 찾기</a>
-        <a href="{% url 'password_reset' %}">비밀번호 찾기</a>
-    </form>
+
+  {% if messages %}
+    {% for message in messages %}
+      <script>alert("{{ message }}")</script>
+    {% endfor %}
+  {% endif %}
+
+<form action='{% url "login" %}' method="POST">
+  {% csrf_token %}
+  {{form}}
+  <br>
+  <input type="submit" value="로그인">
+  <a href="{% url 'findId' %}">아이디 찾기</a>
+  <a href="{% url 'password_reset' %}">비밀번호 찾기</a>
+  <a href="{% url 'home' %}">홈으로</a>
+</form>
 {% endblock %}
