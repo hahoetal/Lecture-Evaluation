@@ -8,3 +8,7 @@ class Lectures(models.Model):
     professor = models.TextField()      # 교수명
     department = models.TextField()     # 개설학과
     lecture_type = models.TextField()   # 과목구분(전공, 교양, 교직 등)
+    count = models.IntegerField(default=0) # 강의 조회수
+
+    def __str__(self):
+        return self.lecture_name

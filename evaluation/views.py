@@ -50,10 +50,13 @@ def delete(request, eval_id):
 @login_required(login_url= '/accounts/login')
 def recommand(request, eval_num, lect_num):
     eval = get_object_or_404(Evals, pk=eval_num)
+    lect = Lectures.objects.get(pk=lect_num)
 
     if request.user != eval.author: # 자기가 쓴 글은 추천할 수 없음.
-        eval.count = eval.count + 1 # 해당 함수가 실행되면 count가 1 증가
+        eval.count += 1 # 해당 함수가 실행되면 count가 1 증가
         eval.save() # 저장을 해주어야만 DB에 반영!!
         
+    lect.count -= 1 # 강의평 추천이 성공적으로 이루어지면, 다시 detail 페이지를 띄우는데 이때 조회수가 증가하지 않도록 1을 빼주기
+    lect.save()  
     return redirect('detail', lect_num)
     # 사용자가 자가 쓴 글을 추천하려고 하는 경우, 경고창 띄우기. 또 추천은 한 번만 할 수 있게 코드 고민하기

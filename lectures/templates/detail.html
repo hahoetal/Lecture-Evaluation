@@ -17,7 +17,7 @@
     <a href="{% url 'lectureList' %}">강의 목록</a>
     <h2>강의 정보</h2>
     <hr>
-    <p>강의명: {{lect.lecture_name}}</p>
+    <p>강의명: {{lect.lecture_name}} &#128064; {{lect.count}}</p> <!--조회수-->
     <p>교수: {{lect.professor}}</p>
     <p>개설학과: {{lect.department}}</p>
     <p>과목구분: {{lect.lecture_type}}</p>
