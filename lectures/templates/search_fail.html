@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <!-- 4가지 모두 입력이 안됐을 때 메시지 출력 -->
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="alert alert-sm alert-{{ message.tags }}"{% endif %}>
+                {{ message }}
+            </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <!-- 하이퍼링크 연결 -->
+    <a href="{% url 'home' %}">홈으로 이동</a>
+    <a href="{% url 'lectureList' %}">강의 목록으로 이동</a>
+
+{% endblock %}

@@ -2,40 +2,157 @@
 {% block content %}
     <h1>강의 목록</h1>
     <hr>
+
+    <!-- 강의 검색하기 -->
     <form action='{% url "searchLecture" %}' method="POST"> {% csrf_token %}
         <fieldset>
             <legend>강의 검색</legend>
                 <table>
                     <tr>
-                        <th><label for="search_key">강의명</label></th>
-                        <td><input type="text" name="search_key"></td>
+                        <!-- 1. 강의명 검색 -->
+                        <th><label for="lectureKey">강의명</label></th>
+                        <td><input type="text" id="LectureKey" name="search_lecture" value=""></td>
+
+                        <!-- 2. 학과 검색(드롭다운) -->
+                        <th>개설학과</th>
+                        <td>
+                            <select name="search_major">
+                                <option value="None" selected>- 전체 -</option>
+                                <optgroup label="인문과학대학">
+                                    <option>국어국문학과</option>
+                                    <option>영어영문학과</option>
+                                    <option>독일어문·문화학과</option>
+                                    <option>프랑스어문·문화학과</option>
+                                    <option>일본어문·문화학과</option>
+                                    <option>중국어문·문화학과</option>
+                                    <option>사학과</option>
+                                </optgroup>
+                                <optgroup label="사회과학대학">
+                                    <option>정치외교학과</option>
+                                    <option>심리학과</option>
+                                    <option>지리학과</option>
+                                    <option>경제학과</option>
+                                    <option>경영학과</option>
+                                    <option>경영학부</option>
+                                    <option>미디어커뮤니케이션학과</option>
+                                    <option>사회복지학과</option>
+                                </optgroup>
+                                <optgroup label="법과대학">
+                                    <option>법학과</option>
+                                    <option>지식산업법학과</option>
+                                    <option>법학부</option>
+                                </optgroup>         
+                                <optgroup label="자연과학대학">
+                                    <option>수학과</option>
+                                    <option>통계학과</option>
+                                    <option>IT학부</option>
+                                    <option>화학과</option>
+                                    <option>생명과학·화학부</option>
+                                    <option>수리통계데이터사이언스학부</option>
+                                    <option>화학·에너지융합학부</option>
+                                </optgroup>
+                                <optgroup label="지식서비스공과대학">
+                                    <option>청정융합에너지공학과</option>
+                                    <option>바이오생명공학과</option>
+                                    <option>바이오식품공학과</option>
+                                    <option>융합보안공학과</option>
+                                    <option>컴퓨터공학과</option>
+                                    <option>정보시스템공학과</option>
+                                    <option>서비스·디자인공학과</option>
+                                    <option>AI융합학부</option>
+                                </optgroup>
+                                <optgroup label="간호대학">
+                                    <option>간호학과</option>
+                                </optgroup>
+                                <optgroup label="Health & Wellness College">
+                                    <option>스포츠레저학과</option>
+                                    <option>운동재활복지학과</option>
+                                    <option>글로벌의과학과</option>
+                                    <option>식품영양학과</option>
+                                    <option>스포츠과학부</option>
+                                </optgroup>
+                                <optgroup label="뷰티산업생활국제대학">
+                                    <option>글로벌비즈니스학과</option>
+                                    <option>의류산업학과</option>
+                                    <option>뷰티산업학과</option>
+                                    <option>소비자생활문화산업학과</option>
+                                </optgroup>
+                                <optgroup label="사범대학">
+                                    <option>교육학과</option>
+                                    <option>사회교육과</option>
+                                    <option>윤리교육과</option>
+                                    <option>한문교육과</option>
+                                    <option>유아교육과</option>
+                                </optgroup>
+                                <optgroup label="미술대학">
+                                    <option>동양화과</option>
+                                    <option>서양화과</option>
+                                    <option>조소과</option>
+                                    <option>공예과</option>
+                                    <option>산업디자인과</option>
+                                </optgroup>
+                                <optgroup label="음악대학">
+                                    <option>성악과</option>
+                                    <option>기악과</option>
+                                    <option>작곡과</option>
+                                </optgroup>
+                                <optgroup label="융합문화예술대학">
+                                    <option>문화예술경영학과</option>
+                                    <option>미디어영상연기학과</option>
+                                    <option>현대실용음악학과</option>
+                                    <option>무용예술학과</option>
+                                </optgroup>
+                            </select>
+                        </td>
+
+                        <!-- 3. 교수명 검색 -->
+                        <th><label for="professorKey">교수명</label></th>
+                        <td><input type="text" id="professorKey" name="search_professor" value=""></td>
+
+                        <!-- 4. 과목 구분(드롭다운) -->
+                        <th>과목구분</th>
+                        <td>
+                            <select name="search_type">
+                                <option value="None" selected>- 전체 -</option>
+                                <option>공통교양</option>
+                                <option>핵심교양</option>
+                                <option>일반교양</option>
+                                <option>진로소양</option>
+                                <option>핵심전공</option>
+                                <option>심화전공</option>
+                                <option>교직</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
                         <td><input type="submit" value="검색"></td>
                     </tr>
                 </table>
         </fieldset>
     </form>
-    <br>
-    <table border="1">
-        <tr>
-            <th>학수번호</th>   <!-- lecture_id -->
-            <th>강의명</th>     <!-- lecture_name -->
-            <th>교수명</th>     <!-- professor -->
-            <th>과목구분</th>   <!-- lecture_type -->
-            <th>개설학과</th>   <!-- department -->
-            <th>조회수</th>   <!--count -->
-        </tr>
-        <!-- view에서 넘어온 데이터 출력 -->
-        {% for lecture in lectures %}   
-        <tr>
-            <td>{{lecture.lecture_id}}</td>
-            <td><a href="{% url 'detail' lecture.num %}">{{lecture.lecture_name}}</a></td>
-            <td>{{lecture.professor}}</td>
-            <td>{{lecture.lecture_type}}</td>
-            <td>{{lecture.department}}</td>
-            <td>{{lecture.count}}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    
 
+    <a href="{% url 'home' %}">홈으로 이동</a>
+
+    <!-- 강의 목록 나열 -->
+    <div style="overflow:scroll; overflow-x:hidden; width:1000px; height:500px">
+        <table border="1">
+            <tr>
+                <th>학수번호</th>   <!-- lecture_id -->
+                <th>강의명</th>     <!-- lecture_name -->
+                <th>교수명</th>     <!-- professor -->
+                <th>과목구분</th>   <!-- lecture_type -->
+                <th>개설학과</th>   <!-- department -->
+            </tr>
+            <!-- view에서 넘어온 데이터 출력 -->
+            {% for lecture in lectures %}   
+            <tr>
+                <td>{{lecture.lecture_id}}</td>
+                <td>{{lecture.lecture_name}}</td>
+                <td>{{lecture.professor}}</td>
+                <td>{{lecture.lecture_type}}</td>
+                <td>{{lecture.department}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 {% endblock %}
