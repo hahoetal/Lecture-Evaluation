@@ -1,36 +1,39 @@
 {% extends 'base.html' %}
 {% block content %}
-    <!-- search로 가지 않고 같은 페이지 내에서 검색하는 방법? -->
-    <!-- lectures는 검색 결과로 필터링 된 값(오름차순 정렬 상태) -->
-    {% if not lectures %} 
+<!-- lectures는 검색 결과로 필터링 된 값(학수번호로 오름차순 정렬 상태) -->
+
+    {% if not lectures %}   <!-- 검색 결과 없음 -->
         <h1> 검색 결과가 없습니다.</h1>
         <hr>
-        <a href="{% url 'home' %}">홈으로 이동</a>
 
-    {% else %}
+    {% else %}  <!-- 검색 결과 있음-->
         <h1>검색 결과</h1>
         <hr>
-        <a href="{% url 'home' %}">홈으로 이동</a>
 
-        <table border="1">
-            <tr>
-                <th>학수번호</th>   <!-- lecture_id -->
-                <th>강의명</th>     <!-- lecture_name -->
-                <th>교수명</th>     <!-- professor -->
-                <th>과목구분</th>   <!-- lecture_type -->
-                <th>개설학과</th>   <!-- department -->
-            </tr>
-            {% for foundL in lectures %}
-            <tr>
-                <td>{{foundL.lecture_id}}</td>
-                <td>{{foundL.lecture_name}}</td>
-                <td>{{foundL.professor}}</td>
-                <td>{{foundL.lecture_type}}</td>
-                <td>{{foundL.department}}</td>
-            </tr>
-            {% endfor %}
-        </table>
-
+        <div style="overflow:auto; width:1000px; height:500px">
+            <table border="1">
+                <tr>
+                    <th>학수번호</th>   <!-- lecture_id -->
+                    <th>강의명</th>     <!-- lecture_name -->
+                    <th>교수명</th>     <!-- professor -->
+                    <th>과목구분</th>   <!-- lecture_type -->
+                    <th>개설학과</th>   <!-- department -->
+                </tr>
+                {% for foundL in lectures %}
+                <tr>
+                    <td>{{foundL.lecture_id}}</td>
+                    <td>{{foundL.lecture_name}}</td>
+                    <td>{{foundL.professor}}</td>
+                    <td>{{foundL.lecture_type}}</td>
+                    <td>{{foundL.department}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
     {% endif %}
+
+    <!-- 하이퍼링크 연결 -->
+    <a href="{% url 'home' %}">홈으로 이동</a>
+    <a href="{% url 'lectureList' %}">강의 목록으로 이동</a>
 
 {% endblock %}
