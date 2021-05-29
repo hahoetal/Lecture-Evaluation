@@ -1,7 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
-from .models import Lectures
+from django.core.paginator import Paginator # 페이지네이션
 from django.contrib import messages
+
+from .models import Lectures
+from evaluation.models import Evals
+
 
 # 강의 목록 페이지 띄우기
 def LectureListPage(request):
@@ -35,3 +39,15 @@ def searchLecture(request):
         lectures = lectures.filter(Q(lecture_type=search_type))
 
     return render(request, 'search.html', {'lectures' : lectures})
+
+# 강의 자세히 보기(강의 정보와 강의평을 볼 수 있음)
+def detail(request, lect_id):
+    lect = get_object_or_404(Lectures, pk=lect_id)
+    lect.count += 1 # detail 함수가 실행될 때마다 count 증가 => 조회수 증가
+    lect.save() # db에 저장
+    
+    evals = Evals.objects.filter(lect_id=lect_id) # 사용자가 요청한 강의와 강의 번호가 일치하는 강의평만 가져오기
+    paginator = Paginator(evals, 6) # 강의평 객체 6개를 한 페이지로 자르기
+    page = request.GET.get('page') # 사용자가 요청한 페이지 알아내고
+    evaluations = paginator.get_page(page) # request된 페이지 return
+    return render(request, 'detail.html', {'lect':lect, 'evaluations':evaluations})

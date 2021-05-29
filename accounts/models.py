@@ -4,14 +4,7 @@ from django.conf import settings
 
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
-
-# 학과
-# class Major(models.Model):
-#     code = models.CharField(max_length=2)
-#     name = models.CharField(max_length=15)
-
-#     def __str__(self):
-#         return self.name
+from .choice import *
 
 # 유저를 생성할 때 사용하는 Helper 클래스
 class UserManager(BaseUserManager):
@@ -48,9 +41,10 @@ class User(AbstractBaseUser):
         verbose_name= 'User ID',
         max_length=12,
         unique=True,
+        primary_key= True
     )
 
-    major = models.CharField(max_length=10) # 나중에 여러 보기 중 선택하는 것으로 바꾸기
+    major = models.CharField(max_length=15, choices=MAJOR_CHOICES, default="국어국문학과") # 개발자가 미리 만들어둔 보기 중에서 선택하도록!!
     studentId = models.CharField(unique=True, max_length=8)
     email = models.EmailField(max_length=255, unique=True)
 

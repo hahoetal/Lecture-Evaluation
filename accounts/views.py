@@ -7,8 +7,10 @@ from django.contrib.auth.hashers import check_password
 from django.contrib.auth.decorators import login_required # 데코레이터 사용
 from django.views.generic import FormView, CreateView
 from django.http import HttpResponseNotFound
+from django.core.paginator import Paginator # 페이지네이션
 
 from .models import User
+from evaluation.models import Evals
 from .forms import LoginForm, UserCreationForm, FindIdForm, PWChangeForm, checkPwForm, PWResetForm, SetPWForm
 
 # 임시 홈
@@ -64,6 +66,8 @@ class CreateUser(CreateView): # 장고가 제공하는 유저 생성 기능을 �
 
 # 아이디 찾기
 def find_id(request):
+    form = FindIdForm()
+
     if request.method == 'POST': # 전달 방식이 POST, 즉 아이디를 찾기 위해 요구된 정보를 입력한 경우 
         s_id = request.POST.get('studentId')
         major = request.POST.get('major') # 학과 입력은 select box를 활용하는 방식으로 고치기
@@ -71,13 +75,15 @@ def find_id(request):
         
         try:
             target = User.objects.get(studentId=s_id, major = major, email=email)
+            return render(request, 'find_id.html',{'target': target})
         except:
             # 404 에러 예외 처리
-            response = HttpResponseNotFound()
-            response.write('<p>입력하신 정보와 일치하는 사용자가 없습니다.</p> <p><a href="/">home</a></p>')
-            return response
+            messages.info(request, "입력하신 정보와 일치하는 사용자가 없습니다.")
+            return render(request, 'find_id.html', {'form':form})
+            # response = HttpResponseNotFound()
+            # response.write('<p>입력하신 정보와 일치하는 사용자가 없습니다.</p> <p><a href="/">home</a></p>')
+            # return response
     else: # 전달 방식이 POST가 아님.. 여기서는 GET으로 들어왔다고 생각.
-        form = FindIdForm()
         return render(request, 'find_id.html', {'form':form}) # form을 띄워주기. {'템플릿에서 쓰이는 변수': python 객체}
 
 # 비밀번호 변경
@@ -97,14 +103,19 @@ def change_pw(request):
 # 탈퇴
 @login_required(login_url= '/accounts/login')
 def delete_user(request):
+    form = checkPwForm()
+
     if request.method == 'POST':
         pw = request.POST['password']
         user = request.user
-        if check_password(pw, user.password):
+        if check_password(pw, user.password): # 비밀번호를 제대로 입력한 경우!
             user.delete() # DB에서 유저 삭제
+            messages.info(request, "탈퇴가 완료되었습니다. 강의 평가 서비스를 이용해주셔서 감사합니다.")
             return redirect('/')
+        else: # 비밀번호를 잘못 입력한 경우.
+            messages.warning(request, "비밀번호를 제대로 입력해주세요.")
+            return render(request, 'delete_user.html', {'form':form})
     else:
-        form = checkPwForm()
         return render(request, 'delete_user.html', {'form':form})
 
 # 비밀번호 찾기
@@ -142,6 +153,17 @@ class PWResetCompleteView(PasswordResetCompleteView):
         context['login_url'] = reverse('login')
         return context
 
+# 마이페이지
+@login_required(login_url= '/accounts/login')
+def mypage(request):
+    user = request.user.get_username() # 요청한 유저의 아이디 가져오기
+    myInfo = User.objects.get(userId=user) # 요청한 유저의 아이디와 일치하는 유저 객체 가져오기
+    
+    evals = Evals.objects.filter(author=user) # 요청한 유저가 작성한 평가글 정보 가져오기
+    paginator = Paginator(evals, 6) # 강의평 객체 6개를 한 페이지로 자르기
+    page = request.GET.get('page') # 사용자가 요청한 페이지를 알아내고
+    myEval = paginator.get_page(page) # request된 페이지 return
+    return render(request, 'mypage.html', {'myInfo':myInfo, 'myEval':myEval})
 
 # 용어 정리
 # django는 request와 response 객체를 이용하여 서버와 클라이언트가 상태를 주고 받음.

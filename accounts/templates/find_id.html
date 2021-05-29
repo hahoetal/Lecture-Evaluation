@@ -1,11 +1,19 @@
+<!--아이디 찾기-->
 {% extends 'base.html' %}
 {% block content %}
     {% if target %}
-        {{target.userId}}
+        <p>{{target.userId}}</p>
     {% else %}
+    <h2>아이디 찾기</h2>
+    <hr>
         <form action="{% url 'findId' %}" method="POST">
             {% csrf_token %}
             {{form}}
+
+            {% for message in messages %}
+                <p>❗ {{ message }}</p>
+            {% endfor %}
+
             <input type="submit" value="아이디 찾기">
         </form>
     {% endif %}

@@ -8,6 +8,7 @@ urlpatterns = [
     path('find_id', views.find_id, name="findId"), # 아이디 찾기
     path('change_pw', views.change_pw, name="change_pw"), # 비밀번호 변경
     path('delete_user', views.delete_user, name="delete_user"), # 탈퇴하기
+    path('mypage', views.mypage, name="mypage"), # mypage
 
     # 장고에서 지원하는 비밀번호 찾기 기능 사용하기_사용자가 가입 시 입력한 이메일을 이용.
     path('password_reset/', views.PWResetView.as_view(), name="password_reset"), # 비밀번호를 초기화할 수 있는 링크를 받을 이메일 작성 폼

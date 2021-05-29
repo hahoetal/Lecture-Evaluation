@@ -44,7 +44,6 @@ class UserCreationForm(forms.ModelForm):
         self.fields['major'].label= ' '
         self.fields['major'].widget.attrs.update({
             #'class': '',
-            'placeholder': '전공',
         })
 
         self.fields['studentId'].label= ' '
@@ -126,11 +125,11 @@ class LoginForm(forms.Form):
             try:
                 user= User.objects.get(userId=userId)
             except User.DoesNotExist:
-                self.add_error('userId', '아이디가 존재하지 않습니다.')
+                self.add_error('userId', '❗ 아이디가 존재하지 않습니다.')
                 return
 
             if not check_password(password, user.password):
-                self.add_error('password', '비밀번호가 틀렸습니다.')
+                self.add_error('password', '❗ 비밀번호가 틀렸습니다.')
 
 # 아이디 찾기
 class FindIdForm(forms.ModelForm):

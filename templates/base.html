@@ -8,6 +8,9 @@ base.html을 사용하려면, html의 상단에 {% extends 'base.html' %}을 추
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>강의 평가</title>
+    
+    {% block style %}
+    {% endblock %}
 </head>
 <body>
     {% comment %}
