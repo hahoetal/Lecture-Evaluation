@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Textarea</title>
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+  
+      <style>
+      /* NOTE: The styles were added inline because Prefixfree needs access to your styles and they must be inlined if they are on local disk! */
+      body {
+  background-color: #f2f2f2;
+}
+
+h1 {
+  color: #7F82CC;
+  text-align: center;
+  margin-top: 40px;
+}
+
+p {
+  text-align: center;
+  color: #909090;
+}
+
+.text-wrapper {
+  position: relative;
+  margin: 40px auto;
+  max-width: 500px;
+  width: 100%;
+  border-radius: 2px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+}
+
+.controls-wrapper, .extra-wrapper {
+  padding: 5px;
+}
+
+.controls-wrapper {
+  background-color: #7B88DE;
+  text-align: right;
+  font-size: 14px;
+}
+
+.extra-wrapper {
+  background-color: #909090;
+  color: rgba(255, 255, 255, 0.5);
+  text-align: right;
+}
+
+.textarea-wrapper {
+  height: 250px;
+  font-size: 16px;
+  position: relative;
+  background-color: #fff;
+}
+.textarea-wrapper > textarea, .textarea-wrapper > div {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  appearance: none;
+  padding: 10px;
+  word-wrap: break-word;
+}
+.textarea-wrapper > textarea {
+  color: rgba(0, 0, 0, 0);
+  background-color: rgba(0, 0, 0, 0);
+  z-index: 2;
+  resize: none;
+}
+.textarea-wrapper > div {
+  color: black;
+  z-index: 1;
+}
+.textarea-wrapper .placeholder, .textarea-wrapper .fake-caret {
+  font-weight: lighter;
+  color: #808080;
+}
+.textarea-wrapper .fake-caret {
+  -webkit-animation: flash 1000ms forwards infinite;
+  -moz-animation: flash 1000ms forwards infinite;
+  animation: flash 1000ms forwards infinite;
+  margin-right: -2px;
+  margin-left: -1px;
+}
+
+.hide {
+  display: none !important;
+}
+
+button {
+  color: white;
+  appearance: none;
+  border-radius: 2px;
+  font-weight: lighter;
+  border: 1px solid #ffffff;
+  background-color: rgba(255, 255, 255, 0);
+}
+button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+*, :before, :after {
+  box-sizing: border-box;
+}
+
+@-webkit-keyframes flash {
+  0% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@-moz-keyframes flash {
+  0% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes flash {
+  0% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+
+</head>
+
+<body>
+
+  <h1>A Simple content editor</h1>
+<p>⚠️ Work in progress</p>
+
+<div id="main"></div>
+
+<script type="text/ractive" id="text-input">
+  <div class="text-wrapper">
+    <div class="controls-wrapper">
+      <button on-click="wrap:'italic'" on-mousedown="prevent">italic</button>      
+      <button on-click="wrap:'bold'" on-mousedown="prevent">bold</button>
+    </div>
+    <div class="textarea-wrapper">
+      <textarea value={{test}} on-focus="set('focused', true)" on-blur="set('focused', false)" on-keyup="moveCaret" on-click="clickCaret"></textarea>
+      <div>
+        {{#if test.length}}
+          {{{renderedText}}}
+        {{elseif !focused}}
+          <span class="placeholder">Start typing!</span>
+        {{/if}}
+      </div>
+    </div>
+    <div class="extra-wrapper">
+      <small>Word Count: {{test.length >  0 ? test.split(' ').length : 0}}</small>
+    </div>    
+  </div>
+</script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/ractive/0.7.3/ractive.min.js'></script>
+
+  
+
+    <script  src="js/index.js"></script>
+
+
+
+
+</body>
+
+</html>

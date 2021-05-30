@@ -32,6 +32,7 @@
     {% if messages %}
         <ul class="messages">
             {% for message in messages %}
+
             <li {% if message.tags %} class="alert alert-sm alert-{{ message.tags }}"{% endif %}>
                 {{ message }}
             </li>

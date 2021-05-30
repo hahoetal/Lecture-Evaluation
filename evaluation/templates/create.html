@@ -50,7 +50,6 @@
         .star-rating label:hover,
         .star-rating label:hover ~ label{
             color: #fffb00;
-          
         }
 
         .article {
@@ -65,15 +64,16 @@
             border-radius: 2em;
             border-color: #cccccc;
             background-color:#acb4fa;
-            
-            
+           
             padding : 0.5em;
+
         }
 
         textarea{
             margin:0 auto;
             width:900px; height: 150px;
             wrap : "virtual";
+
             
 
             border: 2px solid;
@@ -100,7 +100,7 @@
             padding : 1em;
             
         }
-        
+
         #save_btn {
             float : right;
             width : 200px; height: 70px;
@@ -117,19 +117,18 @@
         #font{
             font-weight : bold;
             color: #ffffff;
+
         }
     </style>
 {% endblock %}
 
 {% block content %}
 
-    <form action="" method="POST">
-        {% csrf_token %}
-        {{form}}
-
-        <h3>새 강의평 쓰기</h3>
-        <hr>
-        <div class="middle article">
+    <div class="middle">
+<form action="" method="POST">
+    <h3>새 강의평 쓰기</h3>
+    <hr>
+    <div class="middle article">
         <span id="font">과제 난이도 Assignment Difficulty&nbsp;</span>
         <span class="star-rating">
             <input type="radio" id="hw5-stars" name="hw_level" value=5>
@@ -171,25 +170,13 @@
             <input type="radio" id="h1-stars" name="lect_power" value=1>
             <label for="h1-stars" class="star">&#9733;</label>
         </span>
-        </div>
-
-        <br>
-        <!--
-        <div class="middle">
-        <textarea style="resize: vertical" placeholder="강의에 대한 총평을 작성해주세요. 등록 후에는 수정 및 삭제가 불가능하므로 신중하게 작성해주세요."></textarea>
-        </div>
-        -->
-
-        <div class="middle">
-        <div class="form-floating middle">
-        <textarea class="form-control textarea" placeholder="강의에 대한 총평을 작성해주세요. 등록 후에는 수정 및 삭제가 불가능하므로 신중하게 작성해주세요." 
-        id="floatingTextarea2"style="height: 150px"></textarea>
-        <input id = "save_btn" type="submit" value="등록하기">
-        </div>
-<!--<div class="btn-group" role="group" aria-label="Basic outlined example">
-    <button type="button" class="btn btn-outline-primary">Right</button>
-    </div>
- -->   </div>
-    </form>
+    </div><br>
     
+    <div class="form-floating middle">
+        {% csrf_token %}
+        {{form.content}}
+        <input id = "save_btn" type="submit" value="등록하기">
+    </div>
+</form>
+</div> 
 {% endblock %}

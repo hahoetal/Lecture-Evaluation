@@ -35,6 +35,7 @@
         border: 2px solid;
         border-color: #5C65BB;
     }
+  
     .button{
         float: right;
         width : 200px; height: 50px;
@@ -50,6 +51,7 @@
        font-style : italic;
        text-align : center;
     }
+
 
 
 </style>
@@ -71,6 +73,7 @@
         <hr>
 
         <div class = "table" id="color">
+
         <div style="overflow:auto; width:1000px; height:500px">
             <table border="1" class="table_contents">
                 <tr>
@@ -92,6 +95,7 @@
             </table>
         </div>
         </div>
+
     {% endif %}
 
     <!-- 하이퍼링크 연결 -->
@@ -100,6 +104,6 @@
     <div class="button">
     <a href="{% url 'lectureList' %}">강의 목록으로 이동</a>
     </div>
-
     </div>
+
 {% endblock %}
