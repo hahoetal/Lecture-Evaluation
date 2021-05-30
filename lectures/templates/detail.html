@@ -21,6 +21,19 @@
     <p>교수: {{lect.professor}}</p>
     <p>개설학과: {{lect.department}}</p>
     <p>과목구분: {{lect.lecture_type}}</p>
+    <button onclick="showHide()">강의계획서</button>
+
+    <!--사용자가 강의계획서 보기 버튼을 누른 경우에만 보여주기-->
+    <div id="showHide" style="display: none;">
+        <!--강의 계획서가 있으면, 보여주고 없으면 없다는 메시지 띄우기-->
+        {% if lect.lecture_plan %}
+            <img src="{{lect.lecture_plan.url}}" alt="강의계획서">
+        {% else %}
+            {% load static %}
+            <p>강의계획서가 없습니다.</p>
+        {% endif %}
+    </div>
+    
 
     <h2>강의평</h2>
     <hr>
@@ -96,4 +109,15 @@
     {% else %}
         <p>강의평이 없습니다.</p>
     {% endif %}
+
+    <script>
+        function showHide(){
+        if(document.getElementById("showHide").style.display =='none'){
+            document.getElementById("showHide").style.display ='block';
+        }
+        else{
+            document.getElementById("showHide").style.display ='none';
+        }
+    }
+    </script>
 {% endblock %}
