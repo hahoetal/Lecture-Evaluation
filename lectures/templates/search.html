@@ -35,6 +35,23 @@
         border: 2px solid;
         border-color: #5C65BB;
     }
+  
+    .button{
+        float: right;
+        width : 200px; height: 50px;
+        background-color : #5C65BB;
+        border : 10px solid #FFFFFF;
+        border-radius: 5em;
+
+    }
+    .button > a{
+       display: block;
+       line-height: 50px;
+       color : #ffffff;
+       font-style : italic;
+       text-align : center;
+    }
+
 
 
 </style>
@@ -56,32 +73,37 @@
         <hr>
 
         <div class = "table" id="color">
-            <div style="overflow:auto; width:1000px; height:500px">
-                <table border="1" class="table_contents">
-                    <tr>
-                        <th>학수번호</th>   <!-- lecture_id -->
-                        <th>강의명</th>     <!-- lecture_name -->
-                        <th>교수명</th>     <!-- professor -->
-                        <th>과목구분</th>   <!-- lecture_type -->
-                        <th>개설학과</th>   <!-- department -->
-                    </tr>
-                    {% for foundL in lectures %}
-                    <tr>
-                        <td>{{foundL.lecture_id}}</td>
-                        <td>{{foundL.lecture_name}}</td>
-                        <td>{{foundL.professor}}</td>
-                        <td>{{foundL.lecture_type}}</td>
-                        <td>{{foundL.department}}</td>
-                    </tr>
-                    {% endfor %}
-                </table>
-            </div>
+
+        <div style="overflow:auto; width:1000px; height:500px">
+            <table border="1" class="table_contents">
+                <tr>
+                    <th>학수번호</th>   <!-- lecture_id -->
+                    <th>강의명</th>     <!-- lecture_name -->
+                    <th>교수명</th>     <!-- professor -->
+                    <th>과목구분</th>   <!-- lecture_type -->
+                    <th>개설학과</th>   <!-- department -->
+                </tr>
+                {% for foundL in lectures %}
+                <tr>
+                    <td>{{foundL.lecture_id}}</td>
+                    <td>{{foundL.lecture_name}}</td>
+                    <td>{{foundL.professor}}</td>
+                    <td>{{foundL.lecture_type}}</td>
+                    <td>{{foundL.department}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
         </div>
 
     {% endif %}
 
     <!-- 하이퍼링크 연결 -->
-    <a href="{% url 'home' %}">홈으로 이동</a>
+    <div class="button">
+    <a href="{% url 'home' %}">홈으로 이동</a></div>
+    <div class="button">
     <a href="{% url 'lectureList' %}">강의 목록으로 이동</a>
     </div>
+    </div>
+
 {% endblock %}

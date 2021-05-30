@@ -43,47 +43,42 @@
         }
 
         .star-rating :checked ~ label{
-            color: #4fc990;
+            color: #fffb00;
         }
 
         /*마우스를 올려두면 색이 변함*/
         .star-rating label:hover,
         .star-rating label:hover ~ label{
-            color: #4fc990;
-          
+            color: #fffb00;
         }
 
         .article {
-            margin:0 auto;
+            margin-top: 0;
             
             width: 900px; height: 150px;
-            color: #5C65BB;
+            color: #ffffff;
             
             text-align: center;
-            
             border:2px solid;
-            
-            
+        
             border-radius: 2em;
             border-color: #cccccc;
-            background-color:#ffe;
-            box-shadow:0 0 1em 1px rgba(0,0,0,.25);
-            <!--color:#006;-->
-            font-family:cursive;
-            
-            padding : 1em;
+            background-color:#acb4fa;
+           
+            padding : 0.5em;
+
         }
 
         textarea{
             margin:0 auto;
             width:900px; height: 150px;
-            wrap : "virtual"
+            wrap : "virtual";
+
             
 
             border: 2px solid;
             border-radius: 2em;
             border-color: #5C65BB;
-            <!--border-radius: 5%;-->
             
             position:relative;
             box-shadow:0 0 1em 1px #5C65BB;
@@ -95,41 +90,17 @@
 
         .textarea{
             margin:0 auto;
-            width:900px; height: 150px;
-            wrap : "virtual"
+            width:900px;
+            wrap : "virtual";
             border: 2px solid;
             border-radius: 2em;
-            <!--border-radius: 5%;-->
             border-color: #5C65BB;
             position:relative;
-        
             margin-bottom : 50px;
-
             padding : 1em;
             
         }
-        <!--.text{
-            width: 960px; height: 300px;
-            color: #5fa3f5;
-            position: absolute;
-            left: 50%; top: 20%;
-            transform: translate(-50%, -50%);
 
-            border:thick 2px solid;
-            border-radius: 5%;
-            border-color: #5C65BB;
-
-    
-            background-color:#ffe;
-            box-shadow:0 0 1em 1px rgba(0,0,0,.25);
-            <!--color:#006;-->
-            font-family:cursive;
-            
-            padding : 1em;
-        
-        
-        }-->
-        
         #save_btn {
             float : right;
             width : 200px; height: 70px;
@@ -145,21 +116,20 @@
 
         #font{
             font-weight : bold;
-            color: black;
+            color: #ffffff;
+
         }
     </style>
 {% endblock %}
 
 {% block content %}
 
-    <form action="" method="POST">
-        {% csrf_token %}
-        {{form}}
-
-        <h3>새 강의평 쓰기</h3>
-        <hr>
-        <div class="article">
-        <label for="hw_level">과제 난이도 Assignment Difficulty&nbsp;</label>
+    <div class="middle">
+<form action="" method="POST">
+    <h3>새 강의평 쓰기</h3>
+    <hr>
+    <div class="middle article">
+        <span id="font">과제 난이도 Assignment Difficulty&nbsp;</span>
         <span class="star-rating">
             <input type="radio" id="hw5-stars" name="hw_level" value=5>
             <label for="hw5-stars" class="star">&#9733;</label>
@@ -173,7 +143,7 @@
             <label for="hw1-stars" class="star">&#9733;</label>
         </span><br>
 
-        <span id="font">시험 난이도 Exam Difficulty&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <span id="font">시험 난이도 Exam Difficulty&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <span class="star-rating">
             <input type="radio" id="t5-stars" name="test_level" value=5>
             <label for="t5-stars" class="star">&#9733;</label>
@@ -187,7 +157,7 @@
             <label for="t1-stars" class="star">&#9733;</label>
         </span><br>
 
-        <span>강의력 Teaching Skills&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <span id="font">강의력 Teaching Skills&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <span class="star-rating">
             <input type="radio" id="h5-stars" name="lect_power" value=5>
             <label for="h5-stars" class="star">&#9733;</label>
@@ -200,26 +170,13 @@
             <input type="radio" id="h1-stars" name="lect_power" value=1>
             <label for="h1-stars" class="star">&#9733;</label>
         </span>
-        </div>
-
-        <br>
-        <div class="middle">
-        <textarea style="resize: vertical" placeholder="강의에 대한 총평을 작성해주세요. 등록 후에는 수정 및 삭제가 불가능하므로 신중하게 작성해주세요."></textarea>
-        </div>
-
-        <div class="middle">
-        <input id = "save_btn" type="submit" value="등록하기">
-        </div>
-
-<div class="btn-group" role="group" aria-label="Basic outlined example">
-          <button type="button" class="btn btn-outline-primary">Right</button>
-          </div>
-
-<div class="form-floating middle">
-<textarea class="form-control textarea" placeholder="Leave a comment here" 
-id="floatingTextarea2" style="height: 100px"></textarea>
-<label for="floatingTextarea2">Comments</label>
-</div>
-    </form>
+    </div><br>
     
+    <div class="form-floating middle">
+        {% csrf_token %}
+        {{form.content}}
+        <input id = "save_btn" type="submit" value="등록하기">
+    </div>
+</form>
+</div> 
 {% endblock %}

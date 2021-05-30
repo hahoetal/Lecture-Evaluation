@@ -1,6 +1,33 @@
 {% extends 'base.html' %}
-{% block content %}
+{% block style%}
+<style>
+    .middle{
+        margin: 0 auto;
+        width: 1000px;
+    }
+    
+    .button{
+        float: right;
+        width : 300px; height: 50px;
+        background-color : #5C65BB;
+        border : 10px solid #FFFFFF;
+        border-radius: 5em;
 
+    }
+    .button > a{
+       display: block;
+       line-height: 50px;
+       color : #ffffff;
+       font-style : italic;
+       text-align : center;
+    }
+    
+</style>
+{% endblock %}
+
+
+{% block content %}
+    <div class="middle">
     <!-- 4가지 모두 입력이 안됐을 때 메시지 출력 -->
     {% if messages %}
         <ul class="messages">
@@ -14,7 +41,10 @@
     {% endif %}
 
     <!-- 하이퍼링크 연결 -->
-    <a href="{% url 'home' %}">홈으로 이동</a>
+    <div class="button">
+    <a href="{% url 'home' %}" >홈으로 이동</a></div>
+    <div class="button">
     <a href="{% url 'lectureList' %}">강의 목록으로 이동</a>
-
+    </div>
+</div>
 {% endblock %}

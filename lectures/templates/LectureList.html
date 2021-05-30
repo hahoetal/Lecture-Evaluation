@@ -190,7 +190,8 @@
     </form>
 
     <div class="button">
-        <a href="{% url 'home' %}">홈으로 이동</a>
+    <a href="{% url 'home' %}">홈으로 이동</a>
+
     </div>
 
     <!-- 강의 목록 나열 -->
@@ -210,11 +211,10 @@
             {% for lecture in lectures %}   
             <tr>
                 <td>{{lecture.lecture_id}}</td>
-                <td><a href="{% url 'detail' lecture.num %}">{{lecture.lecture_name}}</a></td>
+                <td>{{lecture.lecture_name}}</td>
                 <td>{{lecture.professor}}</td>
                 <td>{{lecture.lecture_type}}</td>
                 <td>{{lecture.department}}</td>
-                <td>{{lecture.count}}</td>
             </tr>
             {% endfor %}
         </table>

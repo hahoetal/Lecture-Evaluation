@@ -16,13 +16,12 @@
     }
 
     .lecture_info{
-            width:1000px; height: 150px;
-            border: 3px solid;
-            border-radius: 2em;
-            border-color: #5C65BB;
-            position:relative;
-            padding : 1em;
-            color : 
+        width:1000px; height: 150px;
+        border: 3px solid;
+        border-radius: 2em;
+        border-color: #5C65BB;
+        position:relative;
+        padding : 1em;
     }
 
     .button{
@@ -51,9 +50,10 @@
             box-shadow:0 0 0.5em 0.5px #e6fdff;
             padding : 1em;
             color : #ffffff;
+            margin-bottom: 130px;
     }
     h3{
-        font weight: bold;
+        font-weight: bold;
         color : #000000;
     }
 </style>
@@ -66,89 +66,87 @@
     <h2>강의 정보</h2>
     <hr>
     <div class="lecture_info">
-    <p>강의명: {{lect.lecture_name}} &#128064; {{lect.count}}</p> <!--조회수-->
-    <p>교수: {{lect.professor}}</p>
-    <p>개설학과: {{lect.department}}</p>
-    <p>과목구분: {{lect.lecture_type}}</p>
-    </div>
+        <p>강의명: {{lect.lecture_name}} &#128064; {{lect.count}}</p> <!--조회수-->
+        <p>교수: {{lect.professor}}</p>
+        <p>개설학과: {{lect.department}}</p>
+        <p>과목구분: {{lect.lecture_type}}</p>
+        <p>과제난이도:
+            {% if hw_avg == 0 %}
+                <span class="stars">&#9734; &#9734; &#9734; &#9734; &#9734;</span>
+            {% elif hw_avg > 0 and hw_avg < 2 %}
+                <span class="stars">&#9733; &#9734; &#9734; &#9734; &#9734;</span>
+            {% elif hw_avg > 1 and hw_avg < 3 %}
+                <span class="stars">&#9733; &#9733; &#9734; &#9734; &#9734;</span>
+            {% elif hw_avg > 2 and hw_avg < 4 %}
+                <span class="stars">&#9733; &#9733; &#9733; &#9734; &#9734;</span>
+            {% elif hw_avg > 3 and hw_avg < 5 %}
+                <span class="stars">&#9733; &#9733; &#9733; &#9733;	&#9734;</span>
+            {% elif hw_avg >= 5 %}
+                <span class="stars">&#9733; &#9733; &#9733; &#9733; &#9733;</span>
+            {% endif %}
+            {{hw_avg}}
+        </p>
+        <p>시험난이도:
+            {% if hw_avg == 0 %}
+                <span class="stars">&#9734; &#9734; &#9734; &#9734; &#9734;</span> 
+            {% elif hw_avg > 0 and hw_avg < 2 %}
+                <span class="stars">&#9733; &#9734; &#9734; &#9734; &#9734;</span>
+            {% elif hw_avg > 1 and hw_avg < 3 %}
+                <span class="stars">&#9733; &#9733; &#9734; &#9734; &#9734;</span>
+            {% elif hw_avg > 2 and hw_avg < 4 %}
+                <span class="stars">&#9733; &#9733; &#9733; &#9734; &#9734;</span>
+            {% elif hw_avg > 3 and hw_avg < 5%}
+                <span class="stars">&#9733; &#9733; &#9733; &#9733;	&#9734;</span>
+            {% elif hw_avg >= 5 %}
+                <span class="stars">&#9733; &#9733; &#9733; &#9733; &#9733;</span>
+            {% endif %}
+            {{test_avg}}
+        </p>
+        <p>강의력:
+            {% if hw_avg == 0 %}
+                <span class="stars">&#9734; &#9734; &#9734; &#9734; &#9734;</span> 
+            {% elif hw_avg > 0 and hw_avg < 2 %}
+                <span class="stars">&#9733; &#9734; &#9734; &#9734; &#9734;</span>
+            {% elif hw_avg > 1 and hw_avg < 3 %}
+                <span class="stars">&#9733; &#9733; &#9734; &#9734; &#9734;</span>
+            {% elif hw_avg > 2 and hw_avg < 4 %}
+                <span class="stars">&#9733; &#9733; &#9733; &#9734; &#9734;</span>
+            {% elif hw_avg > 3 and hw_avg < 5%}
+                <span class="stars">&#9733; &#9733; &#9733; &#9733;	&#9734;</span>
+            {% elif hw_avg >= 5 %}
+                <span class="stars">&#9733; &#9733; &#9733; &#9733; &#9733;</span>
+            {% endif %}
+            {{lect_power_avg}}
+        </p>
+        <button onclick="showHide()">강의계획서</button>
 
-    <p>과제난이도:
-        {% if hw_avg == 0 %}
-            <span class="stars">&#9734; &#9734; &#9734; &#9734; &#9734;</span>
-        {% elif hw_avg > 0 and hw_avg < 2 %}
-            <span class="stars">&#9733; &#9734; &#9734; &#9734; &#9734;</span>
-        {% elif hw_avg > 1 and hw_avg < 3 %}
-            <span class="stars">&#9733; &#9733; &#9734; &#9734; &#9734;</span>
-        {% elif hw_avg > 2 and hw_avg < 4 %}
-            <span class="stars">&#9733; &#9733; &#9733; &#9734; &#9734;</span>
-        {% elif hw_avg > 3 and hw_avg < 5 %}
-            <span class="stars">&#9733; &#9733; &#9733; &#9733;	&#9734;</span>
-        {% elif hw_avg >= 5 %}
-            <span class="stars">&#9733; &#9733; &#9733; &#9733; &#9733;</span>
-        {% endif %}
-        {{hw_avg}}
-    </p>
-    <p>시험난이도:
-        {% if hw_avg == 0 %}
-            <span class="stars">&#9734; &#9734; &#9734; &#9734; &#9734;</span> 
-        {% elif hw_avg > 0 and hw_avg < 2 %}
-            <span class="stars">&#9733; &#9734; &#9734; &#9734; &#9734;</span>
-        {% elif hw_avg > 1 and hw_avg < 3 %}
-            <span class="stars">&#9733; &#9733; &#9734; &#9734; &#9734;</span>
-        {% elif hw_avg > 2 and hw_avg < 4 %}
-            <span class="stars">&#9733; &#9733; &#9733; &#9734; &#9734;</span>
-        {% elif hw_avg > 3 and hw_avg < 5%}
-            <span class="stars">&#9733; &#9733; &#9733; &#9733;	&#9734;</span>
-        {% elif hw_avg >= 5 %}
-            <span class="stars">&#9733; &#9733; &#9733; &#9733; &#9733;</span>
-        {% endif %}
-        {{test_avg}}
-    </p>
-    <p>강의력:
-        {% if hw_avg == 0 %}
-            <span class="stars">&#9734; &#9734; &#9734; &#9734; &#9734;</span> 
-        {% elif hw_avg > 0 and hw_avg < 2 %}
-            <span class="stars">&#9733; &#9734; &#9734; &#9734; &#9734;</span>
-        {% elif hw_avg > 1 and hw_avg < 3 %}
-            <span class="stars">&#9733; &#9733; &#9734; &#9734; &#9734;</span>
-        {% elif hw_avg > 2 and hw_avg < 4 %}
-            <span class="stars">&#9733; &#9733; &#9733; &#9734; &#9734;</span>
-        {% elif hw_avg > 3 and hw_avg < 5%}
-            <span class="stars">&#9733; &#9733; &#9733; &#9733;	&#9734;</span>
-        {% elif hw_avg >= 5 %}
-            <span class="stars">&#9733; &#9733; &#9733; &#9733; &#9733;</span>
-        {% endif %}
-        {{lect_power_avg}}
-    </p>
-    <button onclick="showHide()">강의계획서</button>
-
-    <!--사용자가 강의계획서 보기 버튼을 누른 경우에만 보여주기-->
-    <div id="showHide" style="display: none;">
-        <!--강의 계획서가 있으면, 보여주고 없으면 없다는 메시지 띄우기-->
-        {% if lect.lecture_plan %}
-            <img src="{{lect.lecture_plan.url}}" alt="강의계획서">
-        {% else %}
-            {% load static %}
-            <p>강의계획서가 없습니다.</p>
-        {% endif %}
-    </div>
-    
-
-    <h2>강의평</h2>
-    <hr>
-    <form action="{% url 'ordering' lect.num %}">
-        <select name="sort">
-            <option value="">최신순</option>
-            <option value="recommand">추천순</option>
-        </select>
-        <button type="submit">정렬</button>
-    </form>
-
+        <!--사용자가 강의계획서 보기 버튼을 누른 경우에만 보여주기-->
+        <div id="showHide" style="display: none;">
+            <!--강의 계획서가 있으면, 보여주고 없으면 없다는 메시지 띄우기-->
+            {% if lect.lecture_plan %}
+                <img src="{{lect.lecture_plan.url}}" alt="강의계획서">
+            {% else %}
+                {% load static %}
+                <p>강의계획서가 없습니다.</p>
+            {% endif %}
+        </div>
+    </div>    
     <div class="button">
         <a href="{% url 'create_eval' lect.num %}">강의평 작성하기</a>
     </div>
+    <h2>강의평</h2>
+    <hr>
+    
 
     <div class ="retrieve_eval">
+        <form action="{% url 'ordering' lect.num %}" style="color:black;">
+            <select name="sort">
+                <option value="">최신순</option>
+                <option value="recommand">추천순</option>
+            </select>
+            <button type="submit">정렬</button>
+        </form>
+
     {% if evaluations %}
         {% for eval in evaluations %}
             {% if eval.author != NULL %}
