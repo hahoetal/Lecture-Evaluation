@@ -1,24 +1,55 @@
+  
 <!--새로운 비밀번호를 입력하는 폼 -->
 
 {% extends 'base.html' %}
 {% block content %}
-    <h2>새 비밀번호 입력</h2>
+<style>
+    .pw_r_cf{
+        border:2px solid;
+        border-radius: 5%;
+        border-color: #5C65BB;
+        width: 500px; height: 300px;
+        position: absolute;
+        left: 50%; top: 50%;
+        transform: translate(-50%, -50%);
+    }
+    h2{
+        text-align: center;
+    }
+    form{
+        margin-left: 20px;
+    }
+    #pwrcf_btn{
+        background-color: #5C65BB;
+        margin-top: 20px;
+        width:80%; height: 30px;
+        border: none;
+        border-radius: 5em;
+        margin-left: 30px;
+        color:#ffffff;
+    }
+</style>
+<div class="pw_r_cf">
+    <div class="content">
+        <h2>새 비밀번호 입력</h2>
 
-    <form action='' method="POST">
-        <div>
-            <h4>비밀번호 변경 Tips</h4>
-            <ul>
-                <li>다른 개인정보와 비슷한 비밀번호는 사용할 수 없습니다.</li>
-                <li>비밀번호는 최소 8자 이상이어야 합니다.</li>
-                <li>비밀번호는 일상적으로 사용되는 비밀번호일 수 없습니다.</li>
-                <li>비밀번호는 전부 숫자로 할 수 없습니다.</li>
-            </ul>
-        </div>
-        
-        {% csrf_token %}
-        {{form.new_password1}}
-        {{form.new_password2}}
+        <form action='' method="POST">
+            <div>
+                <h4>비밀번호 변경 Tips</h4>
+                <ul>
+                    <li>다른 개인정보와 비슷한 비밀번호는 사용할 수 없습니다.</li>
+                    <li>비밀번호는 최소 8자 이상이어야 합니다.</li>
+                    <li>비밀번호는 일상적으로 사용되는 비밀번호일 수 없습니다.</li>
+                    <li>비밀번호는 전부 숫자로 할 수 없습니다.</li>
+                </ul>
+            </div>
+            
+            {% csrf_token %}
+            {{form.new_password1}}
+            {{form.new_password2}}
 
-        <input type="submit" value="비밀번호 초기화">
-    </form>
+            <input id="pwrcf_btn" type="submit" value="비밀번호 초기화">
+        </form>
+    </div>
+</div>
 {% endblock %}
