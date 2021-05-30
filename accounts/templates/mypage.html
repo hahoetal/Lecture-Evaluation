@@ -1,26 +1,78 @@
 <!--회원가입 정보와 작성한 글을 볼 수 있는 페이지-->
 
 {% extends 'base.html' %}
-
 {% block content %}
-<h1>마이페이지 입니다.</h1>
 
-<h3>나의 정보</h3>
-<p>{{myInfo.userId}}</p>
-<p>{{myInfo.studentId}}</p>
-<p>{{myInfo.major}}</p>
-<p>{{myInfo.email}}</p>
-
-<hr>
-<h3>내가 작성한 강의평</h3>
-
-{% if myEval %}
-    {% for eval in myEval %}
-        <a href="{% url 'detail' eval.lect_id.num %}"><p>{{eval.lect_id.lecture_name}}__{{eval.date|date:'Y-m-d'}}</p></a>
-        <p>{{eval.summary}}</p>
-        <!--삭제 버튼을 눌렀을 때 바로 삭제하지 않고 한 번 물어보기..-->
-        <a href="{% url 'delete_eval' eval.num %}" onclick="return confirm('확인을 누르면 강의평이 삭제됩니다.');">삭제</a>
-    {% endfor %}
+<style>
+    .mypageHtml{
+        width: 98%; height: 70%;
+        position: absolute;
+        left: 50%; top: 45%;
+        transform: translate(-50%, -50%);
+    }
+    hr{
+        width: 90%;
+        background-color:#5C65BB;
+        height:1px;
+    }
+    .userInfo{
+        border:2px solid;
+        border-radius: 5%;
+        border-color: #5C65BB;
+        width: 300px; height: 400px;
+        margin-left: 30px;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        padding-left:30px;
+        padding-top:30px;
+    }
+    .evaluation{
+        width: 1000px; height: 400px;
+        margin-left: 30px;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        padding-left:30px;
+        padding-top:20px;
+    }
+    p{
+        line-height: 30px;
+    }
+    .mypageHtml li{
+        float:left;
+        list-style-type: none;
+    }
+</style>
+<div class="mypageHtml">
+    <ul>
+        <li>
+            <div class="userInfo">
+                <h3>나의 정보</h3>
+                <br><hr><br>
+                <p>아이디 : {{myInfo.userId}}</p>
+                <p>학번 : {{myInfo.studentId}}</p>
+                <p>전공 : {{myInfo.major}}</p>
+                <p>이메일 : {{myInfo.email}}</p>
+            </div>
+        </li>
+        <li>
+            <div class="evaluation">
+                <h3>내가 작성한 강의평</h3>
+                <br><hr><br>
+                {% if myEval %}
+                    {% for eval in myEval %}
+                        <a href="{% url 'show_eval' eval.lect_id.num %}"><p>{{eval.lect_id.lecture_name}}__{{eval.date|date:'Y-m-d'}}</p></a><br>
+                        <p>{{eval.summary}}</p><br>
+                        <!--삭제 버튼을 눌렀을 때 바로 삭제하지 않고 한 번 물어보기..-->
+                        <a href="{% url 'delete_eval' eval.num %}" onclick="return confirm('확인을 누르면 강의평이 삭제됩니다.');">삭제</a>
+                    {% endfor %}
+                {% else %}
+                    <p>작성한 강의평이 없습니다.</p>
+                    <p><a href="{% url 'lectureList' %}">강의평 작성하러 가기</a></p>
+                {% endif %}
+            </div>
+        </li>
+    </ul>
+</div>
 
     <!--페이지 navi-->
     <div>
@@ -45,6 +97,5 @@
     <p>작성한 강의평이 없습니다.</p>
     <p><a href="{% url 'lectureList' %}">강의평 작성하러 가기</a></p>
 {% endif %}
-
 
 {% endblock %}

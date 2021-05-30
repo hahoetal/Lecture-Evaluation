@@ -1,13 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
+<style>
+    #chgPw_btn{
+        background-color: #5C65BB;
+        margin-top: 20px;
+        width:80%; height: 30px;
+        border: none;
+        border-radius: 5em;
+        margin-left: 30px;
+        color:#ffffff;
+    }
+</style>
+<div>
     {% if target %}
         {{target.userId}}
     {% else %}
         <form action="{% url 'change_pw' %}" method="POST">
             {% csrf_token %}
             {{form}}
-            <input type="submit" value="비밀번호 바꾸기">
+            <input id="chgPw_btn" type="submit" value="비밀번호 바꾸기">
         </form>
     {% endif %}
-
+</div>
 {% endblock %}
