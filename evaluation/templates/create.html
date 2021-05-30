@@ -1,13 +1,29 @@
 <!--평가글 작성 폼-->
-
 {% extends 'base.html' %}
-
 {% block style %}
-    <style>
+<head>
+<!-- 합쳐지고 최소화된 최신 CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+<!-- 부가적인 테마 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+</head>
+<style>
+        h3{
+            margin: 0 auto;
+            width: 900px;margin-top:30px;
+        }
+        .middle{
+            margin: 0 auto;
+            width: 900px;
+        }
         .star-rating{
-            display: flex;
+            display: inline-flex;
             flex-direction: row-reverse;
-            font-size: 25px;
+            font-size: 20px;
             justify-content: space-around;
             padding: 5px;
             text-align: center;
@@ -17,21 +33,90 @@
         /*radio 버튼 숨기기*/
         .star-rating input{
             display: none;
+            
         }
 
         .star-rating label{
             color: #ccc;
             cursor: pointer;
+    
         }
 
         .star-rating :checked ~ label{
-            color: #f90;
+            color: #fffb00;
         }
 
         /*마우스를 올려두면 색이 변함*/
         .star-rating label:hover,
         .star-rating label:hover ~ label{
-            color: #fc0;
+            color: #fffb00;
+          
+        }
+
+        .article {
+            margin-top: 0;
+            
+            width: 900px; height: 150px;
+            color: #ffffff;
+            
+            text-align: center;
+            border:2px solid;
+        
+            border-radius: 2em;
+            border-color: #cccccc;
+            background-color:#acb4fa;
+            
+            
+            padding : 0.5em;
+        }
+
+        textarea{
+            margin:0 auto;
+            width:900px; height: 150px;
+            wrap : "virtual";
+            
+
+            border: 2px solid;
+            border-radius: 2em;
+            border-color: #5C65BB;
+            
+            position:relative;
+            box-shadow:0 0 1em 1px #5C65BB;
+            margin-bottom : 50px;
+
+            padding : 1em;
+            
+        }
+
+        .textarea{
+            margin:0 auto;
+            width:900px;
+            wrap : "virtual";
+            border: 2px solid;
+            border-radius: 2em;
+            border-color: #5C65BB;
+            position:relative;
+            margin-bottom : 50px;
+            padding : 1em;
+            
+        }
+        
+        #save_btn {
+            float : right;
+            width : 200px; height: 70px;
+            background-color : #5C65BB;
+            display : block;
+            line-height : 70px;
+            color: #ffffff;
+            border: none;
+            border-radius: 3em;
+            font-weight : bold;
+            
+        }
+
+        #font{
+            font-weight : bold;
+            color: #ffffff;
         }
     </style>
 {% endblock %}
@@ -41,8 +126,11 @@
     <form action="" method="POST">
         {% csrf_token %}
         {{form}}
-        
-        <p>과제난이도</p>
+
+        <h3>새 강의평 쓰기</h3>
+        <hr>
+        <div class="middle article">
+        <span id="font">과제 난이도 Assignment Difficulty&nbsp;</span>
         <span class="star-rating">
             <input type="radio" id="hw5-stars" name="hw_level" value=5>
             <label for="hw5-stars" class="star">&#9733;</label>
@@ -54,9 +142,9 @@
             <label for="hw2-stars" class="star">&#9733;</label>
             <input type="radio" id="hw1-stars" name="hw_level" value=1>
             <label for="hw1-stars" class="star">&#9733;</label>
-        </span>
+        </span><br>
 
-        <p>시험 난이도</p>
+        <span id="font">시험 난이도 Exam Difficulty&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <span class="star-rating">
             <input type="radio" id="t5-stars" name="test_level" value=5>
             <label for="t5-stars" class="star">&#9733;</label>
@@ -68,9 +156,9 @@
             <label for="t2-stars" class="star">&#9733;</label>
             <input type="radio" id="t1-stars" name="test_level" value=1>
             <label for="t1-stars" class="star">&#9733;</label>
-        </span>
+        </span><br>
 
-        <p>강의력</p>
+        <span id="font">강의력 Teaching Skills&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <span class="star-rating">
             <input type="radio" id="h5-stars" name="lect_power" value=5>
             <label for="h5-stars" class="star">&#9733;</label>
@@ -83,7 +171,25 @@
             <input type="radio" id="h1-stars" name="lect_power" value=1>
             <label for="h1-stars" class="star">&#9733;</label>
         </span>
-        
-        <input type="submit" value="저장">
+        </div>
+
+        <br>
+        <!--
+        <div class="middle">
+        <textarea style="resize: vertical" placeholder="강의에 대한 총평을 작성해주세요. 등록 후에는 수정 및 삭제가 불가능하므로 신중하게 작성해주세요."></textarea>
+        </div>
+        -->
+
+        <div class="middle">
+        <div class="form-floating middle">
+        <textarea class="form-control textarea" placeholder="강의에 대한 총평을 작성해주세요. 등록 후에는 수정 및 삭제가 불가능하므로 신중하게 작성해주세요." 
+        id="floatingTextarea2"style="height: 150px"></textarea>
+        <input id = "save_btn" type="submit" value="등록하기">
+        </div>
+<!--<div class="btn-group" role="group" aria-label="Basic outlined example">
+    <button type="button" class="btn btn-outline-primary">Right</button>
+    </div>
+ -->   </div>
     </form>
+    
 {% endblock %}

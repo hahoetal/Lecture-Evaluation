@@ -171,17 +171,17 @@ class FindIdForm(forms.ModelForm):
 class PWChangeForm(PasswordChangeForm):
     def __init__(self, *args, **kwargs):
         super(PWChangeForm, self).__init__(*args, **kwargs)
-        self.fields['old_password'].label = "기존 비밀번호"
+        self.fields['old_password'].label = "기존 비밀번호 "
         self.fields['old_password'].widget.attrs.update({
-            'class': '',
+            'class': 'org_pw',
         })
-        self.fields['new_password1'].label = "새 비밀번호"
+        self.fields['new_password1'].label = "새 비밀번호 "
         self.fields['new_password1'].widget.attrs.update({
-            'class':'',
+            'class':'new_pw',
         })
-        self.fields['new_password2'].label = "새 비밀번호 확인"
+        self.fields['new_password2'].label = "새 비밀번호 확인 "
         self.fields['new_password2'].widget.attrs.update({
-            'class': '',
+            'class': 'new_pwr',
         })
 
 # 탈퇴하기_탈퇴하려는 사용자 비밀번호 확인
@@ -190,7 +190,7 @@ class checkPwForm(forms.Form):
         label='비밀번호',
         widget= forms.PasswordInput(
             attrs={
-                'class': '',
+                'class': 'pw',
             }
         )
     )

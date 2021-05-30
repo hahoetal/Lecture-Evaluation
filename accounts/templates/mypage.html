@@ -2,7 +2,6 @@
 
 {% extends 'base.html' %}
 {% block content %}
-
 <style>
     .mypageHtml{
         width: 98%; height: 70%;
@@ -27,7 +26,7 @@
         padding-top:30px;
     }
     .evaluation{
-        width: 1000px; height: 400px;
+        width: 100%; height: 400px;
         margin-left: 30px;
         margin-top: 30px;
         margin-bottom: 30px;
@@ -41,6 +40,13 @@
         float:left;
         list-style-type: none;
     }
+    .userInfo a{
+        color:#5C65BB;
+        text-decoration: none;
+        border: 2px solid #5c65bb;
+        border-radius: 20px;
+        line-height: 20px;
+    }
 </style>
 <div class="mypageHtml">
     <ul>
@@ -52,6 +58,13 @@
                 <p>학번 : {{myInfo.studentId}}</p>
                 <p>전공 : {{myInfo.major}}</p>
                 <p>이메일 : {{myInfo.email}}</p>
+                <br><br><br><br><br><br>
+                <div id="chg_pw">
+                    <a href="{% url 'change_pw' %}">비밀번호 변경</a>
+                </div>
+                <div id="de_u">
+                    <a href="{% url 'delete_user'%}">탈퇴하기</a>
+                </div>
             </div>
         </li>
         <li>
@@ -93,9 +106,6 @@
         {% endif %}
     </div>
 
-{% else %}
-    <p>작성한 강의평이 없습니다.</p>
-    <p><a href="{% url 'lectureList' %}">강의평 작성하러 가기</a></p>
-{% endif %}
+       
 
 {% endblock %}

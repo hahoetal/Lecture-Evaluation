@@ -2,7 +2,22 @@
 
 {% extends 'base.html' %}
 {% block content %}
-<p>입력하신 이메일 정보를 찾을 수 없습니다. 가입 시 입력한 이메일을 올바르게 적어주세요.</p>
-<p><a href="{% url 'password_reset' %}">비밀번호 찾기</a></p>
-<p>혹시 아직 회원이 아니신가요?? <a href='{% url "signup" %}'>회원가입</a>하러 가기</p>
+<style>
+    .pw_rdf{
+        border:2px solid;
+        border-radius: 5%;
+        border-color: #5C65BB;
+        width: 350px; height: 300px;
+        position: absolute;
+        left: 50%; top: 45%;
+        transform: translate(-50%, -50%);
+        padding: 30px;
+    }
+</style>
+<div class="pw_rdf">
+    <p><br>입력하신 이메일 정보를 찾을 수 없습니다. <br><br>가입 시 입력한 이메일을 올바르게 적어주세요.</p>
+    <p><br><a href="{% url 'password_reset' %}">비밀번호 찾기</a></p>
+    <br><br><br>
+    <p>혹시 아직 회원이 아니신가요?? <br><br><a href='{% url "signup" %}'>회원가입</a>하러 가기</p>
+</div>
 {% endblock%}

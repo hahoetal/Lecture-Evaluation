@@ -78,10 +78,21 @@
         position:absolute;
         color:#ffffff;
         margin-left: 80%;
-        margin-top: 5px;
+        margin-top:7px;
+    }
+    .after_login p{
+        line-height: 50px;
     }
     .after_login a{
         color: #ffffff;
+    }
+    #logout_a{
+        background-color:#5C65BB;
+        border: 3px solid #ffffff;
+        border-radius: 20px;
+        text-align: center;
+        line-height: 30px;
+        text-decoration: none;
     }
     /*footer*/
     .footer_box{
@@ -117,12 +128,13 @@
     <div class="login_btn">
         {% if user.is_authenticated %} <!--DB에 사용자 정보가 존재하고, 그 사용자가 로그인한 상태인지-->
         <div class="after_login">
-            <p>안녕하세요! {{request.user.userId}}님</p>
-            <a href="{% url 'logout' %}">로그아웃</a>
+            <p>안녕하세요! {{request.user.userId}}님
+                <a id="logout_a" href="{% url 'logout' %}">로그아웃</a>
+            </p>
             <!--<a href="{% url 'mypage' %}">마이페이지</a>
-            <a href="{% url 'lectureList' %}">강의 목록</a>-->
+            <a href="{% url 'lectureList' %}">강의 목록</a>
             <a href="{% url 'change_pw' %}">비밀번호 변경</a>
-            <a href="{% url 'delete_user'%}">탈퇴하기</a>
+            <a href="{% url 'delete_user'%}">탈퇴하기</a>-->
         </div>
 
     {% else %}
