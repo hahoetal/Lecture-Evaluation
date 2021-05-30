@@ -1,11 +1,62 @@
 {% extends 'base.html' %}
 {% block content %}
-    <form action='{% url "login" %}' method="POST">
-        {% csrf_token %}
-        {{form}}
-        <br>
-        <input type="submit" value="로그인">
-        <a href="{% url 'findId' %}">아이디 찾기</a>
-        <a href="{% url 'password_reset' %}">비밀번호 찾기</a>
-    </form>
+<style>
+    .signIn{
+        border:2px solid;
+        border-radius: 5%;
+        border-color: #5C65BB;
+        width: 300px; height: 300px;
+        color: #5C65BB;
+        position: absolute;
+        left: 50%; top: 50%;
+        transform: translate(-50%, -50%);
+    }
+    #welcome{
+        text-align: center;
+        margin-top: 30px;
+    }
+    #login_btn{
+        background-color: #5C65BB;
+        margin-top: 20px;
+        width:80%; height: 30px;
+        border: none;
+        border-radius: 5em;
+        margin-left: 30px;
+        color:#ffffff;
+    }
+    .login{
+        border:none;
+        border-bottom: 2px solid #5C65BB;
+        width:80%;
+        margin-bottom: 10px;
+        margin-left:25px;
+    }
+    input:focus{
+        outline: none;
+    }
+    .find{
+        font-size: 10px;
+        text-align: center;
+    }
+</style>
+<div class="signIn">
+    <div id="welcome">
+        <h3>SIGN IN</h3>
+        <p>welcome!</p>
+    </div>
+    <br>
+    <div class="user_input">
+        <form action='{% url "login" %}' method="POST">
+            {% csrf_token %}
+            {{form}}
+            <br>
+            <input id="login_btn" type="submit" value="로그인">
+            <br><br>
+            <div class="find">
+                <a href="{% url 'findId' %}">아이디 찾기</a>
+                <a href="{% url 'password_reset' %}">비밀번호 찾기</a>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}

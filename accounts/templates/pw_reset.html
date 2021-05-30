@@ -2,10 +2,54 @@
 
 {% extends 'base.html' %}
 {% block content %}
+<style>
+    .find_Pw{
+        border:2px solid;
+        border-radius: 5%;
+        border-color: #5C65BB;
+        width: 600px; height: 300px;
+        position: absolute;
+        left: 50%; top: 50%;
+        transform: translate(-50%, -50%);
+    }
+    #findPw_btn{
+        background-color: #5C65BB;
+        margin-top: 20px;
+        width:20%; height: 30px;
+        border: none;
+        border-radius: 5em;
+        margin-left: 30px;
+        color:#ffffff;
+    }
+    p{
+        margin-top: 20px;
+        margin-left: 30px;
+        margin-right: 10px;
+    }
+    .input_email{
+        text-align: center;
+    }
+    .findPw_input{
+        margin-left: 5px;
+        border:none;
+        border-bottom: 2px solid #5C65BB;
+        width:40%;
+        margin-bottom: 10px;
+        margin-left:10px;
+    }
+</style>
+<div class="find_Pw">
     <form action="" method="POST">
-        <p>비밀번호를 잊어버리셨나요? 가입 시 입력한 이메일을 입력해주세요. 새로운 비밀번호를 재설정할 수 있는 이메일을 보내드리겠습니다.</p>
-        {% csrf_token %}
-        {{form}}
-        <input type="submit" value="보내기">
+        <br>
+        <p>비밀번호를 잊어버리셨나요?
+            <br><br>가입 시 입력한 이메일을 입력해주세요.
+            <br><br>새로운 비밀번호를 재설정할 수 있는 이메일을 보내드리겠습니다.</p>
+            <br><br>
+        <div class="input_email">
+            {% csrf_token %}
+            {{form}}
+            <input id="findPw_btn" type="submit" value="보내기">
+        </div>
     </form>
+</div>
 {% endblock %}

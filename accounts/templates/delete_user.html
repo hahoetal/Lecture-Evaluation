@@ -1,8 +1,31 @@
 {% extends 'base.html' %}
 {% block content %}
+<style>
+    #delete_btn{
+        background-color: #5C65BB;
+        margin-top: 20px;
+        width:80%; height: 30px;
+        border: none;
+        border-radius: 5em;
+        margin-left: 30px;
+        color:#ffffff;
+    }
+    .delete_user{
+        border:2px solid;
+        border-radius: 5%;
+        border-color: #5C65BB;
+        width: 300px; height: 300px;
+        color: #5C65BB;
+        position: absolute;
+        left: 50%; top: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
+<div class="delete_user">
     <form action="{% url 'delete_user' %}" method="POST">
         {% csrf_token %}
         {{form}}
-        <input type="submit" value="탈퇴하기">
+        <input id="delete_btn" type="submit" value="탈퇴하기">
     </form>
+</div>
 {% endblock %}
