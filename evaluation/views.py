@@ -28,8 +28,8 @@ def create(request, num):
                 eval.test_level = request.POST['test_level'] # 시험 난이도 넣어주고
                 eval.lect_power = request.POST['lect_power'] # 강의력까지 넣어주고
                 eval.save() # db에 저장
-                return redirect('/') # 저장되면 강의 자세히 보기 페이지 보여줄 수 있도록 url 수정하기
-        return redirect('/') # 저장되면 강의 자세히 보기 페이지 보여줄 수 있도록 url 수정하기
+                return redirect('detail', num) # 저장되면 강의 자세히 보기 페이지로 이동
+        return redirect('detail', num) # 저장되면 강의 자세히 보기 페이지로 이동
     else:
         form = EvalForm()
         return render(request, 'create.html', {'form': form})
@@ -46,20 +46,17 @@ def delete(request, eval_id):
         messages.warning(request, "본인이 작성한 글만 삭제할 수 있습니다.")
         return redirect('/')
 
-# 강의평 보여주기
-@login_required(login_url= '/accounts/login')
-def show_eval(request, lect_id):
-    evaluations = Evals.objects.filter(lect_id=lect_id) # 사용자가 요청한 강의와 강의 번호가 일치하는 강의평만 가져오기 
-    return render(request, 'show_eval.html', {'evaluations':evaluations})
-
 # 강의평 추천하기
 @login_required(login_url= '/accounts/login')
 def recommand(request, eval_num, lect_num):
     eval = get_object_or_404(Evals, pk=eval_num)
+    lect = Lectures.objects.get(pk=lect_num)
 
     if request.user != eval.author: # 자기가 쓴 글은 추천할 수 없음.
-        eval.count = eval.count + 1 # 해당 함수가 실행되면 count가 1 증가
+        eval.count += 1 # 해당 함수가 실행되면 count가 1 증가
         eval.save() # 저장을 해주어야만 DB에 반영!!
         
-    return redirect('show_eval', lect_num)
+    lect.count -= 1 # 강의평 추천이 성공적으로 이루어지면, 다시 detail 페이지를 띄우는데 이때 조회수가 증가하지 않도록 1을 빼주기
+    lect.save()  
+    return redirect('detail', lect_num)
     # 사용자가 자가 쓴 글을 추천하려고 하는 경우, 경고창 띄우기. 또 추천은 한 번만 할 수 있게 코드 고민하기

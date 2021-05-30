@@ -1,5 +1,7 @@
+<!--로그인 페이지-->
 {% extends 'base.html' %}
 {% block content %}
+
 <style>
     .signIn{
         border:2px solid;
@@ -46,6 +48,12 @@
     </div>
     <br>
     <div class="user_input">
+       {% if messages %}
+    {% for message in messages %}
+      <script>alert("{{ message }}")</script>
+    {% endfor %}
+  {% endif %}
+      
         <form action='{% url "login" %}' method="POST">
             {% csrf_token %}
             {{form}}

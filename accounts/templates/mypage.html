@@ -2,6 +2,7 @@
 
 {% extends 'base.html' %}
 {% block content %}
+
 <style>
     .mypageHtml{
         width: 98%; height: 70%;
@@ -72,4 +73,29 @@
         </li>
     </ul>
 </div>
+
+    <!--페이지 navi-->
+    <div>
+        <!--첫 페이지면 실행되지 않음-->
+        {% if myEval.has_previous %}
+            <a href="?page=1">First</a>
+            <a href="page={{myEval.previous_page_number}}">Previous</a>
+        {% endif %}
+
+        <span>{{myEval.number}}</span>
+        <span>of</span>
+        <span>{{myEval.paginator.num_pages}}</span>
+
+        <!--마지막 페이지면 실행되지 않음-->
+        {% if myEval.has_next %}
+            <a href="?page={{myEval.next_page_number}}">Next</a>
+            <a href="?page={{myEval.paginator.num_pages}}">Last</a>
+        {% endif %}
+    </div>
+
+{% else %}
+    <p>작성한 강의평이 없습니다.</p>
+    <p><a href="{% url 'lectureList' %}">강의평 작성하러 가기</a></p>
+{% endif %}
+
 {% endblock %}

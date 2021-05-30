@@ -22,9 +22,21 @@
     }
 </style>
 <div class="delete_user">
+  <div>
+            <p>
+                <strong style="color: purple;">{{request.user}}</strong>님 지금까지 저희 서비스를 이용해주셔서 감사합니다.<br>
+                회원 탈퇴 시 입력한 개인정보는 모두 삭제되며, 작성하신 강의평은 삭제되지 않습니다.<br>
+                탈퇴를 원하시면 비밀번호 입력 후 '탈퇴하기' 버튼을 눌러주세요.
+            </p>
+        </div>
+  
     <form action="{% url 'delete_user' %}" method="POST">
         {% csrf_token %}
         {{form}}
+      
+        {% for message in messages %}
+            <p>❗ {{ message }}</p>
+        {% endfor %}
         <input id="delete_btn" type="submit" value="탈퇴하기">
     </form>
 </div>
