@@ -28,8 +28,8 @@ def create(request, num):
                 eval.test_level = request.POST['test_level'] # 시험 난이도 넣어주고
                 eval.lect_power = request.POST['lect_power'] # 강의력까지 넣어주고
                 eval.save() # db에 저장
-                return redirect('/') # 저장되면 강의 자세히 보기 페이지 보여줄 수 있도록 url 수정하기
-        return redirect('/') # 저장되면 강의 자세히 보기 페이지 보여줄 수 있도록 url 수정하기
+                return redirect('detail', num) # 저장되면 강의 자세히 보기 페이지로 이동
+        return redirect('detail', num) # 저장되면 강의 자세히 보기 페이지로 이동
     else:
         form = EvalForm()
         return render(request, 'create.html', {'form': form})

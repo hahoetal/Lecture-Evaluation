@@ -5,4 +5,5 @@ urlpatterns = [
     path('', views.LectureListPage, name="lectureList"), # 강의 목록 페이지 : ~lectures/
     path('search_result', views.searchLecture, name="searchLecture"), # 강의 검색 결과 : ~lectures/search   
     path('detail/<int:lect_id>', views.detail, name="detail"), # 강의 자세히 보기
+    path('ordering/<int:lect_id>', views.ordering, name="ordering"), # 강의평 정렬
 ]

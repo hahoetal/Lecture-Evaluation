@@ -40,14 +40,63 @@ def searchLecture(request):
 
     return render(request, 'search.html', {'lectures' : lectures})
 
+# 별점 평균
+def avg(evals, target):
+    count = len(evals)
+    sum = 0
+
+    if target == 'hw_level':
+        for e in evals:
+            sum += e.hw_level
+    elif target == 'test_level':
+        for e in evals:
+            sum += e.test_level
+    else:
+        for e in evals:
+            sum += e.lect_power
+    
+    if count != 0:
+        return round(sum/count, 2)
+
+    return 0
+
 # 강의 자세히 보기(강의 정보와 강의평을 볼 수 있음)
 def detail(request, lect_id):
+    # 강의 정보
     lect = get_object_or_404(Lectures, pk=lect_id)
     lect.count += 1 # detail 함수가 실행될 때마다 count 증가 => 조회수 증가
     lect.save() # db에 저장
     
-    evals = Evals.objects.filter(lect_id=lect_id) # 사용자가 요청한 강의와 강의 번호가 일치하는 강의평만 가져오기
+    # 강의평
+    evals = Evals.objects.filter(lect_id=lect_id).order_by('-date')
     paginator = Paginator(evals, 6) # 강의평 객체 6개를 한 페이지로 자르기
     page = request.GET.get('page') # 사용자가 요청한 페이지 알아내고
     evaluations = paginator.get_page(page) # request된 페이지 return
-    return render(request, 'detail.html', {'lect':lect, 'evaluations':evaluations})
+
+    # 별점 평균
+    hw_avg = avg(evals, 'hw_level')
+    test_avg = avg(evals, 'test_level')
+    lect_power_avg = avg(evals, 'lect_power')
+
+    return render(request, 'detail.html', {'lect':lect, 'evaluations':evaluations, 'hw_avg':hw_avg, 'test_avg':test_avg, 'lect_power_avg':lect_power_avg})
+
+# 강의평 정렬하기
+def ordering(request, lect_id):
+    lect = get_object_or_404(Lectures, pk=lect_id)
+
+    # 정렬하기 
+    sort = request.GET.get('sort')
+
+    if sort == 'recommand':
+        evals = Evals.objects.filter(lect_id=lect_id).order_by('-count', '-date') # 사용자가 요청한 강의와 강의 번호가 일치하는 강의평만 가져오기
+    else:
+        evals = Evals.objects.filter(lect_id=lect_id).order_by('-date')
+
+    paginator = Paginator(evals, 6) # 강의평 객체 6개를 한 페이지로 자르기
+    page = request.GET.get('page') # 사용자가 요청한 페이지 알아내고
+    evaluations = paginator.get_page(page) # request된 페이지 return
+
+    hw_avg = avg(evals, 'hw_level')
+    test_avg = avg(evals, 'test_level')
+    lect_power_avg = avg(evals, 'lect_power')
+    return render(request, 'detail.html', {'lect':lect, 'evaluations':evaluations, 'hw_avg':hw_avg, 'test_avg':test_avg, 'lect_power_avg':lect_power_avg})

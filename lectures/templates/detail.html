@@ -21,6 +21,55 @@
     <p>교수: {{lect.professor}}</p>
     <p>개설학과: {{lect.department}}</p>
     <p>과목구분: {{lect.lecture_type}}</p>
+
+    <p>과제난이도:
+        {% if hw_avg == 0 %}
+            <span class="stars">&#9734; &#9734; &#9734; &#9734; &#9734;</span>
+        {% elif hw_avg > 0 and hw_avg < 2 %}
+            <span class="stars">&#9733; &#9734; &#9734; &#9734; &#9734;</span>
+        {% elif hw_avg > 1 and hw_avg < 3 %}
+            <span class="stars">&#9733; &#9733; &#9734; &#9734; &#9734;</span>
+        {% elif hw_avg > 2 and hw_avg < 4 %}
+            <span class="stars">&#9733; &#9733; &#9733; &#9734; &#9734;</span>
+        {% elif hw_avg > 3 and hw_avg < 5 %}
+            <span class="stars">&#9733; &#9733; &#9733; &#9733;	&#9734;</span>
+        {% elif hw_avg >= 5 %}
+            <span class="stars">&#9733; &#9733; &#9733; &#9733; &#9733;</span>
+        {% endif %}
+        {{hw_avg}}
+    </p>
+    <p>시험난이도:
+        {% if hw_avg == 0 %}
+            <span class="stars">&#9734; &#9734; &#9734; &#9734; &#9734;</span> 
+        {% elif hw_avg > 0 and hw_avg < 2 %}
+            <span class="stars">&#9733; &#9734; &#9734; &#9734; &#9734;</span>
+        {% elif hw_avg > 1 and hw_avg < 3 %}
+            <span class="stars">&#9733; &#9733; &#9734; &#9734; &#9734;</span>
+        {% elif hw_avg > 2 and hw_avg < 4 %}
+            <span class="stars">&#9733; &#9733; &#9733; &#9734; &#9734;</span>
+        {% elif hw_avg > 3 and hw_avg < 5%}
+            <span class="stars">&#9733; &#9733; &#9733; &#9733;	&#9734;</span>
+        {% elif hw_avg >= 5 %}
+            <span class="stars">&#9733; &#9733; &#9733; &#9733; &#9733;</span>
+        {% endif %}
+        {{test_avg}}
+    </p>
+    <p>강의력:
+        {% if hw_avg == 0 %}
+            <span class="stars">&#9734; &#9734; &#9734; &#9734; &#9734;</span> 
+        {% elif hw_avg > 0 and hw_avg < 2 %}
+            <span class="stars">&#9733; &#9734; &#9734; &#9734; &#9734;</span>
+        {% elif hw_avg > 1 and hw_avg < 3 %}
+            <span class="stars">&#9733; &#9733; &#9734; &#9734; &#9734;</span>
+        {% elif hw_avg > 2 and hw_avg < 4 %}
+            <span class="stars">&#9733; &#9733; &#9733; &#9734; &#9734;</span>
+        {% elif hw_avg > 3 and hw_avg < 5%}
+            <span class="stars">&#9733; &#9733; &#9733; &#9733;	&#9734;</span>
+        {% elif hw_avg >= 5 %}
+            <span class="stars">&#9733; &#9733; &#9733; &#9733; &#9733;</span>
+        {% endif %}
+        {{lect_power_avg}}
+    </p>
     <button onclick="showHide()">강의계획서</button>
 
     <!--사용자가 강의계획서 보기 버튼을 누른 경우에만 보여주기-->
@@ -37,6 +86,14 @@
 
     <h2>강의평</h2>
     <hr>
+    <form action="{% url 'ordering' lect.num %}">
+        <select name="sort">
+            <option value="">최신순</option>
+            <option value="recommand">추천순</option>
+        </select>
+        <button type="submit">정렬</button>
+    </form>
+
     <a href="{% url 'create_eval' lect.num %}">강의평 작성하기</a>
     {% if evaluations %}
         {% for eval in evaluations %}
@@ -112,12 +169,12 @@
 
     <script>
         function showHide(){
-        if(document.getElementById("showHide").style.display =='none'){
-            document.getElementById("showHide").style.display ='block';
+            if(document.getElementById("showHide").style.display == 'none'){
+                document.getElementById("showHide").style.display = 'block';
+            }
+            else{
+                document.getElementById("showHide").style.display = 'none';
+            }
         }
-        else{
-            document.getElementById("showHide").style.display ='none';
-        }
-    }
     </script>
 {% endblock %}
