@@ -73,7 +73,13 @@ def detail(request, lect_id):
     page = request.GET.get('page') # 사용자가 요청한 페이지 알아내고
     evaluations = paginator.get_page(page) # request된 페이지 return
 
-    # 별점 평균
+    # 강의평 하나당 별점 평균
+    avg_score =[]
+    for e in evals:
+        score = e.hw_level + e.test_level + e.lect_power
+        avg_score.append(round(score/3, 2))
+
+    # 전체 별점 평균
     hw_avg = avg(evals, 'hw_level')
     test_avg = avg(evals, 'test_level')
     lect_power_avg = avg(evals, 'lect_power')

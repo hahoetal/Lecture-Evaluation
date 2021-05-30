@@ -1,5 +1,63 @@
 {% extends 'base.html' %}
+{% block style %}
+<style>
+    .middle{
+            margin: 0 auto;
+            width: 1000px;
+    }
+    fieldset{
+        border: 2px solid;
+        border-radius: 2em;
+        border-color: #5C65BB;
+        width : 1000px; height:100px;
+        text-align:center;
+    }
+    #search_btn{
+        float: right;
+        background-color: #5C65BB;
+        width:150px; height:40px;
+        border: none;
+        border-radius: 5em;
+        color:#ffffff;
+    }
+    .button{
+        width : 150px; height: 50px;
+        background-color : #5C65BB;
+        border : 10px solid #FFFFFF;
+        border-radius: 5em;
+
+    }
+    .button > a{
+       display: block;
+       line-height: 50px;
+       color : #ffffff;
+       font-style : italic;
+       text-align : center;
+    }
+    .table{
+        width: 1000px;
+        border: 2px solid;
+        border-radius: 2em;
+        border-color: #5C65BB;
+        
+    }
+    .table_contents{
+        border: 2px solid;
+        border-color: #5C65BB;
+        width : 950px;
+        margin:0 auto;
+        text-align : center;
+    }
+    #color {
+        border: 2px solid;
+        border-color: #5C65BB;
+    }
+
+</style>
+{% endblock %}
+
 {% block content %}
+<div class="middle">
     <h1>강의 목록</h1>
     <hr>
 
@@ -125,17 +183,20 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><input type="submit" value="검색"></td>
+                        <td><input id = "search_btn" type="submit" value="검색"></td>
                     </tr>
                 </table>
         </fieldset>
     </form>
 
-    <a href="{% url 'home' %}">홈으로 이동</a>
+    <div class="button">
+        <a href="{% url 'home' %}">홈으로 이동</a>
+    </div>
 
     <!-- 강의 목록 나열 -->
+    <div class = "table" id="color">
     <div style="overflow:scroll; overflow-x:hidden; width:1000px; height:500px">
-        <table border="1">
+        <table border="1" class="table_contents">
             <tr>
                 <th>학수번호</th>   <!-- lecture_id -->
                 <th>강의명</th>     <!-- lecture_name -->
@@ -143,6 +204,7 @@
                 <th>과목구분</th>   <!-- lecture_type -->
                 <th>개설학과</th>   <!-- department -->
                 <th>조회수</th>   <!--count -->
+
             </tr>
             <!-- view에서 넘어온 데이터 출력 -->
             {% for lecture in lectures %}   
@@ -156,5 +218,6 @@
             </tr>
             {% endfor %}
         </table>
+    </div>
     </div>
 {% endblock %}

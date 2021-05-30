@@ -2,6 +2,24 @@
 
 {% extends 'base.html' %}
 {% block content %}
-    <h1>비밀번호 변경이 완료되었습니다.</h1>
+<style>
+    .pw_r_cp{
+        border:2px solid;
+        border-radius: 5%;
+        border-color: #5C65BB;
+        width: 600px; height: 300px;
+        position: absolute;
+        left: 50%; top: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+    h1{
+        margin-top: 100px;
+    }
+</style>
+<div class="pw_r_cp">
+    <h1>비밀번호 변경이 완료되었습니다!</h1>
+    <br>
     <p>새로운 비밀번호로 <a href="{% url 'login' %}">로그인</a>하기</p>
+</div>
 {% endblock %}
