@@ -9,18 +9,22 @@ from .models import User
 class UserCreationForm(forms.ModelForm):
     # 비밀번호 입력
     password1 = forms.CharField(
-        label= ' ',
+        label= '비밀번호 ',
         widget= forms.PasswordInput(
             attrs={
+                'class ': 'pw',
                 'placeholder': '비밀번호',
+                'style':'border:none; border-bottom: 2px solid #5C65BB; width:85%; margin-bottom: 5px;'
             }
         ),
     )
     password2 = forms.CharField(
-        label= ' ',
+        label= '비밀번호 ',
         widget= forms.PasswordInput(
             attrs={
+                'class' : 'pw',
                 'placeholder': '비밀번호 확인',
+                'style':'border:none; border-bottom: 2px solid #5C65BB; width:85%; margin-bottom: 5px;'
             }
         ),
     )
@@ -35,26 +39,26 @@ class UserCreationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(UserCreationForm, self).__init__(*args, **kwargs)
 
-        self.fields['userId'].label= ' ' # <label>와 관련. 
+        self.fields['userId'].label= '아이디 ' # <label>와 관련. 
         self.fields['userId'].widget.attrs.update({ # css와 관련
-            #'class': '', # css 클래스
+            'class': 'create_user', # css 클래스
             'placeholder': '아이디',
         })
 
-        self.fields['major'].label= ' '
+        self.fields['major'].label= '전공 '
         self.fields['major'].widget.attrs.update({
-            #'class': '',
+            'class': 'create_user',
         })
 
-        self.fields['studentId'].label= ' '
+        self.fields['studentId'].label= '학번 '
         self.fields['studentId'].widget.attrs.update({
-            #'class': '',
+            'class': 'create_user',
             'placeholder': '학번',
         })
 
-        self.fields['email'].label= ' '
+        self.fields['email'].label= '이메일 '
         self.fields['email'].widget.attrs.update({
-            'class': '',
+            'class': 'create_user',
             'placeholder': 'EMAIL',
         })
 
@@ -101,7 +105,7 @@ class LoginForm(forms.Form):
         label= '',
         widget=forms.TextInput(
             attrs={
-                #'class: '',
+                'class' : 'login',
                 'placeholder':'ID'
             }),
         error_messages= {'required': '아이디를 입력해주세요'}
@@ -110,7 +114,7 @@ class LoginForm(forms.Form):
         label= '',
         widget= forms.PasswordInput(
             attrs= {
-                #'class': '',
+                'class': 'login',
                 'placeholder': 'Password'
             }),
         error_messages= {'required': '비밀번호를 입력해주세요'}
@@ -125,11 +129,11 @@ class LoginForm(forms.Form):
             try:
                 user= User.objects.get(userId=userId)
             except User.DoesNotExist:
-                self.add_error('userId', '❗ 아이디가 존재하지 않습니다.')
+                self.add_error('userId', '아이디가 존재하지 않습니다.')
                 return
 
             if not check_password(password, user.password):
-                self.add_error('password', '❗ 비밀번호가 틀렸습니다.')
+                self.add_error('password', '비밀번호가 틀렸습니다.')
 
 # 아이디 찾기
 class FindIdForm(forms.ModelForm):
@@ -170,9 +174,9 @@ class PWResetForm(PasswordResetForm):
     # 이미 만들어진 form에 css를 적용하려면, 초기화가 필요.
     def __init__(self, *args, **kwargs):
         super(PWResetForm, self).__init__(*args, **kwargs)
-        self.fields['email'].label = "이메일"
+        self.fields['email'].label = "이메일 "
         self.fields['email'].widget.attrs.update({
-            'class': '',
+            'class': 'findPw_input',
         })
 
 # 비밀번호 찾기_ 비밀번호 초기화
