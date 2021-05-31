@@ -11,6 +11,6 @@ class EvalForm(forms.ModelForm):
         self.fields['content'].label = "강의평"
 
         self.fields['content'].widget.attrs.update({
-            'class':'',
+            'class':'form-control textarea',
             'placeholder': '강의평을 작성해주세요',
         })

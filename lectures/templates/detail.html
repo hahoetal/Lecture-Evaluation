@@ -1,124 +1,153 @@
 <!--강의 자세히 보기-->
 {% extends 'base.html' %}
 
-{% block style %}
-<style>
-    .stars{
-        font-size: 20px;
-        padding: 5px;
-        text-align: center;
-        width: 5em;
-        color: #f90;
-    }
-    .middle{
-        margin: 0 auto;
-        width: 1000px;
-    }
-
-    .lecture_info{
-        width:1000px; height: 150px;
-        border: 3px solid;
-        border-radius: 2em;
-        border-color: #5C65BB;
-        position:relative;
-        padding : 1em;
-    }
-
-    .button{
-        float:right;
-        width : 150px; height: 50px;
-        background-color : #5C65BB;
-        border : 10px solid #FFFFFF;
-        border-radius: 5em;
-    }
-    .button > a{
-       display: block;
-       line-height: 50px;
-       color : #ffffff;
-       text-decoration:none;
-       text-align : center;
-    }
-    .retrieve_eval{
-
-            width:1000px; height:auto;
-            margin : 10px;
-            border: 2px solid;
-            background-color : #5C65BB;
-            border-radius: 2em;
-            border-color: #e6fdff;
-            position:relative;
-            box-shadow:0 0 0.5em 0.5px #e6fdff;
-            padding : 1em;
-            color : #ffffff;
-            margin-bottom: 130px;
-    }
-    h3{
-        font-weight: bold;
-        color : #000000;
-    }
-</style>
-{% endblock %}
-
 {% block content %}
-<div class= "middle">
 
-    <a href="{% url 'lectureList' %}">강의 목록</a>
+<style>
+.stars{
+    font-size: 20px;
+    padding: 5px;
+    text-align: center;
+    width: 5em;
+    color: #f90;
+}
+
+.lecture_info{
+    /* width:1000px; */
+    border: 3px solid;
+    border-radius: 2em;
+    border-color: #5C65BB;
+    /* position:relative; */
+    padding : 1em;
+    text-align: center;
+}
+
+.button{
+    /* float:right; */
+    display: inline-block;
+    width : 150px; height: 40px;
+    background-color : #5C65BB;
+    border : 2px solid #FFFFFF;
+    border-radius: 5em;
+    line-height: 40px;
+    color : #ffffff;
+}
+.button > a{
+   display: block;
+   line-height: 40px;
+   color : #ffffff;
+   text-decoration:none;
+   text-align : center;
+}
+.ordering{
+    float: right;
+}
+.select{
+    background-color : ivory;
+    color : #5C65BB;
+    width : 70px; height: 30px
+}
+.button2{
+    background-color : ivory;
+    color : #5C65BB;
+    width : 50px; height: 30px;
+    border : 2px solid ivory;
+    border-radius: 5em;
+}
+.retrieve_eval{
+    /* width:1000px; */
+    height:auto;
+    margin : 10px;
+    border: 2px solid;
+    background-color : #5C65BB;
+    border-radius: 2em;
+    border-color: #e6fdff;
+    position:relative;
+    padding : 1em;
+    color : #ffffff;
+}
+h4{
+    font-weight: bold;
+    color: #000000;
+}
+.page_navi{
+    text-align: center;
+    font-size: 15px;
+    padding-bottom: 10px;
+}
+</style>
+    <button class="button" style="float:right;"><a href="{% url 'lectureList' %}">강의 목록</a></button>
     <h2>강의 정보</h2>
     <hr>
     <div class="lecture_info">
-        <p>강의명: {{lect.lecture_name}} &#128064; {{lect.count}}</p> <!--조회수-->
-        <p>교수: {{lect.professor}}</p>
-        <p>개설학과: {{lect.department}}</p>
-        <p>과목구분: {{lect.lecture_type}}</p>
-        <p>과제난이도:
-            {% if hw_avg == 0 %}
-                <span class="stars">&#9734; &#9734; &#9734; &#9734; &#9734;</span>
-            {% elif hw_avg > 0 and hw_avg < 2 %}
-                <span class="stars">&#9733; &#9734; &#9734; &#9734; &#9734;</span>
-            {% elif hw_avg > 1 and hw_avg < 3 %}
-                <span class="stars">&#9733; &#9733; &#9734; &#9734; &#9734;</span>
-            {% elif hw_avg > 2 and hw_avg < 4 %}
-                <span class="stars">&#9733; &#9733; &#9733; &#9734; &#9734;</span>
-            {% elif hw_avg > 3 and hw_avg < 5 %}
-                <span class="stars">&#9733; &#9733; &#9733; &#9733;	&#9734;</span>
-            {% elif hw_avg >= 5 %}
-                <span class="stars">&#9733; &#9733; &#9733; &#9733; &#9733;</span>
-            {% endif %}
-            {{hw_avg}}
-        </p>
-        <p>시험난이도:
-            {% if hw_avg == 0 %}
-                <span class="stars">&#9734; &#9734; &#9734; &#9734; &#9734;</span> 
-            {% elif hw_avg > 0 and hw_avg < 2 %}
-                <span class="stars">&#9733; &#9734; &#9734; &#9734; &#9734;</span>
-            {% elif hw_avg > 1 and hw_avg < 3 %}
-                <span class="stars">&#9733; &#9733; &#9734; &#9734; &#9734;</span>
-            {% elif hw_avg > 2 and hw_avg < 4 %}
-                <span class="stars">&#9733; &#9733; &#9733; &#9734; &#9734;</span>
-            {% elif hw_avg > 3 and hw_avg < 5%}
-                <span class="stars">&#9733; &#9733; &#9733; &#9733;	&#9734;</span>
-            {% elif hw_avg >= 5 %}
-                <span class="stars">&#9733; &#9733; &#9733; &#9733; &#9733;</span>
-            {% endif %}
-            {{test_avg}}
-        </p>
-        <p>강의력:
-            {% if hw_avg == 0 %}
-                <span class="stars">&#9734; &#9734; &#9734; &#9734; &#9734;</span> 
-            {% elif hw_avg > 0 and hw_avg < 2 %}
-                <span class="stars">&#9733; &#9734; &#9734; &#9734; &#9734;</span>
-            {% elif hw_avg > 1 and hw_avg < 3 %}
-                <span class="stars">&#9733; &#9733; &#9734; &#9734; &#9734;</span>
-            {% elif hw_avg > 2 and hw_avg < 4 %}
-                <span class="stars">&#9733; &#9733; &#9733; &#9734; &#9734;</span>
-            {% elif hw_avg > 3 and hw_avg < 5%}
-                <span class="stars">&#9733; &#9733; &#9733; &#9733;	&#9734;</span>
-            {% elif hw_avg >= 5 %}
-                <span class="stars">&#9733; &#9733; &#9733; &#9733; &#9733;</span>
-            {% endif %}
-            {{lect_power_avg}}
-        </p>
-        <button onclick="showHide()">강의계획서</button>
+        <div class="row">
+            <div class="col-sm-6">
+                <div>
+                  <h3 >{{lect.lecture_name}} &#128064; {{lect.count}}</h3>
+                  <p >교수: {{lect.professor}}</p>
+                  <p>개설학과: {{lect.department}}</p>
+                  <p>과목구분: {{lect.lecture_type}}</p>
+                  <button onclick="showHide()" class="button">강의계획서</button>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div>
+                    <p class="card-text">&#128077;</p>
+                    <p class="card-text">과제난이도:
+                    {% if hw_avg == 0 %}
+                        <span class="stars">&#9734; &#9734; &#9734; &#9734; &#9734;</span>
+                    {% elif hw_avg > 0 and hw_avg < 2 %}
+                        <span class="stars">&#9733; &#9734; &#9734; &#9734; &#9734;</span>
+                    {% elif hw_avg > 1 and hw_avg < 3 %}
+                        <span class="stars">&#9733; &#9733; &#9734; &#9734; &#9734;</span>
+                    {% elif hw_avg > 2 and hw_avg < 4 %}
+                        <span class="stars">&#9733; &#9733; &#9733; &#9734; &#9734;</span>
+                    {% elif hw_avg > 3 and hw_avg < 5 %}
+                        <span class="stars">&#9733; &#9733; &#9733; &#9733;	&#9734;</span>
+                    {% elif hw_avg >= 5 %}
+                        <span class="stars">&#9733; &#9733; &#9733; &#9733; &#9733;</span>
+                    {% endif %}
+                    {{hw_avg}}
+                  </p>
+                  <p class="card-text">시험난이도:
+                    {% if hw_avg == 0 %}
+                        <span class="stars">&#9734; &#9734; &#9734; &#9734; &#9734;</span> 
+                    {% elif hw_avg > 0 and hw_avg < 2 %}
+                        <span class="stars">&#9733; &#9734; &#9734; &#9734; &#9734;</span>
+                    {% elif hw_avg > 1 and hw_avg < 3 %}
+                        <span class="stars">&#9733; &#9733; &#9734; &#9734; &#9734;</span>
+                    {% elif hw_avg > 2 and hw_avg < 4 %}
+                        <span class="stars">&#9733; &#9733; &#9733; &#9734; &#9734;</span>
+                    {% elif hw_avg > 3 and hw_avg < 5%}
+                        <span class="stars">&#9733; &#9733; &#9733; &#9733;	&#9734;</span>
+                    {% elif hw_avg >= 5 %}
+                        <span class="stars">&#9733; &#9733; &#9733; &#9733; &#9733;</span>
+                    {% endif %}
+                    {{test_avg}}
+                </p>
+                  <p class="card-text">강의력:
+                    {% if hw_avg == 0 %}
+                        <span class="stars">&#9734; &#9734; &#9734; &#9734; &#9734;</span> 
+                    {% elif hw_avg > 0 and hw_avg < 2 %}
+                        <span class="stars">&#9733; &#9734; &#9734; &#9734; &#9734;</span>
+                    {% elif hw_avg > 1 and hw_avg < 3 %}
+                        <span class="stars">&#9733; &#9733; &#9734; &#9734; &#9734;</span>
+                    {% elif hw_avg > 2 and hw_avg < 4 %}
+                        <span class="stars">&#9733; &#9733; &#9733; &#9734; &#9734;</span>
+                    {% elif hw_avg > 3 and hw_avg < 5%}
+                        <span class="stars">&#9733; &#9733; &#9733; &#9733;	&#9734;</span>
+                    {% elif hw_avg >= 5 %}
+                        <span class="stars">&#9733; &#9733; &#9733; &#9733; &#9733;</span>
+                    {% endif %}
+                    {{lect_power_avg}}
+                </p>
+                <div class="button">
+                    <a href="{% url 'create_eval' lect.num %}">강의평 작성하기</a>
+                </div>
+              </div>
+            </div>
+        </div>
 
         <!--사용자가 강의계획서 보기 버튼을 누른 경우에만 보여주기-->
         <div id="showHide" style="display: none;">
@@ -131,30 +160,26 @@
             {% endif %}
         </div>
     </div>    
-    <div class="button">
-        <a href="{% url 'create_eval' lect.num %}">강의평 작성하기</a>
-    </div>
-    <h2>강의평</h2>
-    <hr>
     
-
+    <h2>강의평</h2>
+    <hr>    
     <div class ="retrieve_eval">
-        <form action="{% url 'ordering' lect.num %}" style="color:black;">
-            <select name="sort">
-                <option value="">최신순</option>
-                <option value="recommand">추천순</option>
-            </select>
-            <button type="submit">정렬</button>
-        </form>
-
     {% if evaluations %}
+        <div class="ordering">
+            <form action="{% url 'ordering' lect.num %}" style="color:black;">
+                <select name="sort" class="select">
+                    <option value="">최신순</option>
+                    <option value="recommand">추천순</option>
+                </select>
+                <button type="submit" class="button2"><strong>정렬</strong></button>
+            </form>
+        </div>
         {% for eval in evaluations %}
             {% if eval.author != NULL %}
-                <h3>{{eval.author}}___{{eval.date|date:'Y-m-d H:i'}}  <a href="{% url 'recommand'  eval.num eval.lect_id.num %}">&#128077;</a> {{eval.count}}</h3>
+                <h4>{{eval.author}}___{{eval.date|date:'Y-m-d H:i'}}  <a href="{% url 'recommand'  eval.num eval.lect_id.num %}">&#128077;</a> {{eval.count}}</h3>
             {% else %}
-            <h3>알 수 없음___{{eval.date|date:'Y-m-d H:i'}}  <a href="{% url 'recommand'  eval.num eval.lect_id.num %}">&#128077;</a> {{eval.count}}</h3>
+            <h4>알 수 없음___{{eval.date|date:'Y-m-d H:i'}}  <a href="{% url 'recommand'  eval.num eval.lect_id.num %}">&#128077;</a> {{eval.count}}</h3>
             {% endif %}
-            <p>{{eval.content}}</p>
             <p>과제 난이도:
                 {% if eval.hw_level == 1 %}
                 <span class="stars">&#9733; &#9734; &#9734; &#9734; &#9734;</span>
@@ -194,10 +219,13 @@
                 <span class="stars">&#9733; &#9733; &#9733; &#9733; &#9733;</span>
                 {% endif %}
             </p>
+            <p>{{eval.content}}</p>
+            <hr>
         {% endfor %}
-        </div>
+    </div>
+
         <!--페이지 navi-->
-        <div>
+        <div class="page_navi">
             <!--첫 페이지면 실행되지 않음-->
             {% if evaluations.has_previous %}
                 <a href="?page=1">First</a>
@@ -218,7 +246,6 @@
     {% else %}
         <p>강의평이 없습니다.</p>
     {% endif %}
-    </div>
 
     <script>
         function showHide(){

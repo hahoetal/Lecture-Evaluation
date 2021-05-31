@@ -1,7 +1,7 @@
 <!--로그인 페이지-->
 {% extends 'base.html' %}
 {% block content %}
-
+{% block style %}
 <style>
     .signIn{
         border:2px solid;
@@ -41,6 +41,8 @@
         text-align: center;
     }
 </style>
+{% endblock %}
+
 <div class="signIn">
     <div id="welcome">
         <h3>SIGN IN</h3>
@@ -48,11 +50,11 @@
     </div>
     <br>
     <div class="user_input">
-       {% if messages %}
-    {% for message in messages %}
-      <script>alert("{{ message }}")</script>
-    {% endfor %}
-  {% endif %}
+        {% if messages %}
+            {% for message in messages %}
+                <script>alert("{{ message }}")</script>
+            {% endfor %}
+        {% endif %}
       
         <form action='{% url "login" %}' method="POST">
             {% csrf_token %}
@@ -61,7 +63,7 @@
             <input id="login_btn" type="submit" value="로그인">
             <br><br>
             <div class="find">
-                <a href="{% url 'findId' %}">아이디 찾기</a>
+                <a href="{% url 'findId' %}">아이디 찾기</a>&#32;&#166;&#32;
                 <a href="{% url 'password_reset' %}">비밀번호 찾기</a>
             </div>
         </form>

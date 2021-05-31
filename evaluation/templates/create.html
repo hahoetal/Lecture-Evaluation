@@ -1,20 +1,11 @@
 <!--평가글 작성 폼-->
 {% extends 'base.html' %}
 {% block style %}
-<head>
-<!-- 합쳐지고 최소화된 최신 CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-
-<!-- 부가적인 테마 -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-
-<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-</head>
-<style>
+    <style>
         h3{
             margin: 0 auto;
-            width: 900px;margin-top:30px;
+            width: 900px;
+            margin-top:30px;
         }
         .middle{
             margin: 0 auto;
@@ -33,13 +24,11 @@
         /*radio 버튼 숨기기*/
         .star-rating input{
             display: none;
-            
         }
 
         .star-rating label{
             color: #ccc;
             cursor: pointer;
-    
         }
 
         .star-rating :checked ~ label{
@@ -54,38 +43,14 @@
 
         .article {
             margin-top: 0;
-            
             width: 900px; height: 150px;
             color: #ffffff;
-            
             text-align: center;
             border:2px solid;
-        
             border-radius: 2em;
             border-color: #cccccc;
             background-color:#acb4fa;
-           
             padding : 0.5em;
-
-        }
-
-        textarea{
-            margin:0 auto;
-            width:900px; height: 150px;
-            wrap : "virtual";
-
-            
-
-            border: 2px solid;
-            border-radius: 2em;
-            border-color: #5C65BB;
-            
-            position:relative;
-            box-shadow:0 0 1em 1px #5C65BB;
-            margin-bottom : 50px;
-
-            padding : 1em;
-            
         }
 
         .textarea{
@@ -95,29 +60,25 @@
             border: 2px solid;
             border-radius: 2em;
             border-color: #5C65BB;
-            position:relative;
-            margin-bottom : 50px;
             padding : 1em;
-            
         }
 
         #save_btn {
             float : right;
-            width : 200px; height: 70px;
+            width : 200px; height: 40px;
             background-color : #5C65BB;
             display : block;
-            line-height : 70px;
+            line-height : 30px;
             color: #ffffff;
             border: none;
             border-radius: 3em;
             font-weight : bold;
-            
+            margin: 10px;
         }
 
         #font{
             font-weight : bold;
             color: #ffffff;
-
         }
     </style>
 {% endblock %}

@@ -1,37 +1,40 @@
 <!--회원가입 정보와 작성한 글을 볼 수 있는 페이지-->
-
 {% extends 'base.html' %}
-{% block content %}
+{% block style %}
 <style>
-    .mypageHtml{
-        width: 98%; height: 70%;
-        position: absolute;
-        left: 50%; top: 45%;
-        transform: translate(-50%, -50%);
-    }
     hr{
         width: 90%;
         background-color:#5C65BB;
         height:1px;
     }
+    .col-md-8 hr{
+        margin: 5px;
+    }
     .userInfo{
         border:2px solid;
         border-radius: 5%;
         border-color: #5C65BB;
-        width: 300px; height: 400px;
-        margin-left: 30px;
-        margin-top: 30px;
-        margin-bottom: 30px;
-        padding-left:30px;
+        /* width: 300px; 
+        height: 500px; */;
+        margin-top: 50px;
+        padding-left:20px;
         padding-top:30px;
     }
+    .btn_group{
+       padding-bottom: 50px;
+       text-align: center;
+    }
+    .btn_group a{
+        padding: 10px;
+    }
     .evaluation{
-        width: 100%; height: 400px;
-        margin-left: 30px;
-        margin-top: 30px;
-        margin-bottom: 30px;
-        padding-left:30px;
-        padding-top:20px;
+        border: solid 1px #5C65BB;
+        padding: 10px;
+        margin: 7px;
+    }
+    .evaluation a{
+        color:#5C65BB;
+        text-decoration: none;
     }
     p{
         line-height: 30px;
@@ -47,62 +50,66 @@
         border-radius: 20px;
         line-height: 20px;
     }
+    .page_navi{
+        text-align: center;
+        padding:20px;
+    }
 </style>
-<div class="mypageHtml">
-    <ul>
-        <li>
-            <div class="userInfo">
-                <h3>나의 정보</h3>
-                <br><hr><br>
-                <p>아이디 : {{myInfo.userId}}</p>
-                <p>학번 : {{myInfo.studentId}}</p>
-                <p>전공 : {{myInfo.major}}</p>
-                <p>이메일 : {{myInfo.email}}</p>
-                <br><br><br><br><br><br>
-                <div id="chg_pw">
-                    <a href="{% url 'change_pw' %}">비밀번호 변경</a>
-                </div>
-                <div id="de_u">
-                    <a href="{% url 'delete_user'%}">탈퇴하기</a>
-                </div>
-            </div>
-        </li>
-        <li>
-            <div class="evaluation">
-                <h3>내가 작성한 강의평</h3>
-                <br><hr><br>
-                {% if myEval %}
-                    {% for eval in myEval %}
-                        <a href="{% url 'detail' eval.lect_id.num %}"><p>{{eval.lect_id.lecture_name}}__{{eval.date|date:'Y-m-d'}}</p></a><br>
-                        <p>{{eval.summary}}</p><br>
-                        <!--삭제 버튼을 눌렀을 때 바로 삭제하지 않고 한 번 물어보기..-->
-                        <a href="{% url 'delete_eval' eval.num %}" onclick="return confirm('확인을 누르면 강의평이 삭제됩니다.');">삭제</a>
-                    {% endfor %}
-                {% else %}
-                    <p>작성한 강의평이 없습니다.</p>
-                    <p><a href="{% url 'lectureList' %}">강의평 작성하러 가기</a></p>
-                {% endif %}
-            </div>
-        </li>
-    </ul>
-</div>
+{% endblock %}
 
-    <!--페이지 navi-->
-    <div>
-        <!--첫 페이지면 실행되지 않음-->
-        {% if myEval.has_previous %}
-            <a href="?page=1">First</a>
-            <a href="page={{myEval.previous_page_number}}">Previous</a>
-        {% endif %}
-
-        <span>{{myEval.number}}</span>
-        <span>of</span>
-        <span>{{myEval.paginator.num_pages}}</span>
-
-        <!--마지막 페이지면 실행되지 않음-->
-        {% if myEval.has_next %}
-            <a href="?page={{myEval.next_page_number}}">Next</a>
-            <a href="?page={{myEval.paginator.num_pages}}">Last</a>
-        {% endif %}
+{% block content %}
+<div class="col-md-4">
+    <div class="userInfo">
+        <h3>나의 정보</h3>
+        <br><hr><br>
+        <p>아이디 : {{myInfo.userId}}</p>
+        <p>학번 : {{myInfo.studentId}}</p>
+        <p>전공 : {{myInfo.major}}</p>
+        <p>이메일 : {{myInfo.email}}</p>
+        <br><hr><br>
+        <div class="btn_group">
+            <a href="{% url 'change_pw' %}">비밀번호 변경</a>
+            <a href="{% url 'delete_user'%}">탈퇴하기</a>
+        </div> 
     </div>
+  </div>
+
+  <div class="col-md-8">
+        <h3>내가 작성한 강의평</h3>
+        <hr><br>
+        {% if myEval %}
+            {% for eval in myEval %}
+            <div class="col-sm-5 evaluation">
+                <a href="{% url 'detail' eval.lect_id.num %}"><p>{{eval.lect_id.lecture_name}}__{{eval.date|date:'Y-m-d'}}</p></a>
+                <p>{{eval.summary}}</p>
+                <!--삭제 버튼을 눌렀을 때 바로 삭제하지 않고 한 번 물어보기..-->
+                <a href="{% url 'delete_eval' eval.num %}" onclick="return confirm('확인을 누르면 강의평이 삭제됩니다.');">삭제</a>
+            </div>
+            {% endfor %}
+        {% else %}
+        <div class="col-sm-5">
+            <p>작성한 강의평이 없습니다.</p>
+            <p><a href="{% url 'lectureList' %}">강의평 작성하러 가기</a></p>
+        </div>
+        {% endif %}
+        <br><br>
+        <!--페이지 navi-->
+        <div class="page_navi col-sm-10">
+            <!--첫 페이지면 실행되지 않음-->
+            {% if myEval.has_previous %}
+                <a href="?page=1">First</a>
+                <a href="page={{myEval.previous_page_number}}">Previous</a>
+            {% endif %}
+
+            <span>{{myEval.number}}</span>
+            <span>of</span>
+            <span>{{myEval.paginator.num_pages}}</span>
+
+            <!--마지막 페이지면 실행되지 않음-->
+            {% if myEval.has_next %}
+                <a href="?page={{myEval.next_page_number}}">Next</a>
+                <a href="?page={{myEval.paginator.num_pages}}">Last</a>
+            {% endif %}
+        </div>
+  </div>
 {% endblock %}
