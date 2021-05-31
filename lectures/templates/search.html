@@ -1,34 +1,43 @@
 {% extends 'base.html' %}
 {% block style %}
 <style>
-    .middle{
-        margin: 0 auto;
-        width: 1000px;
-    }
     .not_lectures{
         border:2px solid;
         border-radius: 5%;
         border-color: #5C65BB;
-        width: 500px; height: 300px;
+        width: 900px; height: 420px;
         position: absolute;
         left: 50%; top: 50%;
         transform: translate(-50%, -50%);
+        text-align: center;
+    }
+    #no_serach_img{
+        display: inline-block;
+        font-size: 200px;
     }
     h1{
         text-align: center;
     }
     .table{
-        width: 1000px;
         border: 2px solid;
         border-radius: 2em;
         border-color: #5C65BB;
-        
+        padding-top: 15px;
+    }
+    th{
+        text-align: center;
+        padding-bottom: 5px;
+    }
+    td{
+        padding: 5px;
+    }
+    .line{
+        border-bottom: 2px solid;
+        border-color: #5C65BB;
     }
     .table_contents{
-        border: 2px solid;
-        border-color: #5C65BB;
         width : 950px;
-        margin:0 auto;
+        margin: auto;
         text-align : center;
     }
     #color {
@@ -40,70 +49,59 @@
         float: right;
         width : 200px; height: 50px;
         background-color : #5C65BB;
-        border : 10px solid #FFFFFF;
+        border : 5px solid #FFFFFF;
         border-radius: 5em;
 
     }
     .button > a{
        display: block;
-       line-height: 50px;
+       line-height: 40px;
        color : #ffffff;
        font-style : italic;
        text-align : center;
     }
-
-
-
 </style>
 
 {% endblock %}
 {% block content %}
-    <!-- lectures는 검색 결과로 필터링 된 값(학수번호로 오름차순 정렬 상태) -->
-    <div class = "middle">
-    
+    <!-- lectures는 검색 결과로 필터링 된 값(학수번호로 오름차순 정렬 상태) -->  
     {% if not lectures %}   <!-- 검색 결과 없음 -->
         <div class = "not_lectures">
-        <h1>검색 결과가 없습니다.</h1>
+            <div id="no_serach_img">&#129300;</div>
+            <h1>검색 결과가 없습니다.</h1>
         </div>
         <hr>
-
     {% else %}  <!-- 검색 결과 있음-->
-        
-        <h1>검색 결과</h1>
+        <h2>검색 결과</h2>
         <hr>
-
-        <div class = "table" id="color">
-
-        <div style="overflow:auto; width:1000px; height:500px">
-            <table border="1" class="table_contents">
-                <tr>
-                    <th>학수번호</th>   <!-- lecture_id -->
-                    <th>강의명</th>     <!-- lecture_name -->
-                    <th>교수명</th>     <!-- professor -->
-                    <th>과목구분</th>   <!-- lecture_type -->
-                    <th>개설학과</th>   <!-- department -->
-                </tr>
-                {% for foundL in lectures %}
-                <tr>
-                    <td>{{foundL.lecture_id}}</td>
-                    <td>{{foundL.lecture_name}}</td>
-                    <td>{{foundL.professor}}</td>
-                    <td>{{foundL.lecture_type}}</td>
-                    <td>{{foundL.department}}</td>
-                </tr>
-                {% endfor %}
-            </table>
+        <div class = "table" id="color" style="height: 420px;">
+            <div style="overflow:scroll; overflow-x:hidden; width:auto; height: 400px;">
+                <table border="0" class="table_contents">
+                    <tr class="line">
+                        <th>학수번호</th>   <!-- lecture_id -->
+                        <th>강의명</th>     <!-- lecture_name -->
+                        <th>교수명</th>     <!-- professor -->
+                        <th>과목구분</th>   <!-- lecture_type -->
+                        <th>개설학과</th>   <!-- department -->
+                        <th>조회수</th>   <!--count -->
+                    </tr>
+                    {% for foundL in lectures %}
+                    <tr class="line">
+                        <td>{{foundL.lecture_id}}</td>
+                        <td><a href="{% url 'detail' foundL.num %}">{{foundL.lecture_name}}</a></td>
+                        <td>{{foundL.professor}}</td>
+                        <td>{{foundL.lecture_type}}</td>
+                        <td>{{foundL.department}}</td>
+                        <td>{{foundL.count}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
         </div>
-        </div>
-
     {% endif %}
 
     <!-- 하이퍼링크 연결 -->
     <div class="button">
-    <a href="{% url 'home' %}">홈으로 이동</a></div>
-    <div class="button">
-    <a href="{% url 'lectureList' %}">강의 목록으로 이동</a>
+        <a href="{% url 'lectureList' %}">강의 목록으로 이동</a>
     </div>
-    </div>
-
 {% endblock %}

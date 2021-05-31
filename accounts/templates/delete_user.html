@@ -1,26 +1,33 @@
 {% extends 'base.html' %}
 {% block content %}
 <style>
-    #delete_btn{
-        background-color: #5C65BB;
-        margin-top: 20px;
-        width:80%; height: 30px;
-        border: none;
-        border-radius: 5em;
-        color:#ffffff;
-    }
-    .delete_form{
-        text-align: center;
-    }
     .delete_user{
         border:2px solid;
         border-radius: 5%;
         border-color: #5C65BB;
-        width: 500px; height: 300px;
+        width: 600px; height: 300px;
         position: absolute;
         left: 50%; top: 45%;
         transform: translate(-50%, -50%);
-        padding:30px;
+        padding: 20px 30px;
+        text-align: center;
+        font-size: medium;
+        font-weight: bold;
+    }
+    .pin{
+      display: inline-block;
+      font-size: 25px;
+    }
+   #info{
+       margin-top: 20px;
+    }
+    #delete_btn{
+        background-color: #5C65BB;
+        margin-top: 15px;
+        width:80%; height: 30px;
+        border: none;
+        border-radius: 5em;
+        color:#ffffff;
     }
     .pw{
         border:none;
@@ -28,29 +35,30 @@
         width:200px;
         margin-bottom: 10px;
         margin-left:5px;
-        margin-top: 30px;
+        margin-top: 15px;
     }
     input:focus{
         outline: none;
     }
 </style>
 <div class="delete_user">
-    <div>
-        <p>
-            <strong style="color: purple;">{{request.user}}</strong>님 지금까지 저희 서비스를 이용해주셔서 감사합니다.<br><br>
-            회원 탈퇴 시 입력한 개인정보는 모두 삭제되며, 작성하신 강의평은 삭제되지 않습니다.<br><br>
-            탈퇴를 원하시면 비밀번호 입력 후 '탈퇴하기' 버튼을 눌러주세요.<br><br>
+    <div class="pin">&#128204;</div>
+    <div id="info">
+        <p><strong style="color: purple;">{{request.user}}</strong>님 지금까지 저희 서비스를 이용해주셔서 감사합니다.</p>
+        <p style="text-align: left;">
+            회원 탈퇴 시 입력한 개인정보는 모두 삭제되며, 작성한 강의평은 삭제되지 않습니다.
+            탈퇴를 원하면 비밀번호 입력 후 '탈퇴하기' 버튼을 눌러주세요.<br>
         </p>
     </div>
-    <div class="delete_form">
+
+    <div>
         <form action="{% url 'delete_user' %}" method="POST">
             {% csrf_token %}
             {{form}}
-        
+
             {% for message in messages %}
-                <p>❗ {{ message }}</p>
+                <p style="margin-bottom: 0;">❗ {{ message }}</p>
             {% endfor %}
-            <br>
             <input id="delete_btn" type="submit" value="탈퇴하기">
         </form>
     </div>

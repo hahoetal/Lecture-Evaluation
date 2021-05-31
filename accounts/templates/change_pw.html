@@ -5,20 +5,11 @@
         border:2px solid;
         border-radius: 5%;
         border-color: #5C65BB;
-        width: 450px; height: 330px;
+        width: 600px; height: 400px;
         position: absolute;
         left: 50%; top: 45%;
         transform: translate(-50%, -50%);
-        padding: 30px;
-    }
-    #chgPw_btn{
-        background-color: #5C65BB;
-        margin-top: 20px;
-        width:80%; height: 30px;
-        border: none;
-        border-radius: 5em;
-        margin-left: 30px;
-        color:#ffffff;
+        padding: 10px 30px;
     }
     .org_pw{
         border:none;
@@ -27,12 +18,16 @@
         margin-bottom: 10px;
         margin-left:5px;
     }
+    .tips{
+        background-color: #ffffff;
+        padding: 10px 60px;
+        border-radius: 5%;
+        margin: 20px;
+    }
     .new_pw{
         border:none;
         border-bottom: 2px solid #5C65BB;
         width:200px;
-        margin-bottom: 20px;
-        margin-left:5px;
     }
     .new_pwr{
         border:none;
@@ -40,24 +35,44 @@
         width:200px;
         margin-top: 30px;
         margin-left:5px;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
     }
     input:focus{
         outline: none;
     }
-    .chg_pw li{
-        font-size: 10px;
-        margin-left: 30px;
+    #chgPw_btn{
+        background-color: #5C65BB;
+        margin-top: 10px;
+        width:80%; height: 30px;
+        border: none;
+        border-radius: 5em;
+        color:#ffffff;
     }
 </style>
 <div class="chg_pw">
+    <h2 style="text-align: center; padding-bottom: 10px;">비밀번호 변경</h2>
     {% if target %}
         {{target.userId}}
     {% else %}
         <form action="{% url 'change_pw' %}" method="POST">
             {% csrf_token %}
-            {{form.as_p}}
-            <input id="chgPw_btn" type="submit" value="비밀번호 바꾸기">
+            <div style="text-align: center;">
+                {{form.old_password.label}}:{{form.old_password}}
+            </div>
+            <div class="tips">
+                <ul>
+                    <li>다른 개인정보와 비슷한 비밀번호는 사용할 수 없습니다.</li>
+                    <li>비밀번호는 최소 8자 이상이어야 합니다.</li>
+                    <li>비밀번호는 일상적으로 사용되는 비밀번호일 수 없습니다.</li>
+                    <li>비밀번호는 전부 숫자로 할 수 없습니다.</li>
+                </ul>
+            </div>
+            <div style="text-align: center;">
+                {{form.new_password1.label}}: {{form.new_password1}}<br>
+                {{form.new_password2.label}}: {{form.new_password2}}
+                <input id="chgPw_btn" type="submit" value="비밀번호 바꾸기">
+            </div>
+            
         </form>
     {% endif %}
 </div>

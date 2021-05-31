@@ -3,19 +3,30 @@
 <style>
    .pw_rd{
       border:2px solid;
-        border-radius: 5%;
-        border-color: #5C65BB;
-        width: 300px; height: 300px;
-        position: absolute;
-        left: 50%; top: 45%;
-        transform: translate(-50%, -50%);
-        padding: 30px;
+      border-radius: 5%;
+      border-color: #5C65BB;
+      width: 600px; height: 300px;
+      position: absolute;
+      left: 50%; top: 45%;
+      transform: translate(-50%, -50%);
+      padding: 20px 30px;
+      font-size: medium;
+      font-weight: bold;
+      text-align: center;
+   }
+   .pin{
+      display: inline-block;
+      font-size: 25px;
+      margin-bottom: 30px;
+   }
+   .link{
+      text-align: center;
    }
 </style>
 <div class="pw_rd">
-   <p>메일을 성공적으로 보냈습니다!</p>
+   <div class="pin">&#128204;</div>
+   <p>&#127881;메일을 성공적으로 보냈습니다!</p>
    <p>만약 메일이 오지 않았다면 스팸 메일함을 한 번 확인해주세요.</p>
-
-   <a href="\">home</a>
+   <div class="link"><a href="\">home</a></div>
 </div>
 {% endblock %}

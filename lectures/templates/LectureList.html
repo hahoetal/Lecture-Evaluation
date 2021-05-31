@@ -187,30 +187,29 @@
     </form>
 
     <!-- 강의 목록 나열 -->
-    <div class = "table" id="color">
-    <div style="overflow:scroll; overflow-x:hidden; width:auto; height:500px;">
-        <table border="0" class="table_contents">
-            <tr class="line">
-                <th>학수번호</th>   <!-- lecture_id -->
-                <th>강의명</th>     <!-- lecture_name -->
-                <th>교수명</th>     <!-- professor -->
-                <th>과목구분</th>   <!-- lecture_type -->
-                <th>개설학과</th>   <!-- department -->
-                <th>조회수</th>   <!--count -->
-
-            </tr>
-            <!-- view에서 넘어온 데이터 출력 -->
-            {% for lecture in lectures %}   
-            <tr class="line">
-                <td>{{lecture.lecture_id}}</td>
-                <td><a href="{% url 'detail' lecture.num %}">{{lecture.lecture_name}}</a></td>
-                <td>{{lecture.professor}}</td>
-                <td>{{lecture.lecture_type}}</td>
-                <td>{{lecture.department}}</td>
-                <td>{{lecture.count}}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
+    <div class = "table" id="color" style="height: 350px;">
+        <div style="overflow:scroll; overflow-x:hidden; width:auto; height: 320px;">
+            <table border="0" class="table_contents">
+                <tr class="line">
+                    <th>학수번호</th>   <!-- lecture_id -->
+                    <th>강의명</th>     <!-- lecture_name -->
+                    <th>교수명</th>     <!-- professor -->
+                    <th>과목구분</th>   <!-- lecture_type -->
+                    <th>개설학과</th>   <!-- department -->
+                    <th>조회수</th>   <!--count -->
+                </tr>
+                <!-- view에서 넘어온 데이터 출력 -->
+                {% for lecture in lectures %}   
+                <tr class="line">
+                    <td>{{lecture.lecture_id}}</td>
+                    <td><a href="{% url 'detail' lecture.num %}">{{lecture.lecture_name}}</a></td>
+                    <td>{{lecture.professor}}</td>
+                    <td>{{lecture.lecture_type}}</td>
+                    <td>{{lecture.department}}</td>
+                    <td>{{lecture.count}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
     </div>
 {% endblock %}

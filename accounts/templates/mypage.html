@@ -98,7 +98,7 @@
             <!--첫 페이지면 실행되지 않음-->
             {% if myEval.has_previous %}
                 <a href="?page=1">First</a>
-                <a href="page={{myEval.previous_page_number}}">Previous</a>
+                <a href="?page={{myEval.previous_page_number}}">Previous</a>
             {% endif %}
 
             <span>{{myEval.number}}</span>

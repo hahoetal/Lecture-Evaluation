@@ -211,9 +211,9 @@ class SetPWForm(SetPasswordForm):
         super(SetPWForm, self).__init__(*args, **kwargs)
         self.fields['new_password1'].label = "새 비밀번호"
         self.fields['new_password1'].widget.attrs.update({
-            'class':'',
+            'class':'pw_input',
         })
         self.fields['new_password2'].label = "새 비밀번호 확인"
         self.fields['new_password2'].widget.attrs.update({
-            'class': '',
+            'class': 'pw_input',
         })
