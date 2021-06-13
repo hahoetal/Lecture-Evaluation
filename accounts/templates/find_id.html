@@ -6,10 +6,12 @@
         border:2px solid;
         border-radius: 5%;
         border-color: #5C65BB;
-        width: 350px; height: 380px;
+        width: 400px; height: 380px;
         position: absolute;
         left: 50%; top: 45%;
         transform: translate(-50%, -50%);
+        padding: 20px 30px;
+        text-align: center;
     }
     h2{
         text-align: center;
@@ -31,6 +33,10 @@
         margin-bottom: 10px;
         margin-left: 5px;
     }
+    .pin{
+      display: inline-block;
+      font-size: 25px;
+   }
     .input{
         margin-left: 20px;
         margin-top: 30px;
@@ -54,7 +60,10 @@
 </style>
 <div class="find_ID">
     {% if target %}
-        <p>{{target.userId}}</p>
+        <div class="pin">&#128204;</div>
+            <p style="padding-top: 40px; font-size: medium;">가입 정보와 일치하는 ID는 <strong style="color:#5C65BB">{{target.userId}}</strong> 입니다.</p>
+            <br>
+            <p><a href="{% url 'login' %}">로그인</a>하기</p>
     {% else %}
     <h2>아이디 찾기</h2>
         <form action="{% url 'findId' %}" method="POST">

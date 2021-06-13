@@ -17,6 +17,17 @@
         border: none;
         border-radius: 5em;
         color:#ffffff;
+        position:absolute;
+        bottom: 25px;
+    }
+    #signUp_btn:disabled{
+        background-color: #acb2e7;
+        margin-top: 30px;
+        margin-left: 7%;
+        width:85%; height:30px;
+        border: none;
+        border-radius: 5em;
+        color:#ffffff;
     }
     .clause{
         border:2px solid;
@@ -62,11 +73,12 @@
         border:2px solid;
         border-radius: 5%;
         border-color: #5C65BB;
-        width: 300px; height: 350px;
+        width: 400px; height: 350px;
         color: #5C65BB;
         position:absolute;
         margin-top: 3px;
         margin-left: 600px;
+        font-size: medium;
     }
     .form_createUserInside{
         margin-left: 20px;
@@ -88,6 +100,9 @@
     }
     #pw1{
         margin-right: 30px;
+    }
+    label{
+        font-weight: bold;
     }
 </style>
 
@@ -235,7 +250,15 @@
             <div class="form_createUser">
                 <div class="form_createUserInside">
                     {% csrf_token %}
-                    {{form}}
+                    {{form.userId.errors}}
+                    {{form.userId.label_tag}} {{form.userId}}<br>
+                    {{form.major.label_tag}} {{form.major}}<br>
+                    {{form.email.errors}}
+                    {{form.email.label_tag}} {{form.email}}<br>
+                    {{form.password1.errors}}
+                    {{form.password1.label_tag}} {{form.password1}}<br>
+                    {{form.password2.errors}}
+                    {{form.password2.label_tag}} {{form.password2}}
                 </div>
                 <input id="signUp_btn" type="submit" name="bt" disabled="true" value="회원가입"> <!--이용약관에 동의하지 않으면, 회원가입 버튼을 누를 수 없음.-->
             </div>

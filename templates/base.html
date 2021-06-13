@@ -18,9 +18,17 @@
     {% endblock %}
 </head>
 <style>
+    @font-face {
+    font-family: 'CookieRun-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/CookieRun-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    }
+
     *{
         margin:0;
         padding: 0;
+        font-family: 'CookieRun-Regular';
     }
     body{
         margin:0;
@@ -57,7 +65,7 @@
         text-decoration-thickness: 5px;
     }
     #logo{
-        width:50px; height:50px;
+        width:40px; height:40px;
     }
     /* 로그인 전 navi */
     .before_login a{
@@ -132,7 +140,8 @@
 <body>
     <nav class="navbar">
         <ul id="nav">
-            <li><a href="{% url 'home' %}"><img id="logo" src="ui-sym-ico01.png"></a></li>
+            {% load static %}
+            <li><a href="{% url 'home' %}"><img id="logo" src="{% static 'img/수정구.png' %}"></a></li>
             <li><a href="{% url 'home' %}">HOME</a></li>
             <li><a href="{% url 'lectureList' %}">Lecture Evaluation</a></li>
             <li><a href="{% url 'mypage' %}">My Page</a></li>
@@ -170,28 +179,28 @@
             <div>
                 <ul class="footer_ul">
                     <ul id="ul">
-                        <li>▶ 개인정보 보호책임자</li>
-                        <li>성명 :김영은</li>
-                        <li>직책 :팀장</li>
-                        <li>연락처 : 010-1234-5678, yeongeun@email.com</li>
+                        <li>▶ 팀장</li>
+                        <li>이름: 김영은</li>
+                        <li>담당: 백엔드</li>
+                        <li>연락처: 010-1234-5678, yeongeun@email.com</li>
                     </ul>
                     <ul id="ul">
-                        <li>▶ 개인정보 보호 담당부서</li>
-                        <li>부서명 : DB 설계</li>
-                        <li>담당자 : 김지윤</li>
-                        <li>연락처 : 010-1234-5678, jiyoon@email.com</li>
+                        <li>▶ 팀원</li>
+                        <li>이름: 김지윤</li>
+                        <li>담당: DB 설계 & 디자인</li>
+                        <li>연락처: 010-1234-5678, jiyoon@email.com</li>
                     </ul>
                     <ul id="ul">
-                        <li>▶ 개인정보 열람청구 접수·처리 부서</li>
-                        <li>부서명 : DB 설계</li>
-                        <li>담당자 : 김재영</li>
-                        <li>연락처 : 010-1234-5678, jaeyeong@email.com</li>
+                        <li>▶ 팀원</li>
+                        <li>이름: 김재영</li>
+                        <li>담당: DB 설계 & 디자인</li>
+                        <li>연락처: 010-1234-5678, jaeyeong@email.com</li>
                     </ul>
                     <ul id="ul">
-                        <li>▶ 개인정보 열람청구 접수·처리 부서</li>
-                        <li>부서명 : DB 설계</li>
-                        <li>담당자 : 손정후 </li>
-                        <li>연락처 : 010-1234-5678, jaeyeong@email.com</li>
+                        <li>▶ 팀원</li>
+                        <li>이름: 손정후 </li>
+                        <li>담당: 백엔드</li>
+                        <li>연락처: 010-1234-5678, jaeyeong@email.com</li>
                     </ul>
                 </ul>
             </div>

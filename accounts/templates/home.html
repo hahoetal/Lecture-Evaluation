@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-{% block content %}
+
+{% block style %}
 <style>
     .after_login{
         position:absolute;
@@ -10,14 +11,34 @@
     .after_login a{
         color: #ffffff;
     }
+    .eval{
+        background: #dddaff;
+        padding: 20px 30px;
+        height: 200px;
+        margin-bottom:10px;
+        box-shadow: 0px 0px 5px #bbb6ea;
+    }
 </style>
-    
+{% endblock %}
+
+{% block content %}    
+    <div>
+        <h1 style="text-align: center;">강의평가</h1><br>
+        <div class="row">
+            {% for e in evals %}
+            <div class="col-md-3 eval">
+                <h4><a href="{% url 'detail' e.lect_id.num %}">{{e.lect_id.lecture_name}}</a></h4>
+                <p>{{e.date|date:'Y-m-d'}}</p>
+                <p>{{e.summary}}...</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
     {% if messages %}
         {% for message in messages %}
             <script>alert("{{ message }}")</script>
         {% endfor %}
     {% endif %}
-
-    <br>
     
 {% endblock %}

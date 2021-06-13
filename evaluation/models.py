@@ -20,4 +20,4 @@ class Evals(models.Model):
         return self.content[:10]
 
     def summary(self):
-        return self.content[:30]
+        return self.content[:60]

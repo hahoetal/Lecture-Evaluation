@@ -3,7 +3,7 @@ from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView  # 장고에서 제공하는 비밀번호 찾기 기능
-from django.contrib.auth.hashers import check_password
+from django.contrib.auth.hashers import check_password # 입력한 비밀번호가 맞는지 확인
 from django.contrib.auth.decorators import login_required # 데코레이터 사용
 from django.views.generic import FormView, CreateView
 from django.http import HttpResponseNotFound
@@ -15,7 +15,8 @@ from .forms import LoginForm, UserCreationForm, FindIdForm, PWChangeForm, checkP
 
 # 임시 홈
 def home(request): # django는 request와 response 객체를 이용하여 서버와 클라이언트가 상태를 주고 받음.
-    return render(request, 'home.html')
+    evals = Evals.objects.order_by('-date')[:8]
+    return render(request, 'home.html', {'evals':evals})
     # render(): HttpResponse 객체를 반환하는 함수.
     # template를 context와 엮어 HttpResponse로 쉽게 반환하게 해주는 함수.
     
