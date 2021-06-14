@@ -258,4 +258,11 @@ h4{
             }
         }
     </script>
+
+    {% if messages %}
+        {% for message in messages %}
+            <script>alert("{{ message }}")</script>
+        {% endfor %}
+    {% endif %}
+
 {% endblock %}

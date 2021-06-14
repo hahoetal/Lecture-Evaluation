@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 from django.core.paginator import Paginator # 페이지네이션
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required # 데코레이터 사용
 
 from .models import Lectures
 from evaluation.models import Evals
@@ -61,6 +62,7 @@ def avg(evals, target):
     return 0
 
 # 강의 자세히 보기(강의 정보와 강의평을 볼 수 있음)
+@login_required(login_url= '/accounts/login')
 def detail(request, lect_id):
     # 강의 정보
     lect = get_object_or_404(Lectures, pk=lect_id)

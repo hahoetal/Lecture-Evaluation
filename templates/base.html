@@ -144,10 +144,11 @@
             <li><a href="{% url 'home' %}"><img id="logo" src="{% static 'img/수정구.png' %}"></a></li>
             <li><a href="{% url 'home' %}">HOME</a></li>
             <li><a href="{% url 'lectureList' %}">Lecture Evaluation</a></li>
+
+            {% if user.is_authenticated %} <!--DB에 사용자 정보가 존재하고, 그 사용자가 로그인한 상태인지-->
             <li><a href="{% url 'mypage' %}">My Page</a></li>
 
             <div class="login_btn">
-                {% if user.is_authenticated %} <!--DB에 사용자 정보가 존재하고, 그 사용자가 로그인한 상태인지-->
                 <div class="after_login">
                     <p>안녕하세요! {{request.user.userId}}님
                         <a id="logout_a" href="{% url 'logout' %}">로그아웃</a>

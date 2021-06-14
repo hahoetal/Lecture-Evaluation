@@ -50,12 +50,13 @@
     #msg{
         text-align: center;
         padding: 10px;
-        background-color: #ffffff;
         margin: 10px 10px 0 10px;
     }
     #msg p{
         margin-bottom: 0;
         font-weight: bold;
+        font-size: 15px;
+        margin-top: 15px;
     }
 </style>
 <div class="find_ID">
@@ -65,24 +66,26 @@
             <br>
             <p><a href="{% url 'login' %}">로그인</a>하기</p>
     {% else %}
-    <h2>아이디 찾기</h2>
-        <form action="{% url 'findId' %}" method="POST">
-            <div class="input">
-                {% csrf_token %}
-                {{form.as_p}}
+        {% if messages %}
+            <div id="msg">
+                <div class="pin">&#128204;</div>
+                {% for message in messages %}
+                <p>❗ {{ message }}</p>
+                {% endfor %}
+                <p><a href="{% url 'findId' %}">아이디 찾기</a></p>
+                <p>혹시 아직 회원이 아니신가요??</p>
+                <p><a href='{% url "signup" %}'>회원가입</a>하러 가기</p>
             </div>
-            
-            <input id="findId_btn" type="submit" value="아이디 찾기">
-            
-            {% if messages %}
-                <div id="msg">
-                    {% for message in messages %}
-                    <p>❗ {{ message }}</p>
-                    {% endfor %}
-                    <a href="{% url 'signup' %}" id="signup_btn">회원가입</a>
+        {% else %}
+            <h2>아이디 찾기</h2>
+            <form action="{% url 'findId' %}" method="POST">
+                <div class="input">
+                    {% csrf_token %}
+                    {{form.as_p}}
                 </div>
-            {% endif %}
-        </form>
+                <input id="findId_btn" type="submit" value="아이디 찾기">
+            </form>
+        {% endif %}
     {% endif %}
 </div>
 

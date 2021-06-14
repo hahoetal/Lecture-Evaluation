@@ -12,27 +12,27 @@ from .models import Evals
 @login_required(login_url= '/accounts/login')
 def create(request, num):
     if request.method == "POST":
+        form = EvalForm(request.POST)
+        if form.is_valid():
+            eval = form.save(commit=False) # 일단 DB에 저장하지 않고
+            eval.lect_id = get_object_or_404(Lectures, pk=num) # 강의 정보를 가져와 넣어주고
+            eval.author = User.objects.get(userId=request.user.get_username()) # 글 작성을 요청한 사용자 넣어주고
+            eval.date = timezone.datetime.now() # 현재 시간 넣어주고
+            eval.hw_level = request.POST['hw_level'] # 과제 난이도 넣어주고
+            eval.test_level = request.POST['test_level'] # 시험 난이도 넣어주고
+            eval.lect_power = request.POST['lect_power'] # 강의력까지 넣어주고
+            eval.save() # db에 저장
+        return redirect('detail', num) # 저장되면 강의 자세히 보기 페이지로 이동
+    else:
         try: # 강의평을 작성하면 일단 요청한 사용자와 강의가 일치하는 강의평 가져오기
             user = request.user.get_username()
             lect = Lectures.objects.get(pk=num)
             Evals.objects.get(author=user, lect_id=lect)
             messages.warning(request, '강의평을 이미 작성했습니다.')
-        except: # 강의평 가져오기가 실패하면.. 요청한 사용자는 강의평을 작성하지 않은 것 임
-            form = EvalForm(request.POST)
-            if form.is_valid():
-                eval = form.save(commit=False) # 일단 DB에 저장하지 않고
-                eval.lect_id = get_object_or_404(Lectures, pk=num) # 강의 정보를 가져와 넣어주고
-                eval.author = User.objects.get(userId=request.user.get_username()) # 글 작성을 요청한 사용자 넣어주고
-                eval.date = timezone.datetime.now() # 현재 시간 넣어주고
-                eval.hw_level = request.POST['hw_level'] # 과제 난이도 넣어주고
-                eval.test_level = request.POST['test_level'] # 시험 난이도 넣어주고
-                eval.lect_power = request.POST['lect_power'] # 강의력까지 넣어주고
-                eval.save() # db에 저장
-                return redirect('detail', num) # 저장되면 강의 자세히 보기 페이지로 이동
-        return redirect('detail', num) # 저장되면 강의 자세히 보기 페이지로 이동
-    else:
-        form = EvalForm()
-        return render(request, 'create.html', {'form': form})
+            return redirect('detail', num)
+        except: # 강의평 가져오기가 실패하면.. 요청한 사용자는 강의평을 작성하지 않은 것. 강의평 작성 폼 띄우기
+            form = EvalForm()
+            return render(request, 'create.html', {'form': form})
 
 # 글 삭제하기
 @login_required(login_url= '/accounts/login')
@@ -55,8 +55,10 @@ def recommand(request, eval_num, lect_num):
     if request.user != eval.author: # 자기가 쓴 글은 추천할 수 없음.
         eval.count += 1 # 해당 함수가 실행되면 count가 1 증가
         eval.save() # 저장을 해주어야만 DB에 반영!!
+    else:
+        messages.warning(request, "본인이 작성한 글은 추천할 수 없습니다.")
         
     lect.count -= 1 # 강의평 추천이 성공적으로 이루어지면, 다시 detail 페이지를 띄우는데 이때 조회수가 증가하지 않도록 1을 빼주기
     lect.save()  
     return redirect('detail', lect_num)
-    # 사용자가 자가 쓴 글을 추천하려고 하는 경우, 경고창 띄우기. 또 추천은 한 번만 할 수 있게 코드 고민하기
+    # 추천은 한 번만 할 수 있게 코드 고민하기
