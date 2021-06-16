@@ -52,7 +52,7 @@
 <div class="chg_pw">
     <h2 style="text-align: center; padding-bottom: 10px;">비밀번호 변경</h2>
     {% if target %}
-        {{target.userId}}
+        {{target.user_id}}
     {% else %}
         <form action="{% url 'change_pw' %}" method="POST">
             {% csrf_token %}

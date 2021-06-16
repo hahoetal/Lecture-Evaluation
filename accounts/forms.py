@@ -32,15 +32,15 @@ class UserCreationForm(forms.ModelForm):
      # User 모델에 이미 만들어져 있는 field 가져오기
     class Meta:
         model = User
-        fields= ('userId', 'major', 'studentId', 'email')
+        fields= ('user_id', 'major', 'student_id', 'email')
 
     # 초기화.
     # <form>을 이용해 form을 직접 만들지 않고, 미리 만들어진 form(djanog form)을 사용하기 때문에 css를 적용하려면 아래와 같이 작성하기 
     def __init__(self, *args, **kwargs):
         super(UserCreationForm, self).__init__(*args, **kwargs)
 
-        self.fields['userId'].label= '아이디 ' # <label>와 관련. 
-        self.fields['userId'].widget.attrs.update({ # css와 관련
+        self.fields['user_id'].label= '아이디 ' # <label>와 관련. 
+        self.fields['user_id'].widget.attrs.update({ # css와 관련
             'class': 'create_user', # css 클래스
             'id':'cu1',
             'placeholder': '아이디',
@@ -52,8 +52,8 @@ class UserCreationForm(forms.ModelForm):
             'id': 'cu2',
         })
 
-        self.fields['studentId'].label= '학번 '
-        self.fields['studentId'].widget.attrs.update({
+        self.fields['student_id'].label= '학번 '
+        self.fields['student_id'].widget.attrs.update({
             'class': 'create_user',
             'id':'cu3',
             'placeholder': '학번',
@@ -91,10 +91,10 @@ class UserChangeForm(forms.ModelForm):
     class Meta:
         model = User
         fields= (
-            'userId',
+            'user_id',
             'password',
             'major',
-            'studentId',
+            'student_id',
             'email',
         )
 
@@ -105,7 +105,7 @@ class UserChangeForm(forms.ModelForm):
 
 # 로그인 폼
 class LoginForm(forms.Form):
-    userId= forms.CharField(
+    user_id= forms.CharField(
         label= '',
         widget=forms.TextInput(
             attrs={
@@ -126,14 +126,14 @@ class LoginForm(forms.Form):
 
     def clean(self):
         cleaned_data= super().clean()
-        userId= cleaned_data.get('userId')
+        user_id= cleaned_data.get('user_id')
         password= cleaned_data.get('password')
 
-        if userId and password:
+        if user_id and password:
             try:
-                user= User.objects.get(userId=userId)
+                user= User.objects.get(user_id=user_id)
             except User.DoesNotExist:
-                self.add_error('userId', '❗ 아이디가 존재하지 않습니다.')
+                self.add_error('user_id', '❗ 아이디가 존재하지 않습니다.')
                 return
 
             if not check_password(password, user.password):
@@ -143,7 +143,7 @@ class LoginForm(forms.Form):
 class FindIdForm(forms.ModelForm):
     class Meta:
         model = User
-        fields= ('studentId','major','email',) # 학과는 입력하지 않고 선택할 수 있도록 만들기
+        fields= ('student_id','major','email',) # 학과는 입력하지 않고 선택할 수 있도록 만들기
     def __init__(self, *args, **kwargs):
         super(FindIdForm, self).__init__(*args, **kwargs)
 
@@ -153,8 +153,8 @@ class FindIdForm(forms.ModelForm):
             'id': 'fi1'
         })
 
-        self.fields['studentId'].label= '학번 '
-        self.fields['studentId'].widget.attrs.update({
+        self.fields['student_id'].label= '학번 '
+        self.fields['student_id'].widget.attrs.update({
             'class': 'find_id',
             'id':'fi2',
             'placeholder': '학번',

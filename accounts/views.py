@@ -15,7 +15,7 @@ from .forms import LoginForm, UserCreationForm, FindIdForm, PWChangeForm, checkP
 
 # 임시 홈
 def home(request): # django는 request와 response 객체를 이용하여 서버와 클라이언트가 상태를 주고 받음.
-    evals = Evals.objects.order_by('-date')[:8]
+    evals = Evals.objects.order_by('-eval_date')[:8]
     return render(request, 'home.html', {'evals':evals})
     # render(): HttpResponse 객체를 반환하는 함수.
     # template를 context와 엮어 HttpResponse로 쉽게 반환하게 해주는 함수.
@@ -32,14 +32,14 @@ class LoginView(FormView):
     # form에 입력한 내용이 유효한지 검사
     # 값이 유효하다면 True가 리턴되고, cleaned_data에 값이 저장 됨.
     def form_valid(self, form):
-        userId = form.cleaned_data.get("userId")
+        userId = form.cleaned_data.get("user_id")
         password = form.cleaned_data.get("password")
         # 입력한 아이디와 비밀번호가 DB에 있는 유저 정보와 일치하는지 확인, 일치하면 해당 유저 데이터 반환.
         user = authenticate(self.request, username=userId, password=password)
 
         # 일치하는 유저가 있는 경우. authenticate()는 username과 password가 일치하지 않으면 None을 반환.
         if user is not None:
-            self.request.session['userId'] = userId # request 객체의 session 부분에 로그인한 사용자 정보 입력.
+            self.request.session['user_id'] = userId # request 객체의 session 부분에 로그인한 사용자 정보 입력.
             login(self.request, user) # django가 제공하는 로그인 함수.
         return super().form_valid(form)
 
@@ -70,7 +70,7 @@ def find_id(request):
     form = FindIdForm()
 
     if request.method == 'POST': # 전달 방식이 POST, 즉 아이디를 찾기 위해 요구된 정보를 입력한 경우 
-        s_id = request.POST.get('studentId')
+        s_id = request.POST.get('student_id')
         major = request.POST.get('major') # 학과 입력은 select box를 활용하는 방식으로 고치기
         email = request.POST.get('email')
         
@@ -158,7 +158,7 @@ class PWResetCompleteView(PasswordResetCompleteView):
 @login_required(login_url= '/accounts/login')
 def mypage(request):
     user = request.user.get_username() # 요청한 유저의 아이디 가져오기
-    myInfo = User.objects.get(userId=user) # 요청한 유저의 아이디와 일치하는 유저 객체 가져오기
+    myInfo = User.objects.get(user_id=user) # 요청한 유저의 아이디와 일치하는 유저 객체 가져오기
     
     evals = Evals.objects.filter(author=user) # 요청한 유저가 작성한 평가글 정보 가져오기
     paginator = Paginator(evals, 6) # 강의평 객체 6개를 한 페이지로 자르기

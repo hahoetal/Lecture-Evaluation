@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
-from . import my_settings # 중요한 정보 분리해서 보관, 프로젝트에 꼭 필요한 내용이지만, github에 올리면 안 되는 정보가 담겨있음.
 #from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -82,10 +81,21 @@ AUTH_USER_MODEL = 'accounts.User'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'), #'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql', # 사용할 엔진
+        'NAME': '', # 연동할 MySQL의 데이터베이스 이름
+        'USER': '', # DB 접속 계정 이름
+        'PASSWORD': '', # DB 접속 계정 비밀번호
+        'HOST': '', # 실제 DB 주소
+        'PORT': '3306', # SHOW GLOBAL VARIABLES LIKE 'PORT'; MySQL port 번호 찾기
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'), #'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation
@@ -138,12 +148,18 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# 비밀번호 찾기_이메일 보내기
-EMAIL_BACKEND= my_settings.EMAIL['EMAIL_BACKEND']
-EMAIL_USE_TLS= my_settings.EMAIL['EMAIL_USE_TLS']
-EMAIL_PORT= my_settings.EMAIL['EMAIL_PORT']
-EMAIL_HOST= my_settings.EMAIL['EMAIL_HOST']
-EMAIL_HOST_USER= my_settings.EMAIL['EMAIL_HOST_USER']
-EMAIL_HOST_PASSWORD= my_settings.EMAIL['EMAIL_HOST_PASSWORD']
-SERVER_EMAIL= my_settings.EMAIL['SERVER_EMAIL']
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER # 사이트와 관련한 자동응답을 받을 이메일 주소
+# 이메일 이용해서 비밀번호 찾기
+# 장고에서 메일 보내기 위한 설정(smtp 프로토콜 사용)
+
+# 네이버 메일
+# 메일 환경 설정에 들어가서 POP3/IMAP 설정에서 '사용함'으로 체크
+
+EMAIL ={
+    'EMAIL_BACKEND': 'django.core.mail.backends.smtp.EmailBackend',
+    'EMAIL_USE_TLS': 'True',
+    'EMAIL_PORT': 587,
+    'EMAIL_HOST': 'smtp.naver.com',
+    'EMAIL_HOST_USER': '네이버 계정',
+    'EMAIL_HOST_PASSWORD': '비밀번호',
+    'SERVER_EMAIL': 'admin',
+}

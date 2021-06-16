@@ -66,11 +66,11 @@ def avg(evals, target):
 def detail(request, lect_id):
     # 강의 정보
     lect = get_object_or_404(Lectures, pk=lect_id)
-    lect.count += 1 # detail 함수가 실행될 때마다 count 증가 => 조회수 증가
+    lect.hit += 1 # detail 함수가 실행될 때마다 count 증가 => 조회수 증가
     lect.save() # db에 저장
     
     # 강의평
-    evals = Evals.objects.filter(lect_id=lect_id).order_by('-date')
+    evals = Evals.objects.filter(lect_id=lect_id).order_by('-eval_date')
     paginator = Paginator(evals, 6) # 강의평 객체 6개를 한 페이지로 자르기
     page = request.GET.get('page') # 사용자가 요청한 페이지 알아내고
     evaluations = paginator.get_page(page) # request된 페이지 return
@@ -96,7 +96,7 @@ def ordering(request, lect_id):
     sort = request.GET.get('sort')
 
     if sort == 'recommand':
-        evals = Evals.objects.filter(lect_id=lect_id).order_by('-count', '-date') # 사용자가 요청한 강의와 강의 번호가 일치하는 강의평만 가져오기
+        evals = Evals.objects.filter(lect_id=lect_id).order_by('-counts', '-eval_date') # 사용자가 요청한 강의와 강의 번호가 일치하는 강의평만 가져오기
     else:
         evals = Evals.objects.filter(lect_id=lect_id).order_by('-date')
 

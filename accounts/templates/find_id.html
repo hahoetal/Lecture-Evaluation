@@ -62,7 +62,7 @@
 <div class="find_ID">
     {% if target %}
         <div class="pin">&#128204;</div>
-            <p style="padding-top: 40px; font-size: medium;">가입 정보와 일치하는 ID는 <strong style="color:#5C65BB">{{target.userId}}</strong> 입니다.</p>
+            <p style="padding-top: 40px; font-size: medium;">가입 정보와 일치하는 ID는 <strong style="color:#5C65BB">{{target.user_id}}</strong> 입니다.</p>
             <br>
             <p><a href="{% url 'login' %}">로그인</a>하기</p>
     {% else %}

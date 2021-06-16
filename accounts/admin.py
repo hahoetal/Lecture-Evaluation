@@ -13,22 +13,22 @@ class UserAdmin(BaseUserAdmin):
     add_form = UserCreationForm
 
     # 커스텀 유저 모델이 관리자 화면에서 어떻게 표시될지에 대한 설정
-    list_display = ('userId', 'major', 'studentId', 'email')
+    list_display = ('user_id', 'major', 'student_id', 'email')
     list_filter = ('is_admin',)
     fieldsets = (
-        (None, {'fields': ('userId', 'password')}),
-        ('Personal info', {'fields': ('major', 'studentId', 'email')}),
+        (None, {'fields': ('user_id', 'password')}),
+        ('Personal info', {'fields': ('major', 'student_id', 'email')}),
         ('Permissions', {'fields': ('is_admin',)}),
     )
 
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('userId', 'major', 'studentId', 'email')
+            'fields': ('user_id', 'major', 'student_id', 'email')
         }),
     )
-    search_fields = ('userId',)
-    ordering = ('userId',)
+    search_fields = ('user_id',)
+    ordering = ('user_id',)
     filter_horizontal = ()
 
 admin.site.register(User, UserAdmin) # 커스텀한 유저 모델과 관리자 폼을 사용하겠다!
