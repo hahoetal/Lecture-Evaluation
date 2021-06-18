@@ -75,7 +75,7 @@ def find_id(request):
         email = request.POST.get('email')
         
         try:
-            target = User.objects.get(studentId=s_id, major = major, email=email)
+            target = User.objects.get(student_id=s_id, major = major, email=email)
             return render(request, 'find_id.html',{'target': target})
         except:
             # 404 에러 예외 처리

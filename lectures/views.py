@@ -98,7 +98,7 @@ def ordering(request, lect_id):
     if sort == 'recommand':
         evals = Evals.objects.filter(lect_id=lect_id).order_by('-counts', '-eval_date') # 사용자가 요청한 강의와 강의 번호가 일치하는 강의평만 가져오기
     else:
-        evals = Evals.objects.filter(lect_id=lect_id).order_by('-date')
+        evals = Evals.objects.filter(lect_id=lect_id).order_by('-eval_date')
 
     paginator = Paginator(evals, 6) # 강의평 객체 6개를 한 페이지로 자르기
     page = request.GET.get('page') # 사용자가 요청한 페이지 알아내고
