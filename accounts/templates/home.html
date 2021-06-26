@@ -27,7 +27,7 @@
         <div class="row">
             {% for e in evals %}
             <div class="col-md-3 eval">
-                <h4><a href="{% url 'detail' e.lect_id.num %}">{{e.lect_id.lecture_name}}</a></h4>
+                <h4><a href="{% url 'detail' e.lect_id %}">{{e.lect_name}}</a></h4>
                 <p>{{e.eval_date|date:'Y-m-d'}}</p>
                 <p>{{e.summary}}...</p>
             </div>

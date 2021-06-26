@@ -153,7 +153,7 @@ h4{
         <div id="showHide" style="display: none;">
             <!--강의 계획서가 있으면, 보여주고 없으면 없다는 메시지 띄우기-->
             {% if lect.lecture_plan %}
-                <img src="{{lect.lecture_plan.url}}" alt="강의계획서">
+                <img src="/media/{{lect.lecture_plan}}" alt="강의계획서">
             {% else %}
                 {% load static %}
                 <p>강의계획서가 없습니다.</p>
@@ -176,9 +176,9 @@ h4{
         </div>
         {% for eval in evaluations %}
             {% if eval.author != NULL %}
-                <h4>{{eval.author}}___{{eval.eval_date|date:'Y-m-d H:i'}}  <a href="{% url 'recommand'  eval.num eval.lect_id.num %}">&#128077;</a> {{eval.counts}}</h3>
+                <h4>{{eval.author}}___{{eval.eval_date|date:'Y-m-d H:i'}}  <a href="{% url 'recommand'  eval.num eval.lect_id %}">&#128077;</a> {{eval.counts}}</h3>
             {% else %}
-            <h4>알 수 없음___{{eval.date|date:'Y-m-d H:i'}}  <a href="{% url 'recommand'  eval.num eval.lect_id.num %}">&#128077;</a> {{eval.counts}}</h3>
+            <h4>알 수 없음___{{eval.date|date:'Y-m-d H:i'}}  <a href="{% url 'recommand'  eval.num eval.lect_id %}">&#128077;</a> {{eval.counts}}</h3>
             {% endif %}
             <p>과제 난이도:
                 {% if eval.hw_level == 1 %}

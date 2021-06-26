@@ -6,22 +6,30 @@ from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, 
 from django.contrib.auth.hashers import check_password # 입력한 비밀번호가 맞는지 확인
 from django.contrib.auth.decorators import login_required # 데코레이터 사용
 from django.views.generic import FormView, CreateView
-from django.http import HttpResponseNotFound
 from django.core.paginator import Paginator # 페이지네이션
+from django.db import connection # djanog ORM 대신 SQL문 사용하기
 
 from .models import User
-from evaluation.models import Evals
 from .forms import LoginForm, UserCreationForm, FindIdForm, PWChangeForm, checkPwForm, PWResetForm, SetPWForm
 
-# 임시 홈
-def home(request): # django는 request와 response 객체를 이용하여 서버와 클라이언트가 상태를 주고 받음.
-    evals = Evals.objects.order_by('-eval_date')[:8]
-    return render(request, 'home.html', {'evals':evals})
-    # render(): HttpResponse 객체를 반환하는 함수.
-    # template를 context와 엮어 HttpResponse로 쉽게 반환하게 해주는 함수.
+# 홈
+def home(request):
+    try:
+        cursor = connection.cursor()
+        strSQL = "SELECT E.lect_id, E.eval_date, E.content, L.lecture_name FROM Evals E JOIN Lectures L ON E.lect_id = L.num ORDER BY eval_date DESC LIMIT 8"
+        cursor.execute(strSQL)
+        eval_datas = cursor.fetchall()
+        connection.close()
+
+        eval = []
+        for data in eval_datas: # DB에서 데이터를 가져와 튜플 형식으로 반환. 딕셔너리 형태로 만들어 주기!
+            row = {'lect_id': data[0], 'eval_date': data[1], 'summary': data[2][:40], 'lect_name': data[3]}
+            eval.append(row)
+        
+    except:
+        messages.error(request, "강의평을 가져오는데 실패하였습니다.")
     
-    # HttpResponse: HttpRequest와 짝을 이루면, reponse를 반환하는 기본적인 함수.
-    # context는 템플릿에서 쓰이는 변수명과 python 객체를 연결하는 사전형 값.
+    return render(request, 'home.html', {'evals':eval})
 
 # 로그인
 class LoginView(FormView):
@@ -29,8 +37,6 @@ class LoginView(FormView):
     form_class = LoginForm
     success_url = '/'
 
-    # form에 입력한 내용이 유효한지 검사
-    # 값이 유효하다면 True가 리턴되고, cleaned_data에 값이 저장 됨.
     def form_valid(self, form):
         userId = form.cleaned_data.get("user_id")
         password = form.cleaned_data.get("password")
@@ -57,13 +63,10 @@ class CreateUser(CreateView): # 장고가 제공하는 유저 생성 기능을 �
     def get_success_url(self):
         messages.success(self.request, "회원가입이 완료되었습니다.")
         return reverse('login')
-        # reverse(): 전달받은 인수(name)와 매칭되는 url 반환하고 매칭되는 url이 없으면 NoReverseMatch 예외 발생.
-        # resolve_url(): 내부적으로 reverse()를 사용하고, 매칭되는 url이 없으면 예외없이 문자열을 그대로 반환.
 
     def form_valid(self, form):
         self.object = form.save() # form에 입력한 값이 유효하면 DB에 저장.
         return redirect(self.get_success_url())
-        # redirect(): 전달받은 URL로 HttpResponseRedirect를 반환하고, 내부적으로 resolve_url() 사용.
 
 # 아이디 찾기
 def find_id(request):
@@ -71,19 +74,24 @@ def find_id(request):
 
     if request.method == 'POST': # 전달 방식이 POST, 즉 아이디를 찾기 위해 요구된 정보를 입력한 경우 
         s_id = request.POST.get('student_id')
-        major = request.POST.get('major') # 학과 입력은 select box를 활용하는 방식으로 고치기
+        major = request.POST.get('major')
         email = request.POST.get('email')
         
         try:
-            target = User.objects.get(student_id=s_id, major = major, email=email)
+            cursor = connection.cursor()
+            strSQL = f"SELECT user_id FROM User WHERE student_id = '{s_id}' and major = '{major}' and email = '{email}'"
+            # 문자열 포매팅을 이용해 파이썬 변수를 SQL문에 담아서 DB에 전달!!
+            cursor.execute(strSQL)
+            data = cursor.fetchone()
+            connection.close()
+
+            target = {'user_id':data[0]} # DB에서 가져온 값이 무엇인지 알려주기 위해 key: value 형식(딕셔너리)로 만들기
             return render(request, 'find_id.html',{'target': target})
         except:
             # 404 에러 예외 처리
             messages.info(request, "입력하신 정보와 일치하는 사용자가 없습니다.")
             return render(request, 'find_id.html', {'form':form})
-            # response = HttpResponseNotFound()
-            # response.write('<p>입력하신 정보와 일치하는 사용자가 없습니다.</p> <p><a href="/">home</a></p>')
-            # return response
+           
     else: # 전달 방식이 POST가 아님.. 여기서는 GET으로 들어왔다고 생각.
         return render(request, 'find_id.html', {'form':form}) # form을 띄워주기. {'템플릿에서 쓰이는 변수': python 객체}
 
@@ -158,31 +166,32 @@ class PWResetCompleteView(PasswordResetCompleteView):
 @login_required(login_url= '/accounts/login')
 def mypage(request):
     user = request.user.get_username() # 요청한 유저의 아이디 가져오기
-    myInfo = User.objects.get(user_id=user) # 요청한 유저의 아이디와 일치하는 유저 객체 가져오기
-    
-    evals = Evals.objects.filter(author=user) # 요청한 유저가 작성한 평가글 정보 가져오기
-    paginator = Paginator(evals, 6) # 강의평 객체 6개를 한 페이지로 자르기
-    page = request.GET.get('page') # 사용자가 요청한 페이지를 알아내고
-    myEval = paginator.get_page(page) # request된 페이지 return
-    return render(request, 'mypage.html', {'myInfo':myInfo, 'myEval':myEval})
 
-# 용어 정리
-# django는 request와 response 객체를 이용하여 서버와 클라이언트가 상태를 주고 받음.
-# 이를 위해 django.http 모듈에서 HttpRequest와 HttpResponse API를 제공.
-# 1) 특정 페이지가 요청(request)되면, django는 메타데이터를 포함하는 HttpRequest 객체를 생성.
-# 2) urls.py에서 정의한 특정 view 클래스/함수의 첫 번째 인자로 해당 객체(reuqest)를 전달.
-# 3) view(함수 또는 클래스)는 결과 값을 HttpResponse로 전달.
+    if user:
+        cursor = connection.cursor()
+        strSQL1 = f"SELECT user_id, student_id, major, email FROM User WHERE user_id = '{user}'"
+        cursor.execute(strSQL1)
+        info = cursor.fetchone() # 요청한 유저의 아이디와 일치하는 유저 정보 가져오기
 
-# URL Reverse: view 함수를 이용해 url을 역으로 계산.
-# 개발자가 URL을 일일이 외워서 코딩하지 않아도 됨.
-# urls.py에서 정의한 url pattern의 name만 알고 있으면, view 함수와 매칭되는 url을 찾아 전달받을 수 있음.
-# reverse(), resolve_url(), redirect()
+        if(info != None):   
+            myInfo = {'user_id': info[0], 'student_id': info[1], 'major': info[2], 'email': info[3]}
 
-# session: 클라이언트의 정보를 브라우저가 아닌 웹 서버에 저장하는 것. 사이트와 특정 브라우저 사이의 'state(상태)'를 유지시키는 것.
-# cookie: 클라이언트의 정보를 웹브라우저에 저장하는 것.
-# sessino의 원리
-# 1) 유저가 웹사이트에 접속
-# 2) 웹사이트의 서버가 유저에게 sessionId를 부여
-# 3) 유저의 브라우저가 sessionId를 cookie에 보존
-# 4) 통신할 때마다 sessionId를 웹 서버에 전송(django는 request 객체에 sessionId가 들어있고, session 정보는 django DB의 django_session 테이블에 저장)
-# 5) sessionId를 통해서 웹사이트에 접속한 많은 유저 중 특정 유저를 인식할 수 있게 됨.
+            strSQL2 = f"SELECT L.lecture_name, E.num, E.lect_id, E.eval_date, E.content FROM Evals E JOIN Lectures L ON E.lect_id = L.num WHERE author='{user}'"
+            cursor.execute(strSQL2)
+            eval_datas = cursor.fetchall() # 요청한 유저가 작성한 강의평 정보와 강의명 가져오기
+            connection.close()
+                
+            evals = []
+            for data in eval_datas:
+                row = {'lect_name': data[0], 'num': data[1], 'lect_id': data[2], 'eval_date': data[3], 'summary': data[4][:40]}
+                evals.append(row)
+
+            paginator = Paginator(evals, 6) # 강의평 객체 6개를 한 페이지로 자르기
+            page = request.GET.get('page') # 사용자가 요청한 페이지를 알아내고
+            myEval = paginator.get_page(page) # request된 페이지 return
+            return render(request, 'mypage.html', {'myInfo':myInfo, 'myEval':myEval})
+        else:
+            messages.error("나의 정보를 가져오는데 실패했습니다.")
+    else:
+        messages.error("사용자 정보가 없습니다.")
+    redirect('/')

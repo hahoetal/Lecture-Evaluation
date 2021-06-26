@@ -8,9 +8,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # 사용할 엔진
         'NAME': 'projectdb', # 연동할 MySQL의 데이터베이스 이름
-        'USER': '계정', # DB 접속 계정 이름
-        'PASSWORD': '비밀번호', # DB 접속 계정 비밀번호
-        'HOST': '주소', # 실제 DB 주소, vmware 켜고 ipaddr 입력했을 때 나오는 ip 적어주기.
+        'USER': 'root', # DB 접속 계정 이름
+        'PASSWORD': 'onew1214', # DB 접속 계정 비밀번호
+        'HOST': '192.168.242.129', # 실제 DB 주소, vmware 켜고 ipaddr 입력했을 때 나오는 ip 적어주기.
         'PORT': '3306', # SHOW GLOBAL VARIABLES LIKE 'PORT'; MySQL port 번호 찾기
     }
 }
@@ -42,8 +42,8 @@ EMAIL ={
     'EMAIL_USE_TLS': 'True',
     'EMAIL_PORT': 587,
     'EMAIL_HOST': 'smtp.naver.com',
-    'EMAIL_HOST_USER': '-----@naver.com',
-    'EMAIL_HOST_PASSWORD': '비밀번호',
+    'EMAIL_HOST_USER': 'duddms981220@naver.com',
+    'EMAIL_HOST_PASSWORD': 'onew!1214',
     'SERVER_EMAIL': '',
 }
 
